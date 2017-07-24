@@ -45,7 +45,7 @@ if (production) {
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
-    app: entry.concat(['./index']),
+    app: './index',
   },
   output: {
     path: path.join(__dirname, 'dist'),
