@@ -1,0 +1,40 @@
+{
+  "name": "starter2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack -p"
+  },
+  "dependencies": {
+    "@skbkontur/react-ui": "^0.8.6",
+    "@types/classnames": "0.0.32",
+    "@types/react": "^0.14.57",
+    "@types/react-dom": "^0.14.23",
+    "@types/requirejs": "^2.1.28",
+    "axios": "^0.15.3",
+    "classnames": "^2.2.5",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.1.9",
+    "css-loader": "^0.28.0",
+    "file-loader": "^0.11.1",
+    "less": "^2.7.2",
+    "less-loader": "^2.2.3",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "style-loader": "^0.16.1",
+    "ts-loader": "^2.0.3",
+    "typescript": "~2.3.2",
+    "webpack": "1.13.2",
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
