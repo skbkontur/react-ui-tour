@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 const ManifestPlugin = require('manifest-revision-webpack-plugin');
+var es3ifyPlugin = require('es3ify-webpack-plugin');
 
 let production = false;
 for (let i = 2; i < process.argv.length; i++){
@@ -28,6 +29,7 @@ if (production) {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
+    new es3ifyPlugin(),
     new ManifestPlugin('manifest.json', {
       rootAssetPath: '../dist',
     })
