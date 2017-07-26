@@ -19,7 +19,7 @@ const plugins = [];
 const externals = [];
 
 let outputName = '[name]';
-let devtool = null;
+let devtool = 'inline-source-map';
 
 let publicPath = '/dist/';
 
@@ -40,8 +40,7 @@ if (production) {
     'react': 'React',
     'react-dom': 'ReactDOM',
   });
-} else {
-  devtool = 'inline-source-map';
+  devtool = null;
 }
 
 module.exports = {

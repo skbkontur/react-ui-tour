@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-
-        // decorators are not supported by TS targeting es3
         "target": "es5",
         "jsx": "react",
         "module": "commonjs",

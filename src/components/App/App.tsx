@@ -13,10 +13,10 @@ export const App = (props) => {
   }
   return (
     <div className={styles.root}>
-      <div className={styles.header}>{props.defaultState.value}</div>
+      <div className={styles.header}>{props.defaultState.defaultField}</div>
       <Button onClick={handleClick}>Hello!</Button>
     </div>
   )
 }
 
-export default connect(state => ({defaultState: state.defaultState}))(App);
+export default connect(state => ({defaultState: state.defaultReducer}))(App);
