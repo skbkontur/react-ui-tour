@@ -13,6 +13,7 @@
     "@types/classnames": "0.0.32",
     "@types/react": "^0.14.57",
     "@types/react-dom": "^0.14.23",
+    "@types/react-redux": "^4.4.47",
     "@types/requirejs": "^2.1.28",
     "axios": "^0.15.3",
     "classnames": "^2.2.5",

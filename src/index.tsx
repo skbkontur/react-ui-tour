@@ -33,7 +33,7 @@ export const start = (initialState: any = {}, container?: HTMLElement) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <App/>
+      <App own='some'/>
     </Provider>
     , container);
 };
