@@ -36,4 +36,4 @@ export const start = (initialState: any = {}, container?: HTMLElement) => {
       <App/>
     </Provider>
     , container);
-}
+};

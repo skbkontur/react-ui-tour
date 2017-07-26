@@ -10,8 +10,8 @@ export const defaultReducer = (state = defaultState, action) => {
       return {
         ...state,
         defaultField: action.value,
-      }
+      };
     default:
       return state;
   }
-}
+};
