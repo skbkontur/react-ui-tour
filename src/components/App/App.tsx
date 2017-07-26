@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 import {connect} from 'react-redux';
 import {defaultAction} from '../../actions/default';
-import {Button} from '@skbkontur/react-ui/components/Button';
+import Button from '@skbkontur/react-ui/components/Button/Button';
 
 import * as styles from  './App.less';
 

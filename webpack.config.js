@@ -72,8 +72,14 @@ module.exports = {
         ],
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader?localIdentName=[name]__[local]#[md5:hash:hex:4]'),
+      },
+      {
+        test: /\.less/,
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'typings-for-css-modules-loader?localIdentName=[name]__[local]#[md5:hash:hex:4]&modules&less&namedExport'),
       },
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(png|woff|woff2|eot)$/, loader: 'file-loader?name=[name].[md5:hash:hex:8].[ext]'},
@@ -83,6 +89,9 @@ module.exports = {
     extensions: ['', '.ts', '.tsx', '.js', '.jsx'],
   },
   plugins: plugins.concat([
+    new webpack.WatchIgnorePlugin([
+      /less\.d\.ts$/,
+    ]),
     new ExtractTextPlugin(`${outputName}.css`),
   ]),
   devtool: devtool,
