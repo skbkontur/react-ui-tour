@@ -1,4 +1,4 @@
-import {connect} from 'react-redux';
+import {connect, DispatchProp} from 'react-redux';
 
 interface Func<T> {
   ([...args]: any): T;
@@ -16,7 +16,7 @@ export function connectHelper<TStateProps, TDispatchProps, TOwnProps>(
 
 export function connectHelper<TStateProps, TOwnProps>(
   mapStateToProps: Func<TStateProps>,
-): ConnectHelper<TStateProps, TOwnProps>;
+): ConnectHelper<TStateProps & DispatchProp<TStateProps>, TOwnProps>;
 
 export function connectHelper(mapStateToProps, mapDispatchToProps?) {
   return {
