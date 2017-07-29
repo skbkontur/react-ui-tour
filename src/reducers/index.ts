@@ -3,13 +3,10 @@ import {combineReducers} from 'redux';
 import {defaultReducer, DefaultState} from './default';
 import helloReducer, {State as HelloState} from './awesomeReducer';
 
-export interface State {
-  default: DefaultState;
+export interface InitialState {
   hello: HelloState;
 }
 
-// names from initial state's captions;
-export const reducers = combineReducers<State>({
-  default: defaultReducer,
+export const reducers = combineReducers<InitialState>({
   hello: helloReducer,
 });

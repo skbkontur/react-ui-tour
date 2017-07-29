@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 import {App} from './components/App';
 
-import {reducers} from './reducers/index';
+import {reducers, InitialState} from './reducers';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -14,13 +14,13 @@ import thunk from 'redux-thunk';
 
 import './base.less';
 
-export const start = (initialState: any = {}, container?: HTMLElement) => {
+export const start = (initialState?: InitialState, container?: HTMLElement) => {
   // const clientApi = new ClientApi(json.Replica);
 
-  const store = createStore(
+  const store = createStore<InitialState>(
     reducers,
     initialState,
-    // applyMiddleware(thunk.withExtraArgument(clientApi))
+    applyMiddleware(thunk.withExtraArgument(null))
   );
 
 
