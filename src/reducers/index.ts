@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
 
-import {defaultReducer, DefaultState} from './default';
 import helloReducer, {State as HelloState} from './awesomeReducer';
 
 export interface InitialState {

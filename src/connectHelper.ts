@@ -1,5 +1,5 @@
 import {connect, DispatchProp} from 'react-redux';
-import {State} from './reducers';
+import {InitialState as State} from './reducers';
 
 interface Func<T> {
   ([...args]: any): T;
