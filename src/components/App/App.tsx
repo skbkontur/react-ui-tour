@@ -3,7 +3,8 @@ import * as React from 'react';
 import Button from '@skbkontur/react-ui/components/Button/Button';
 import {connectHelper} from '../../connectHelper';
 
-import {say, bye, State as HelloState} from '../../reducers/awesomeReducer';
+import {asyncMessage, say, bye, State as HelloState} from '../../reducers/awesomeReducer';
+import ClientApi from '../../clientApi';
 
 import * as styles from  './App.less';
 
