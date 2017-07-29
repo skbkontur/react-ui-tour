@@ -23,7 +23,9 @@ export function connectHelper<TStateProps, TOwnProps>(
   mapStateToProps: MapStateToProps<TStateProps, TOwnProps>,
 ): ConnectHelper<TStateProps & DispatchProp<TStateProps>, TOwnProps>;
 
-export function connectHelper(mapStateToProps, mapDispatchToProps?) {
+export function connectHelper<TOwnProps>(): ConnectHelper<DispatchProp<any>, TOwnProps>;
+
+export function connectHelper(mapStateToProps?, mapDispatchToProps?) {
   return {
     propsGeneric: null,
     connect: (component) =>
