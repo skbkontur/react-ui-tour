@@ -1,13 +1,9 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import Button from '@skbkontur/react-ui/components/Button/Button';
-import {State} from '../../reducers';
-import {Dispatch, Action} from 'redux';
 import {connectHelper} from '../../connectHelper';
-import {createAction, handleAction} from 'redux-actions';
 
-import {action, State as HelloState} from '../../reducers/awesomeReducer';
+import {say, bye, State as HelloState} from '../../reducers/awesomeReducer';
 
 import * as styles from  './App.less';
 
@@ -15,21 +11,30 @@ interface OwnProps {
   own: string;
 }
 
+interface StateProps {
+  hello: HelloState;
+}
+
 const { propsGeneric, connect } =
-    connectHelper<HelloState, OwnProps>(
-      (state: State) => state.hello,
+    connectHelper<StateProps, OwnProps>(
+      (state) => ({ hello: state.hello }),
     );
 type ComponentProps = typeof propsGeneric;
 
 export const App: React.StatelessComponent<ComponentProps> = (props) => {
     const handleClick = (e) => {
-      props.dispatch(action('Hello, World!'));
+      props.dispatch(say('Hello, World!'));
+    };
+    const handleBuyClick = (e) => {
+      props.dispatch(bye('Goodbye!'));
     };
     return (
       <div className={styles.root}>
-        <div className={styles.header}>{props.value}</div>
+        <div className={styles.header}>{props.hello.sayText}</div>
         <div>{props.own}</div>
         <Button onClick={handleClick}>Hello!</Button>
+        <Button onClick={handleBuyClick}>Buy!</Button>
+        <div className={styles.header}>{props.hello.byeText}</div>
       </div>
     );
 };

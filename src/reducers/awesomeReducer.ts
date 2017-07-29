@@ -1,19 +1,17 @@
-import {createAction, handleAction} from 'redux-actions';
+import {createAction, handleAction, combineActions} from 'redux-actions';
 
-const ACTION = 'ACTION';
-
-export const action = createAction(ACTION, (value: string) => value);
-
-export interface State {
-  value: string;
-}
+export const say = createAction('SAY', (sayText: string) => ({sayText}));
+export const bye = createAction('BYE', (byeText: string) => ({byeText}));
 
 const defaultState = {
-  value: '',
+  sayText: '',
+  byeText: '',
 };
 
-const reducer = handleAction(ACTION, (state: State, action) => ({
-  value: action.payload,
-}), defaultState);
+export type State = typeof defaultState;
+
+const reducer = handleAction(combineActions('SAY', 'BYE'),
+  (state, action) => ({ ...state, ...action.payload}),
+  defaultState);
 
 export default reducer;
