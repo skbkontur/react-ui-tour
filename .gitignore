@@ -2,5 +2,30 @@ manifest.json
 node_modules
 dist
 **.DS_Store
-.idea
 **.less.d.ts
+
+.idea/**/*.xml
+.idea/**/*.iml
+.idea/**/*.iws
+
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff:
+.idea/dictionaries
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
