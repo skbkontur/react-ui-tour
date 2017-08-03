@@ -1,8 +1,4 @@
 import {createAction, handleAction, combineActions} from 'redux-actions';
-import {ThunkAction} from 'redux-thunk';
-import {InitialState} from './index';
-import ClientApi from '../clientApi';
-import {Dispatch} from 'redux';
 import {createAsyncAction} from '../asyncHelper';
 
 export const say = createAction('SAY', (sayText: string) => ({sayText}));
