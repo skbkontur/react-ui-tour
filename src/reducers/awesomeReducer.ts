@@ -2,16 +2,19 @@ import {createAction, handleAction, combineActions} from 'redux-actions';
 import {ThunkAction} from 'redux-thunk';
 import {InitialState} from './index';
 import ClientApi from '../clientApi';
+import {Dispatch} from 'redux';
+import {createAsyncAction} from '../asyncHelper';
 
 export const say = createAction('SAY', (sayText: string) => ({sayText}));
 export const bye = createAction('BYE', (byeText: string) => ({byeText}));
 
-export const asyncMessage = () => (
-  dispatch, getState, apiClient) => {
+export const asyncMessage = createAsyncAction<Promise<number>>(
+  (dispatch, s, apiClient) =>
     apiClient.getSmt().then((res) => {
       dispatch(say(res.message));
-    });
-};
+      return 1;
+    })
+  );
 
 const defaultState = {
   sayText: '',

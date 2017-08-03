@@ -20,14 +20,13 @@ const { propsGeneric, connect } =
     connectHelper<StateProps, OwnProps>(
       (state) => ({ hello: state.hello }),
     );
-type ComponentProps = typeof propsGeneric;
-
-export const App: React.StatelessComponent<ComponentProps> = (props) => {
+export const App: React.StatelessComponent<typeof propsGeneric> = (props) => {
     const handleClick = (e) => {
       props.dispatch(say('Hello, World!'));
     };
     const handleBuyClick = (e) => {
       props.dispatch(bye('Goodbye!'));
+      props.dispatch(asyncMessage()).then(res => res);
     };
     return (
       <div className={styles.root}>
