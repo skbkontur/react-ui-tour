@@ -16,27 +16,26 @@ interface StateProps {
   hello: HelloState;
 }
 
-const { propsGeneric, connect } =
-    connectHelper<StateProps, OwnProps>(
-      (state) => ({ hello: state.hello }),
-    );
+const {propsGeneric, connect} = connectHelper<StateProps, OwnProps>(
+    (state) => ({ hello: state.hello }),
+  );
 export const App: React.StatelessComponent<typeof propsGeneric> = (props) => {
-    const handleClick = (e) => {
-      props.dispatch(say('Hello, World!'));
-    };
-    const handleBuyClick = (e) => {
-      props.dispatch(bye('Goodbye!'));
-      props.dispatch(asyncMessage()).then(res => res);
-    };
-    return (
-      <div className={styles.root}>
-        <div className={styles.header}>{props.hello.sayText}</div>
-        <div>{props.own}</div>
-        <Button onClick={handleClick}>Hello!</Button>
-        <Button onClick={handleBuyClick}>Buy!</Button>
-        <div className={styles.header}>{props.hello.byeText}</div>
-      </div>
-    );
+  const handleClick = (e) => {
+    props.dispatch(say('Hello, World!'));
+  };
+  const handleBuyClick = (e) => {
+    props.dispatch(bye('Goodbye!'));
+    props.dispatch(asyncMessage()).then(res => res);
+  };
+  return (
+    <div className={styles.root}>
+      <div className={styles.header}>{props.hello.sayText}</div>
+      <div>{props.own}</div>
+      <Button onClick={handleClick}>Hello!</Button>
+      <Button onClick={handleBuyClick}>Buy!</Button>
+      <div className={styles.header}>{props.hello.byeText}</div>
+    </div>
+  );
 };
 
 export default connect(App);
