@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
 
-import helloReducer, {State as HelloState} from './awesomeReducer';
+import hello, {State as HelloState} from './hello';
 
 export interface InitialState {
   hello: HelloState;
 }
 
 export const reducers = combineReducers<InitialState>({
-  hello: helloReducer,
+  hello,
 });
