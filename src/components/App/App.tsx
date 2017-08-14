@@ -25,7 +25,7 @@ export const App: React.StatelessComponent<typeof propsGeneric> = (props) => {
   };
   const handleBuyClick = (e) => {
     props.dispatch(bye('Goodbye!'));
-    props.dispatch(asyncMessage()).then(res => res);
+    props.dispatch(asyncMessage());
   };
   return (
     <div className={styles.root}>
