@@ -5,9 +5,9 @@ export const say = createAction('SAY', (sayText: string) => ({sayText}));
 export const bye = createAction('BYE', (byeText: string) => ({byeText}));
 
 export const asyncMessage = createAsyncAction<Promise<number>>(
-  (dispatch, s, apiClient) =>
-    apiClient.getSmt().then((res) => {
-      dispatch(say(res.message));
+  (dispatch, s, axios) =>
+    axios.post('url').then((res) => {
+      dispatch(say(res.data.message));
       return 1; })
   );
 
@@ -16,7 +16,7 @@ const defaultState = {
   byeText: '',
 };
 
-export type State = typeof defaultState;
+export type HelloState = typeof defaultState;
 
 const reducer = handleAction(combineActions('SAY', 'BYE'),
   (state, action) => ({ ...state, ...action.payload}),

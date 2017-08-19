@@ -7,17 +7,16 @@ import {reducers, InitialState} from './reducers';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import ClientApi from './clientApi';
+import axios from 'axios';
+import {ExtraArgument} from './asyncHelper';
 
 import './base.less';
 
 export const start = (initialState?: InitialState, container?: HTMLElement) => {
-  const clientApi = new ClientApi();
-
   const store = createStore<InitialState>(
     reducers,
     initialState,
-    applyMiddleware(thunk.withExtraArgument(clientApi))
+    applyMiddleware(thunk.withExtraArgument(axios as ExtraArgument))
   );
 
 
