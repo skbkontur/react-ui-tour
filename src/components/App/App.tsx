@@ -4,7 +4,6 @@ import Button from '@skbkontur/react-ui/components/Button/Button';
 import {connectHelper} from '../../connectHelper';
 
 import {asyncMessage, say, bye, HelloState} from '../../reducers/hello';
-import ClientApi from '../../clientApi';
 
 import * as styles from  './App.less';
 
@@ -25,7 +24,7 @@ export const App: React.StatelessComponent<typeof propsGeneric> = (props) => {
   };
   const handleBuyClick = (e) => {
     props.dispatch(bye('Goodbye!'));
-    props.dispatch(asyncMessage());
+    props.dispatch(asyncMessage('hello'));
   };
   return (
     <div className={styles.root}>
