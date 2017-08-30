@@ -27,6 +27,7 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "@extern/tslint": "^1.0.1",
     "@storybook/react": "~3.1.7",
     "@storybook/ui": "~3.1.7",
     "babel": "^6.1.18",
