@@ -9,7 +9,7 @@ export const asyncMessage: AsyncAction<number> = (value: string) =>
     axios.post('url', {data: value}).then((res) => {
       dispatch(say(res.data.message));
       return 1;
-    })
+    });
 
 const defaultState = {
   sayText: '',
