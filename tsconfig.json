@@ -3,24 +3,22 @@
         "target": "es5",
         "jsx": "react",
         "module": "commonjs",
+        "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-
-        "types": [
-            "classnames",
-            "requirejs",
-            "react",
-            "react-dom"
-        ],
-
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": ["DOM", "ES5", "ES2015.Promise", "es2015.core", "ScriptHost" ]
+        "importHelpers": true,
+        "lib": [
+            "DOM",
+            "ES6",
+            "ES2015.Promise",
+            "es2015.core",
+            "ScriptHost"
+        ]
     },
     "include": [
         "stories",
         "src",
-        "typings"
+        "typings",
+        "__tests__"
     ]
 }
