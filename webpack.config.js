@@ -4,7 +4,6 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-const ManifestPlugin = require('manifest-revision-webpack-plugin');
 var es3ifyPlugin = require('es3ify-webpack-plugin');
 
 let production = false;
@@ -15,62 +14,23 @@ for (let i = 2; i < process.argv.length; i++){
   }
 }
 
-const plugins = [];
-const externals = [];
-
-let outputName = '[name]';
-let devtool = 'inline-source-map';
-
-let publicPath = '/dist/';
-
-if (production) {
-  plugins.push(
-    new WebpackCleanupPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
-    new es3ifyPlugin(),
-    new ManifestPlugin('manifest.json', {
-      rootAssetPath: '../dist',
-    })
-  );
-  publicPath = '/dist/'; // Путь, по которому резолвится статика
-  outputName += '.[hash]';
-  externals.push({
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-  });
-  devtool = null;
-}
-
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
-    app: './index',
+    app: './app/app',
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: publicPath,
-    filename: `${outputName}.js`,
-    library: ['kontur', 'service', '[name]'],
+    publicPath: '/dist/',
+    filename: production ? '[name].[hash].js' : '[name].js',
+    library: ['[name]'],
     libraryTarget: 'umd',
   },
-  externals: externals,
   module: {
     loaders: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-      },
-      {
-        test: /\.jsx?$/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'stage-2', 'react'],
-        },
-        include: [
-          path.join(__dirname, 'src'),
-        ],
+        loader: 'awesome-typescript-loader?useCache=true',
       },
       {
         test: /\.css$/,
@@ -78,22 +38,24 @@ module.exports = {
       },
       {
         test: /\.less/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'typings-for-css-modules-loader?localIdentName=[name]__[local]#[md5:hash:hex:4]&modules&less&namedExport'),
+        loader: ExtractTextPlugin.extract('typings-for-css-modules-loader?localIdentName=[name]__[local]#[md5:hash:hex:4]&modules&less&namedExport'),
       },
       {test: /\.less$/, loader: 'less-loader'},
       {test: /\.(png|woff|woff2|eot)$/, loader: 'file-loader?name=[name].[md5:hash:hex:8].[ext]'},
     ],
   },
   resolve: {
-    extensions: ['', '.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['', '.ts', '.tsx', '.js'],
   },
-  plugins: plugins.concat([
-    new webpack.WatchIgnorePlugin([
-      /less\.d\.ts$/,
-    ]),
-    new ExtractTextPlugin(`${outputName}.css`),
+  plugins: [
+    new webpack.WatchIgnorePlugin([ /less\.d\.ts$/ ]),
+    new ExtractTextPlugin(production ? '[name].[hash].css' : '[name].css'),
+  ].concat(!production ? [] : [
+    new WebpackCleanupPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+    new es3ifyPlugin()
   ]),
-  devtool: devtool,
-};
+  devtool: production ? null : 'inline-source-map',
+}
