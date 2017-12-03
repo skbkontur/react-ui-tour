@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {connectHelper} from '../helpers/connectHelper';
+import {connectHelper} from '../helpers/reduxHelpers';
 import {asyncMessage, say, bye} from './exampleReducer';
 
 interface State {

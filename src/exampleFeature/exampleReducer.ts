@@ -1,5 +1,5 @@
 import {createAction, handleAction, combineActions} from 'redux-actions';
-import {KeThunk} from '../helpers/asyncHelper';
+import {KeThunk} from '../helpers/reduxHelpers';
 
 export const say = createAction('SAY', (sayText: string) => ({sayText}));
 export const bye = createAction('BYE', (byeText: string) => ({byeText}));
