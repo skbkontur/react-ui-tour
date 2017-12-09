@@ -7,11 +7,13 @@ export const defaultState = {
 
 export type TourState = typeof defaultState;
 
+//add pushToQueueSync with reading of already shown tours
 export const pushToQueue = createAction('push', (id) => id);
 export const removeFromQueueSync = createAction('remove', (id) => id);
 
 export const removeFromQueue = (id) =>
   (d, s, api) => {
+    //add to adjustments shown time [id => time]
     setTimeout(() => d(removeFromQueueSync(id)), 5000);
   }
 
