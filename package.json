@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@skbkontur/react-ui": "^0.9.9",
+    "@skbkontur/react-ui": "^0.9.10",
     "@types/classnames": "0.0.32",
     "@types/react": "^15.6.7",
     "@types/react-dom": "^0.14.23",
