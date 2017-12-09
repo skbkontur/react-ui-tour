@@ -18,7 +18,7 @@ export class TourComponent extends React.Component<typeof propsGeneric> {
   state = {
     currentIndex: 0,
   }
-  shown = false
+  closed = false
   goto = (index) => {
     this.setState({currentIndex: index});
   }
@@ -31,9 +31,11 @@ export class TourComponent extends React.Component<typeof propsGeneric> {
     const {currentIndex} = this.state;
     const stepsArray = React.Children.toArray(this.props.children) as React.ReactElement<any>[];
     const count = stepsArray.length;
+    const finalStep = stepsArray.find(step => step.props.final);
+    const finalStepIndex = stepsArray.indexOf(finalStep);
     const currentStep = currentIndex !== count ? stepsArray[currentIndex] : null;
 
-    const gotoIndex = (ind) => () => {
+    const gotoIndex = (ind) => {
       const step = stepsArray[ind];
       if (step && step.props.onBefore) {
         step.props.onBefore()
@@ -44,13 +46,34 @@ export class TourComponent extends React.Component<typeof propsGeneric> {
       }
     }
 
-    const onNext = gotoIndex(currentIndex + 1);
-    const onPrev = gotoIndex(currentIndex - 1);
+    const goto = (ind, fn) => {
+      const step = stepsArray[fn(ind, 1)];
+      if (step === finalStep && !this.closed) {
+        goto(fn(ind, 1), fn) //workaround
+      } else {
+        gotoIndex(fn(ind, 1));
+      }
+    }
+
+    const onClose = () => {
+      if (finalStepIndex >= 0 && !this.closed) {
+        this.closed = true;
+        gotoIndex(finalStepIndex);
+      } else {
+        gotoIndex(count)
+      }
+    }
+
+    const addFunc = (a, b) => a + b;
+    const minusFunc = (a, b) => a - b;
+
+    const onNext = () => goto(currentIndex, addFunc)
+    const onPrev = () => goto(currentIndex, minusFunc)
 
     const currentStepWithProps = currentStep && React.cloneElement(
       currentStep as React.ReactElement<any>,
       {
-        onClose: () => this.goto(count),
+        onClose: onClose,
         onNext: onNext,
         onPrev: onPrev,
         index: this.state.currentIndex,
@@ -80,7 +103,7 @@ export class ModalStep extends React.Component<any> {
       , footer, onNext, index
       , width, onPrev, onClose} = this.props;
     return (
-      <Modal>
+      <Modal onClose={onClose}>
         <Modal.Header>{header}</Modal.Header>
         <Modal.Body>{content}</Modal.Body>
         <Modal.Footer>

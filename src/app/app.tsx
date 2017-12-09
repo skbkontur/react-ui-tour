@@ -29,17 +29,15 @@ export function showReact(initialState, reactContainer) {
       <div>
       <Tour id="id1">
         <ModalStep header="modal header" content="modal content"/>
-        <TooltipStep element={element} render={CustomStep}
-                     onAfter={() => console.log('after')}
-                     onBefore={() => new Promise(res => setTimeout(() => console.log('hey') || res(), 2000))}/>
+        <TooltipStep element={element} render={CustomStep} />
         <TooltipStep element={element} header="First slide"
             content={<div>some content<br/>another content</div>}/>
         <TooltipStep element={element2} header="Second slide"/>
         <TooltipStep element={element3} header="Third slide"/>
-        <TooltipStep element={element3} header="Fin slide"/>
+        <TooltipStep element={element3} header="Fin slide" final/>
       </Tour>
       <Tour id="id2">
-        <TooltipStep element={element3} header="Third slide"/>
+        <TooltipStep element={element3} header="Second tour start"/>
       </Tour>
       </div>
     </Provider>
