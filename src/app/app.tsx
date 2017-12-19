@@ -4,7 +4,10 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {initStore} from './initStore';
 import Example from '../exampleFeature';
-import {Tour, ModalStep, TooltipStep} from '../tour/tour';
+import {Tour} from '../tour/tour';
+import {TourProvider} from '../tour/tourProvider';
+import {ModalStep} from '../steps/modalStep';
+import {TooltipStep} from '../steps/tooltipStep';
 
 import './app.less';
 
@@ -26,20 +29,23 @@ export function showReact(initialState, reactContainer) {
 
   render((
     <Provider store={store}>
-      <div>
-      <Tour id="id1">
-        <ModalStep header="modal header" content="modal content"/>
-        <TooltipStep element={element} render={CustomStep} />
-        <TooltipStep element={element} header="First slide"
-            content={<div>some content<br/>another content</div>}/>
-        <TooltipStep element={element2} header="Second slide"/>
-        <TooltipStep element={element3} header="Third slide"/>
-        <TooltipStep element={element3} header="Fin slide" final/>
-      </Tour>
-      <Tour id="id2">
-        <TooltipStep element={element3} header="Second tour start"/>
-      </Tour>
-      </div>
+      <TourProvider predicate={(id) => true}
+                    onTourShown={(id) => console.log('shown tour' + id)}>
+        <div>
+          <Tour id="id1">
+            <ModalStep header="modal header" content="modal content"/>
+            <TooltipStep element={element} render={CustomStep} />
+            <TooltipStep element={element} header="First slide"
+                content={<div>some content<br/>another content</div>}/>
+            <TooltipStep element={element2} header="Second slide"/>
+            <TooltipStep element={element3} header="Third slide"/>
+            <TooltipStep element={element3} header="Fin slide" final/>
+          </Tour>
+          <Tour id="id2">
+            <TooltipStep element={element3} header="Second tour start"/>
+          </Tour>
+        </div>
+      </TourProvider>
     </Provider>
   ), reactContainer);
 

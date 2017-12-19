@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import {TooltipStep, ModalStep} from '../src/tour/tour';
+import {TooltipStep} from '../src/steps/tooltipStep';
+import {ModalStep} from '../src/steps/modalStep';
 
 declare let module: any;
 
