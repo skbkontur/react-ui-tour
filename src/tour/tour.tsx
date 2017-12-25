@@ -10,17 +10,28 @@ interface OwnProps {
 export class Tour extends React.Component<OwnProps> {
   static contextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,
-  }
+  };
+
   state = {
     currentIndex: 0,
     active: false,
+  };
+
+  closed = false;
+
+  componentDidMount() {
+    this.context[TourProvider.contextName].subscribe(
+      this.props.id,
+      () => this.setState({active: true})
+    );
   }
-  closed = false
+
   goto = (index) => {
     this.setState({currentIndex: index});
   }
+
   render() {
-    const {id} = this.props
+    const {id} = this.props;
     if (!this.state.active) {
       return null;
     }
@@ -36,20 +47,20 @@ export class Tour extends React.Component<OwnProps> {
       if (step && step.props.onBefore) {
         step.props.onBefore()
           .then(() => this.goto(ind))
-          .then(() => step.props.onAfter && step.props.onAfter())
+          .then(() => step.props.onAfter && step.props.onAfter());
       } else {
         this.goto(ind);
       }
-    }
+    };
 
     const goto = (ind, fn) => {
       const step = stepsArray[fn(ind, 1)];
       if (step === finalStep && !this.closed) {
-        goto(fn(ind, 1), fn) //workaround
+        goto(fn(ind, 1), fn); // workaround
       } else {
         gotoIndex(fn(ind, 1));
       }
-    }
+    };
 
     const onClose = () => {
       if (finalStepIndex >= 0 && !this.closed) {
@@ -57,15 +68,15 @@ export class Tour extends React.Component<OwnProps> {
         gotoIndex(finalStepIndex);
       } else {
         this.unsubscribe();
-        gotoIndex(count)
+        gotoIndex(count);
       }
-    }
+    };
 
     const addFunc = (a, b) => a + b;
     const minusFunc = (a, b) => a - b;
 
-    const onNext = () => goto(currentIndex, addFunc)
-    const onPrev = () => goto(currentIndex, minusFunc)
+    const onNext = () => goto(currentIndex, addFunc);
+    const onPrev = () => goto(currentIndex, minusFunc);
 
     const currentStepWithProps = currentStep && React.cloneElement(
       currentStep as React.ReactElement<any>,
@@ -78,15 +89,10 @@ export class Tour extends React.Component<OwnProps> {
     );
     return (
       <div>{currentStepWithProps}</div>
-    )
-  }
-  componentDidMount() {
-    this.context[TourProvider.contextName].subscribe(
-      this.props.id,
-      () => this.setState({active: true})
     );
   }
+
   unsubscribe() {
-    this.context[TourProvider.contextName].unsubscribe(this.props.id)
+    this.context[TourProvider.contextName].unsubscribe(this.props.id);
   }
 }
