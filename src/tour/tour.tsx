@@ -26,6 +26,10 @@ export class Tour extends React.Component<OwnProps> {
     );
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   goto = (index) => {
     this.setState({currentIndex: index});
   }
