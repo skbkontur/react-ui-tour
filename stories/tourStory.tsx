@@ -8,13 +8,14 @@ import {ModalStep} from '../src/steps/modalStep';
 declare let module: any;
 
 storiesOf('Tour', module)
-  .add('tooltip step', () => (
-    <TooltipStep header='hi there'
-                 element={() => document.documentElement}
-                 onNext={action('next')}
-                 onPrev={action('prev')}
-                 onClose={action('close')}
-                 />
-  )).add('modal step', () => (
+  // .add('tooltip step', () => (
+  //   <TooltipStep header='hi there'
+  //                element={() => document.documentElement}
+  //                onNext={action('next')}
+  //                onPrev={action('prev')}
+  //                onClose={action('close')}
+  //                />
+  // ))
+  .add('modal step', () => (
     <ModalStep header='hi there' onNext={action('next')} onClose={action('onclose')}/>
   ));

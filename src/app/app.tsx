@@ -21,9 +21,13 @@ export function showReact(initialState, reactContainer) {
       <button onClick={onPrev}>prev</button>
       <span onClick={onClose}> X </span>
     </div>
-  )
+  );
 
-  const element = () => document.getElementById('some id');
+  const customHighlight = <div style={{border: '3px solid red', padding: '10px'}} className='lol'/>;
+
+  const highlightTarget = () => document.getElementById('some id');
+  const tooltipTarget1 = () => document.getElementById('some id-1-4');
+  const tooltipTarget2 = () => document.getElementById('some id-1-5');
   const element2 = () => document.getElementById('some id2');
   const element3 = () => document.getElementById('some id3');
 
@@ -34,16 +38,29 @@ export function showReact(initialState, reactContainer) {
         <div>
           <Tour id="id1">
             <ModalStep header="modal header" content="modal content"/>
-            <TooltipStep element={element} render={CustomStep} />
-            <TooltipStep element={element} header="First slide"
-                content={<div>some content<br/>another content</div>}/>
-            <TooltipStep element={element2} header="Second slide"/>
-            <TooltipStep element={element3} header="Third slide"/>
-            <TooltipStep element={element3} header="Fin slide" final/>
+            <TooltipStep
+              tooltipTarget={tooltipTarget1}
+              highlightTarget={highlightTarget}
+              render={CustomStep}
+              tooltipPosition='bottom left'
+              highlight={customHighlight}
+            />
+            <TooltipStep
+              tooltipTarget={tooltipTarget2}
+              highlightTarget={tooltipTarget2}
+              render={CustomStep}
+              tooltipPosition='right top'
+              highlight={customHighlight}
+            />
+            {/*<TooltipStep tooltipTarget={tooltipTarget2} highlightTarget={highlightTarget} header="First slide"*/}
+                {/*content={<div>some content<br/>another content</div>}/>*/}
+            {/*<TooltipStep element={element2} header="Second slide"/>*/}
+            {/*<TooltipStep element={element3} header="Third slide"/>*/}
+            {/*<TooltipStep element={element3} header="Fin slide" final/>*/}
           </Tour>
-          <Tour id="id2">
-            <TooltipStep element={element3} header="Second tour start"/>
-          </Tour>
+          {/*<Tour id="id2">*/}
+            {/*<TooltipStep element={element3} header="Second tour start"/>*/}
+          {/*</Tour>*/}
         </div>
       </TourProvider>
     </Provider>
