@@ -18,7 +18,6 @@
     "@types/react-dom": "^0.14.23",
     "@types/react-redux": "^5.0.0",
     "@types/redux-actions": "^1.2.7",
-    "@types/requirejs": "^2.1.28",
     "awesome-typescript-loader": "^3.4.1",
     "classnames": "^2.2.5",
     "connect-redux-typescript": "0.0.2",

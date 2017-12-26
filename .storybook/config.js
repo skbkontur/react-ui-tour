@@ -1,7 +1,7 @@
-import { configure } from '@storybook/react';
+import { configure } from '@storybook/react'
 
-function loadStories() {
-	require('../stories/tourStory.tsx');
+function loadStories () {
+  require('../stories/tourStory.tsx')
 }
 
-configure(loadStories, module);
+configure(loadStories, module)
