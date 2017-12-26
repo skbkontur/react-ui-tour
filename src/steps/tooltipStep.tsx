@@ -97,7 +97,7 @@ export class TooltipStep extends React.Component<Props, State> {
   render() {
     const {
       header, content, footer, onNext, onPrev,
-      onClose, render, tooltipPosition,
+      onClose, render, tooltipPosition, highlight,
     } = this.props;
     const tooltip = () => (
       <div style={{color: '#333'}}>
@@ -112,7 +112,7 @@ export class TooltipStep extends React.Component<Props, State> {
       </div>
     );
     const tooltipWrapperStyles = this.calcTooltipWrapperStyles();
-    const highlightElement = this.buildHighlightElement();
+    const highlightElement = highlight ? this.buildHighlightElement() : null;
 
     return (
       <RenderContainer>
