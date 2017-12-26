@@ -40,14 +40,13 @@ export function showReact(initialState, reactContainer) {
             <ModalStep header="modal header" content="modal content"/>
             <TooltipStep
               tooltipTarget={tooltipTarget2}
-              highlightTarget={tooltipTarget2}
+              highlightTarget={highlightTarget}
               render={CustomStep}
               tooltipPosition='right top'
               highlight={customHighlight}
             />
             <TooltipStep
               tooltipTarget={element2}
-              highlightTarget={element2}
               highlight={customHighlight}
               render={CustomStep}
               tooltipPosition='right top'

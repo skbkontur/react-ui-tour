@@ -68,7 +68,7 @@ export class TooltipStep extends React.Component<Props, State> {
   }
 
   buildHighlightElement = () => {
-    const {highlight} = this.props;
+    const {highlight, highlightTarget} = this.props;
     const highlightRoot = React.cloneElement(
       highlight,
       {
@@ -87,7 +87,7 @@ export class TooltipStep extends React.Component<Props, State> {
 
     return (
       <Highlight
-        pos={this.state.highlightRect}
+        pos={highlightTarget ? this.state.highlightRect : this.state.tooltipRect}
         root={highlightRoot}
         rootOffset={rootOffset}
       />
@@ -96,10 +96,9 @@ export class TooltipStep extends React.Component<Props, State> {
 
   render() {
     const {
-      header, content, footer, onNext, onPrev, onClose,
-      render, tooltipPosition, highlightTarget,
+      header, content, footer, onNext, onPrev,
+      onClose, render, tooltipPosition,
     } = this.props;
-    const tooltipWrapperStyles = this.calcTooltipWrapperStyles();
     const tooltip = () => (
       <div style={{color: '#333'}}>
         <h2>{header}</h2>
@@ -112,11 +111,8 @@ export class TooltipStep extends React.Component<Props, State> {
         }
       </div>
     );
-
-    let highlightElement;
-    if (highlightTarget) {
-      highlightElement = this.buildHighlightElement();
-    }
+    const tooltipWrapperStyles = this.calcTooltipWrapperStyles();
+    const highlightElement = this.buildHighlightElement();
 
     return (
       <RenderContainer>
