@@ -39,18 +39,18 @@ export function showReact(initialState, reactContainer) {
           <Tour id="id1">
             <ModalStep header="modal header" content="modal content"/>
             <TooltipStep
-              tooltipTarget={tooltipTarget1}
-              highlightTarget={highlightTarget}
-              render={CustomStep}
-              tooltipPosition='bottom left'
-              highlight={customHighlight}
-            />
-            <TooltipStep
               tooltipTarget={tooltipTarget2}
               highlightTarget={tooltipTarget2}
               render={CustomStep}
               tooltipPosition='right top'
               highlight={customHighlight}
+            />
+            <TooltipStep
+              tooltipTarget={element2}
+              highlightTarget={element2}
+              highlight={customHighlight}
+              render={CustomStep}
+              tooltipPosition='right top'
             />
             {/*<TooltipStep tooltipTarget={tooltipTarget2} highlightTarget={highlightTarget} header="First slide"*/}
                 {/*content={<div>some content<br/>another content</div>}/>*/}

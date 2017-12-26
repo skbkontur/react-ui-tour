@@ -4,7 +4,7 @@ import Tooltip from '@skbkontur/react-ui/components/Tooltip';
 
 import {Highlight} from '../tour/highlight';
 
-const defaultPosition = {
+const initialRect = {
   top: 0,
   left: 0,
   width: 0,
@@ -13,9 +13,9 @@ const defaultPosition = {
 
 export interface Props {
   tooltipTarget: () => HTMLElement;
-  highlightTarget: () => HTMLElement;
-  highlight: React.ReactElement<any>;
   tooltipPosition: string;
+  highlightTarget?: () => HTMLElement;
+  highlight?: React.ReactElement<any>;
   offset?: number;
   onPrev?: () => void;
   onNext?: () => void;
@@ -27,52 +27,49 @@ export interface Props {
 }
 
 interface State {
-  tooltipPos: ClientRect;
-  highlightPos: ClientRect;
+  tooltipRect: ClientRect;
+  highlightRect: ClientRect;
 }
 
 export class TooltipStep extends React.Component<Props, State> {
   state = {
-    tooltipPos: {...defaultPosition},
-    highlightPos: {...defaultPosition},
+    tooltipRect: initialRect,
+    highlightRect: initialRect,
   };
 
   componentWillMount() {
-    const highlightPos = this.props.highlightTarget && this.props.highlightTarget().getBoundingClientRect();
-    const tooltipPos = this.props.tooltipTarget && this.props.tooltipTarget().getBoundingClientRect();
+    const tooltipRect = this.props.tooltipTarget && this.props.tooltipTarget().getBoundingClientRect();
+    const highlightRect = this.props.highlightTarget && this.props.highlightTarget().getBoundingClientRect();
     this.setState({
-      tooltipPos: tooltipPos || defaultPosition,
-      highlightPos: highlightPos || defaultPosition,
+      tooltipRect: tooltipRect || initialRect,
+      highlightRect: highlightRect || initialRect,
     });
   }
 
-  render() {
-    const {
-      header, content, footer, onNext,
-      onPrev, onClose, render, offset = 10,
-      tooltipPosition, highlight,
-    } = this.props;
-    const tooltipWrapperStyles: React.CSSProperties = {
-      position: 'absolute',
-      top: this.state.tooltipPos.top,
-      left: this.state.tooltipPos.left,
-      width: this.state.tooltipPos.width,
-      height: this.state.tooltipPos.height,
-      // padding: offset,
+  calcTooltipWrapperStyles = () => {
+    const {tooltipRect} = this.state;
+    const {offset = 10, tooltipPosition} = this.props;
+    const positions = {
+      right: 'Left',
+      left: 'Right',
+      top: 'Bottom',
+      bottom: 'Top',
     };
-    const tooltip = () => (
-      <div style={{color: '#333'}}>
-        <h2>{header}</h2>
-        <div>{content}</div>
-        {footer && footer({onNext, onPrev}) ||
-        <div style={{marginTop: 20}}>
-          <button style={{float: 'left'}} onClick={onPrev}>Prev</button>
-          <button style={{float: 'right'}} onClick={onNext}>Next</button>
-        </div>
-        }
-      </div>
-    );
-    const highlightElement = React.cloneElement(
+    const [mainPosPart] = tooltipPosition.split(' ');
+
+    return {
+      position: 'absolute',
+      top: tooltipRect.top,
+      left: tooltipRect.left,
+      width: tooltipRect.width,
+      height: tooltipRect.height,
+      [`padding${positions[mainPosPart]}`]: offset,
+    } as React.CSSProperties;
+  }
+
+  buildHighlightElement = () => {
+    const {highlight} = this.props;
+    const highlightRoot = React.cloneElement(
       highlight,
       {
         ...highlight.props,
@@ -89,6 +86,39 @@ export class TooltipStep extends React.Component<Props, State> {
     const rootOffset = highlight.props.style ? parseInt(highlight.props.style.padding) : 0;
 
     return (
+      <Highlight
+        pos={this.state.highlightRect}
+        root={highlightRoot}
+        rootOffset={rootOffset}
+      />
+    );
+  }
+
+  render() {
+    const {
+      header, content, footer, onNext, onPrev, onClose,
+      render, tooltipPosition, highlightTarget,
+    } = this.props;
+    const tooltipWrapperStyles = this.calcTooltipWrapperStyles();
+    const tooltip = () => (
+      <div style={{color: '#333'}}>
+        <h2>{header}</h2>
+        <div>{content}</div>
+        {footer && footer({onNext, onPrev}) ||
+        <div style={{marginTop: 20}}>
+          <button style={{float: 'left'}} onClick={onPrev}>Prev</button>
+          <button style={{float: 'right'}} onClick={onNext}>Next</button>
+        </div>
+        }
+      </div>
+    );
+
+    let highlightElement;
+    if (highlightTarget) {
+      highlightElement = this.buildHighlightElement();
+    }
+
+    return (
       <RenderContainer>
         <div>
             <div style={tooltipWrapperStyles}>
@@ -101,11 +131,7 @@ export class TooltipStep extends React.Component<Props, State> {
               <div style={{width: tooltipWrapperStyles.width, height: tooltipWrapperStyles.height}}/>
             </Tooltip>
           </div>
-          {<Highlight
-            pos={this.state.highlightPos}
-            root={highlightElement}
-            rootOffset={rootOffset}
-          />}
+          {highlightElement}
         </div>
       </RenderContainer>
     );
