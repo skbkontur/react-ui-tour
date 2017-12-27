@@ -7,23 +7,23 @@ import {TooltipStep} from '../src/steps/tooltipStep';
 
 describe('test tour steps logic', () => {
   const tourId = 'id1';
-  const getTarget = () => document.documentElement;
+  const target = document.documentElement;
   const providerCmp = <TourProvider
     predicate={id => true}
     onTourShown={id => console.log('shown tour' + id)}
   >
     <Tour id={tourId}>
       <TooltipStep
-        tooltipTarget={getTarget}
-        tooltipPosition='right top'
+        tooltipTarget={target}
+        popupPositions={['right middle']}
       />
       <TooltipStep
-        tooltipTarget={getTarget}
-        tooltipPosition='right bottom'
+        tooltipTarget={target}
+        popupPositions={['bottom left']}
       />
       <TooltipStep
-        tooltipTarget={getTarget}
-        tooltipPosition='bottom right'
+        tooltipTarget={target}
+        popupPositions={['top right']}
       />
     </Tour>
   </TourProvider>;

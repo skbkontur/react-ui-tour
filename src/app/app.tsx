@@ -38,17 +38,16 @@ export function showReact(initialState, reactContainer) {
           <Tour id='id1'>
             <ModalStep header='modal header' content='modal content'/>
             <TooltipStep
-              tooltipTarget={tooltipTarget2}
-              highlightTarget={highlightTarget}
-              render={CustomStep}
-              tooltipPosition='right top'
+              tooltipTarget={tooltipTarget2()}
+              highlightTarget={highlightTarget()}
+              popupPositions={['bottom left']}
               highlight={customHighlight}
             />
             <TooltipStep
-              tooltipTarget={element2}
+              tooltipTarget={element2()}
               highlight={customHighlight}
               render={CustomStep}
-              tooltipPosition='right top'
+              popupPositions={['right middle']}
             />
           </Tour>
 

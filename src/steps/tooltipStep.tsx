@@ -1,6 +1,6 @@
 import * as React from 'react';
 import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
-import Tooltip from '@skbkontur/react-ui/components/Tooltip';
+import Popup from '@skbkontur/react-ui/components/Popup';
 
 import {Highlight} from '../tour/highlight';
 
@@ -12,9 +12,9 @@ const initialRect = {
 } as ClientRect;
 
 export interface Props {
-  tooltipTarget: () => HTMLElement;
-  tooltipPosition: string;
-  highlightTarget?: () => HTMLElement;
+  tooltipTarget: HTMLElement;
+  popupPositions: string[];
+  highlightTarget?: HTMLElement;
   highlight?: React.ReactElement<any>;
   offset?: number;
   onPrev?: () => void;
@@ -39,33 +39,13 @@ export class TooltipStep extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    const tooltipRect = this.props.tooltipTarget && this.props.tooltipTarget().getBoundingClientRect();
-    const highlightRect = this.props.highlightTarget && this.props.highlightTarget().getBoundingClientRect();
+    const {tooltipTarget, highlightTarget} = this.props;
+    const tooltipRect = tooltipTarget && tooltipTarget.getBoundingClientRect();
+    const highlightRect = highlightTarget && highlightTarget.getBoundingClientRect();
     this.setState({
       tooltipRect: tooltipRect || initialRect,
       highlightRect: highlightRect || initialRect,
     });
-  }
-
-  calcTooltipWrapperStyles = () => {
-    const {tooltipRect} = this.state;
-    const {offset = 10, tooltipPosition} = this.props;
-    const positions = {
-      right: 'Left',
-      left: 'Right',
-      top: 'Bottom',
-      bottom: 'Top',
-    };
-    const [mainPosPart] = tooltipPosition.split(' ');
-
-    return {
-      position: 'absolute',
-      top: tooltipRect.top,
-      left: tooltipRect.left,
-      width: tooltipRect.width,
-      height: tooltipRect.height,
-      [`padding${positions[mainPosPart]}`]: offset,
-    } as React.CSSProperties;
   }
 
   buildHighlightElement = () => {
@@ -98,7 +78,7 @@ export class TooltipStep extends React.Component<Props, State> {
   render() {
     const {
       header, content, footer, onNext, onPrev,
-      onClose, render, tooltipPosition, highlight,
+      onClose, render, popupPositions, highlight,
     } = this.props;
     const tooltip = () => (
       <div style={{color: '#333'}}>
@@ -112,22 +92,21 @@ export class TooltipStep extends React.Component<Props, State> {
         }
       </div>
     );
-    const tooltipWrapperStyles = this.calcTooltipWrapperStyles();
     const highlightElement = highlight ? this.buildHighlightElement() : null;
 
     return (
       <RenderContainer>
         <div>
-            <div style={tooltipWrapperStyles}>
-            <Tooltip
-              render={() => !render ? tooltip() : render(this.props)}
-              trigger='opened'
-              pos={tooltipPosition}
-              onCloseClick={onClose}
-            >
-              <div style={{width: tooltipWrapperStyles.width, height: tooltipWrapperStyles.height}}/>
-            </Tooltip>
-          </div>
+          <Popup
+            anchorElement={this.props.tooltipTarget}
+            positions={popupPositions}
+            opened={true}
+            margin={20}
+            hasShadow
+            hasPin
+          >
+            {!render ? tooltip() : render(this.props)}
+          </Popup>
           {highlightElement}
         </div>
       </RenderContainer>

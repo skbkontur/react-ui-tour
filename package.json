@@ -28,6 +28,7 @@
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
     "react": "^0.14.9",
+    "react-addons-css-transition-group": "^0.14.8",
     "react-dom": "^0.14.9",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
