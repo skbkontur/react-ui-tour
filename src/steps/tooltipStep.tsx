@@ -24,6 +24,7 @@ export interface Props {
   header?: React.ReactElement<any> | string;
   footer?: (props: any) => React.ReactElement<any>;
   render?: (props: any) => React.ReactElement<any>;
+  final?: boolean;
 }
 
 interface State {
