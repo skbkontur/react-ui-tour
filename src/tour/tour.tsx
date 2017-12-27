@@ -71,7 +71,7 @@ export class Tour extends React.Component<OwnProps> {
         this.closed = true;
         gotoIndex(finalStepIndex);
       } else {
-        this.unsubscribe();
+        this.unsubscribe(true);
         gotoIndex(count);
       }
     };
@@ -96,7 +96,7 @@ export class Tour extends React.Component<OwnProps> {
     );
   }
 
-  unsubscribe() {
-    this.context[TourProvider.contextName].unsubscribe(this.props.id);
+  unsubscribe(wasClosed: boolean = false) {
+    this.context[TourProvider.contextName].unsubscribe(this.props.id, wasClosed);
   }
 }
