@@ -5,8 +5,8 @@ import {Provider} from 'react-redux';
 import {initStore} from './initStore';
 import {Tour} from '../tour/tour';
 import {TourProvider} from '../tour/tourProvider';
-import {ModalStep} from '../steps/modalStep';
-import {TooltipStep} from '../steps/tooltipStep';
+import {ModalStep} from '../tour/modalStep/modalStep';
+import {TooltipStep} from '../tour/tooltipStep/tooltipStep';
 
 import './app.less';
 
@@ -19,6 +19,16 @@ export function showReact(initialState, reactContainer) {
       <button onClick={onNext}>next</button>
       <button onClick={onPrev}>prev</button>
       <span onClick={onClose}> X </span>
+    </div>
+  );
+
+  const defaultContent = (
+    <div>
+      <span>dsdsdsdssdsdsdsdsds</span>
+      <br/>
+      <span>dsdsdsdssdsdsdsdsds</span>
+      <br/>
+      <span>dsdsdsdssdsdsdsdsds</span>
     </div>
   );
 
@@ -42,6 +52,8 @@ export function showReact(initialState, reactContainer) {
               highlightTarget={highlightTarget()}
               popupPositions={['bottom left']}
               highlight={customHighlight}
+              header='1 строка = 1 требование'
+              content={defaultContent}
               offset={25}
             />
             <TooltipStep

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 
-import {Highlight} from '../src/tour/highlight';
+import {Highlight} from '../src/tour/tooltipStep/highlight';
 
 describe('Highlight testing', () => {
   const customHighlight = <div style={{border: '3px solid red', padding: '10px'}}/>;

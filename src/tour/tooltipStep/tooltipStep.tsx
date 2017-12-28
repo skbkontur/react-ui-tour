@@ -2,7 +2,8 @@ import * as React from 'react';
 import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import {Highlight} from '../tour/highlight';
+import {Highlight} from './highlight';
+import {Tooltip} from './defaultTooltip';
 
 const initialRect = {
   top: 0,
@@ -80,18 +81,23 @@ export class TooltipStep extends React.Component<Props, State> {
       header, content, footer, onNext, onPrev, onClose,
       render, popupPositions, highlight, offset,
     } = this.props;
-    const tooltip = () => (
-      <div style={{color: '#333'}}>
-        <h2>{header}</h2>
-        <div>{content}</div>
-        {footer && footer({onNext, onPrev}) ||
+
+    const tooltip = () => {
+      const footerContent = footer && footer({onNext, onPrev}) ||
         <div style={{marginTop: 20}}>
           <button style={{float: 'left'}} onClick={onPrev}>Prev</button>
           <button style={{float: 'right'}} onClick={onNext}>Next</button>
-        </div>
-        }
-      </div>
-    );
+        </div>;
+
+      return (
+        <Tooltip
+          header={header}
+          content={content}
+          footer={footerContent}
+          onClose={onClose}
+        />
+      );
+    };
     const highlightElement = highlight ? this.buildHighlightElement() : null;
 
     return (

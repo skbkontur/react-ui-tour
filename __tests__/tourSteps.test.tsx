@@ -3,7 +3,7 @@ import {mount} from 'enzyme';
 
 import {TourProvider} from '../src/tour/tourProvider';
 import {Tour} from '../src/tour/tour';
-import {TooltipStep} from '../src/steps/tooltipStep';
+import {TooltipStep} from '../src/tour/tooltipStep/tooltipStep';
 
 describe('test tour steps logic', () => {
   const tourId = 'id1';
