@@ -29,8 +29,8 @@ describe('test tour main logic', () => {
     const tourWrapper = providerWrapper.find(Tour).first();
 
     expect(tourWrapper.instance().state.active).toEqual(true);
-    tourWrapper.instance().componentWillUnmount();
-    expect(providerWrapper.is(Tour)).toEqual(false);
+    providerWrapper.unmount();
+    expect(providerWrapper.find(Tour)).toHaveLength(0);
   });
 
   it('provider\'s subscribe and unsubscribe were successfully called', () => {
