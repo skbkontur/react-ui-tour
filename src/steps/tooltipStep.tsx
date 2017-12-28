@@ -77,8 +77,8 @@ export class TooltipStep extends React.Component<Props, State> {
 
   render() {
     const {
-      header, content, footer, onNext, onPrev,
-      onClose, render, popupPositions, highlight,
+      header, content, footer, onNext, onPrev, onClose,
+      render, popupPositions, highlight, offset,
     } = this.props;
     const tooltip = () => (
       <div style={{color: '#333'}}>
@@ -96,12 +96,12 @@ export class TooltipStep extends React.Component<Props, State> {
 
     return (
       <RenderContainer>
-        <div>
+        <div onClick={onClose}>
           <Popup
             anchorElement={this.props.tooltipTarget}
             positions={popupPositions}
             opened={true}
-            margin={20}
+            margin={offset}
             hasShadow
             hasPin
           >
