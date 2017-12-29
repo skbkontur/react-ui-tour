@@ -4,10 +4,10 @@ import {Points} from './Points';
 import {TourButton} from './TourButton';
 import {
   Footer,
-  FooterCenterPart, 
+  FooterCenterPart,
   FooterLeftPart,
   FooterRightPart
-} from '../tooltipStep/defaultTooltip';
+} from '../tooltipStep/DefaultTooltip';
 
 interface Props {
   points: number;
