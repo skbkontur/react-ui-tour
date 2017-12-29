@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './DefaultTooltip.css';
+const styles = require('./Tooltip.less');
 
 interface Props {
   children?: React.ReactElement<any> | React.ReactElement<any>[];
@@ -8,8 +8,8 @@ interface Props {
 
 export function Tooltip({header, content, footer, onClose}) {
   return (
-    <div className='tutorial-tooltip-container'>
-      <span className='tutorial-tooltip-close' onClick={onClose}/>
+    <div className={styles.tooltipContainer}>
+      <span className={styles.tooltipClose} onClick={onClose}/>
       <div>
         <Header header={header}/>
         <Content>{content}</Content>
@@ -21,7 +21,7 @@ export function Tooltip({header, content, footer, onClose}) {
 
 export function Content({children}: Props) {
   return (
-    <div className='tutorial-tooltip-content'>
+    <div className={styles.tooltipContent}>
       {children}
     </div>
   );
@@ -29,7 +29,7 @@ export function Content({children}: Props) {
 
 export function Header({header}) {
   return (
-    <div className='tutorial-tooltip-header'>
+    <div className={styles.tooltipHeader}>
       {header}
     </div>
   );
@@ -37,7 +37,7 @@ export function Header({header}) {
 
 export function Footer({children}: Props) {
   return (
-    <div className='tutorial-tooltip-footer'>
+    <div className={styles.tooltipFooter}>
       {children}
     </div>
   );
@@ -45,7 +45,7 @@ export function Footer({children}: Props) {
 
 export function FooterLeftPart({children}: Props) {
   return (
-    <div className='tutorial-tooltip-footer-leftpart'>
+    <div className={styles.tooltipFooterLeftPart}>
       {children}
     </div>
   );
@@ -54,7 +54,7 @@ export function FooterLeftPart({children}: Props) {
 
 export function FooterCenterPart({children}: Props) {
   return (
-    <div className='tutorial-tooltip-footer-centerpart'>
+    <div className={styles.tooltipFooterCenterPart}>
       {children}
     </div>
   );
@@ -62,7 +62,7 @@ export function FooterCenterPart({children}: Props) {
 
 export function FooterRightPart({children}: Props) {
   return (
-    <div className='tutorial-tooltip-footer-rightpart'>
+    <div className={styles.tooltipFooterRightPart}>
       {children}
     </div>
   );

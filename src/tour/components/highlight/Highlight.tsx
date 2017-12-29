@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+const styles = require('./Highlight.less');
+
 export interface Props {
   pos: ClientRect;
   root: React.ReactElement<any>;
@@ -9,11 +11,7 @@ export interface Props {
 
 export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
   const {pos, root, backgroundColor, rootOffset} = props;
-  const wrapperStyles: React.CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    borderStyle: 'solid',
+  const computedStyles: React.CSSProperties = {
     borderColor: backgroundColor,
     padding: rootOffset,
     borderTopWidth: pos.top - rootOffset,
@@ -24,10 +22,9 @@ export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
     height: pos.height,
   };
 
-  return <div style={wrapperStyles}>{root}</div>;
+  return <div className={styles.wrapper} style={computedStyles}>{root}</div>;
 };
 
 Highlight.defaultProps = {
   rootOffset: 0,
-  backgroundColor: 'rgba(0,0,0,0)',
 };

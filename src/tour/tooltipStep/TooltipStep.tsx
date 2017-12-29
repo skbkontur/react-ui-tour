@@ -2,8 +2,8 @@ import * as React from 'react';
 import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import {Highlight} from '../components/Highlight';
-import {Tooltip} from './DefaultTooltip';
+import {Highlight} from '../components/highlight/Highlight';
+import {Tooltip} from './Tooltip';
 import {MultiStepFooter} from '../components/MultiStepFooter';
 
 const initialRect = {

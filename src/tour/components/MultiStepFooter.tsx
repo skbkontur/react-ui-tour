@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import {Points} from './Points';
-import {TourButton} from './TourButton';
+import {Points} from './points/Points';
+import {TourButton} from './tourButton/TourButton';
 import {
   Footer,
   FooterCenterPart,
   FooterLeftPart,
   FooterRightPart
-} from '../tooltipStep/DefaultTooltip';
+} from '../tooltipStep/Tooltip';
 
 interface Props {
   points: number;
@@ -24,19 +24,19 @@ export function MultiStepFooter(props: Props) {
   }
 
   const renderNextButton = (innerText?: string, needArrow: boolean = true) => {
-    return <div className='tutorial-tooltip-nextbutton'>
+    return (
       <TourButton onClick={props.onNext} color='blue' arrow={needArrow && 'right'}>
         {props.nextButtonText || innerText || 'Далее'}
       </TourButton>
-    </div>;
+    );
   };
 
   const renderPrevButton = (innerText?: string, needArrow: boolean = true) => {
-    return <div className='tutorial-tooltip-prevbutton'>
+    return (
       <TourButton color='grey' onClick={props.onPrev} arrow={needArrow && 'left'}>
         {props.prevButtonText || innerText || 'Назад'}
       </TourButton>
-    </div>;
+    );
   };
 
   const points = <Points count={props.points} activePointIndex={props.activePoint }/>;
