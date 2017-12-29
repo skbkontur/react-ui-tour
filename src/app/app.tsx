@@ -58,13 +58,13 @@ export function showReact(initialState, reactContainer) {
               highlight={customHighlight}
               header='1 строка = 1 требование'
               content={defaultContent}
-              offset={25}
+              offset={30}
             />
             <TooltipStep
               tooltipTarget={tooltipTarget2()}
               popupPositions={['bottom right']}
               header='Квитанция и ответ'
-              offset={25}
+              offset={30}
             />
             <TooltipStep
               tooltipTarget={element2()}

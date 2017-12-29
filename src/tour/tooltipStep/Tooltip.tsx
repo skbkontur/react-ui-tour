@@ -27,7 +27,7 @@ export function Content({children}: Props) {
   );
 }
 
-export function Header({header}) {
+export function Header({header}: {header: string}) {
   return (
     <div className={styles.tooltipHeader}>
       {header}
@@ -50,7 +50,6 @@ export function FooterLeftPart({children}: Props) {
     </div>
   );
 }
-
 
 export function FooterCenterPart({children}: Props) {
   return (

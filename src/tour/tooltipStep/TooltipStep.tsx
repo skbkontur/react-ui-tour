@@ -111,6 +111,8 @@ export class TooltipStep extends React.Component<Props, State> {
             positions={popupPositions}
             opened={true}
             margin={offset}
+            pinSize={16}
+            pinOffset={32}
             hasShadow
             hasPin
           >
