@@ -85,7 +85,7 @@ export class TooltipStep extends React.Component<Props, State> {
       popupPositions, highlight, offset, stepIndex, stepsCount,
     } = this.props;
 
-    const tooltip = () => {
+    const renderTooltip = () => {
       const footerContent = footer && footer({onNext, onPrev}) ||
         <MultiStepFooter
           points={stepsCount}
@@ -111,14 +111,13 @@ export class TooltipStep extends React.Component<Props, State> {
           <Popup
             anchorElement={this.props.tooltipTarget}
             positions={popupPositions}
-            opened={true}
             margin={offset}
             pinSize={16}
             pinOffset={32}
-            hasShadow
+            opened
             hasPin
           >
-            {!render ? tooltip() : render(this.props)}
+            {!render ? renderTooltip() : render(this.props)}
           </Popup>
           {highlightElement}
         </div>

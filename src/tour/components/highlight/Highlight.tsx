@@ -22,7 +22,11 @@ export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
     height: pos.height,
   };
 
-  return <div className={styles.wrapper} style={computedStyles}>{root}</div>;
+  return (
+    <div className={styles.wrapper} style={computedStyles}>
+      {root}
+    </div>
+  );
 };
 
 Highlight.defaultProps = {
