@@ -6,7 +6,7 @@ import {initStore} from './initStore';
 import {Tour} from '../tour/tour';
 import {TourProvider} from '../tour/tourProvider';
 import {ModalStep} from '../tour/modalStep/modalStep';
-import {TooltipStep} from '../tour/tooltipStep/tooltipStep';
+import {TooltipStep} from '../tour/tooltipStep/TooltipStep';
 
 import './app.less';
 
@@ -24,11 +24,15 @@ export function showReact(initialState, reactContainer) {
 
   const defaultContent = (
     <div>
-      <span>dsdsdsdssdsdsdsdsds</span>
+      <span>Все новые требования будут появляться</span>
       <br/>
-      <span>dsdsdsdssdsdsdsdsds</span>
+      <span>на вкладке «в работе» в таблице сверху.</span>
       <br/>
-      <span>dsdsdsdssdsdsdsdsds</span>
+      <span>Записывайте в таблицу номер документа и имя,</span>
+      <br/>
+      <span>ответственного. Это поможет отслеживать, какое</span>
+      <br/>
+      <span>требование в работе и кто им занимается.</span>
     </div>
   );
 
@@ -54,6 +58,12 @@ export function showReact(initialState, reactContainer) {
               highlight={customHighlight}
               header='1 строка = 1 требование'
               content={defaultContent}
+              offset={25}
+            />
+            <TooltipStep
+              tooltipTarget={tooltipTarget2()}
+              popupPositions={['bottom right']}
+              header='Квитанция и ответ'
               offset={25}
             />
             <TooltipStep

@@ -2,8 +2,9 @@ import * as React from 'react';
 import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import {Highlight} from './highlight';
-import {Tooltip} from './defaultTooltip';
+import {Highlight} from '../components/Highlight';
+import {Tooltip} from './DefaultTooltip';
+import {MultiStepFooter} from '../components/MultiStepFooter';
 
 const initialRect = {
   top: 0,
@@ -84,10 +85,12 @@ export class TooltipStep extends React.Component<Props, State> {
 
     const tooltip = () => {
       const footerContent = footer && footer({onNext, onPrev}) ||
-        <div style={{marginTop: 20}}>
-          <button style={{float: 'left'}} onClick={onPrev}>Prev</button>
-          <button style={{float: 'right'}} onClick={onNext}>Next</button>
-        </div>;
+        <MultiStepFooter
+          points={3}
+          activePoint={2}
+          onPrev={onPrev}
+          onNext={onNext}
+        />;
 
       return (
         <Tooltip
