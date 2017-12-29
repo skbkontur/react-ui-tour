@@ -26,6 +26,7 @@ export class TourProvider extends React.Component<Props> {
       [TourProvider.contextName]: {
         subscribe: this.subscribe,
         unsubscribe: this.unsubscribe,
+        close: this.close,
       },
     };
   }
@@ -35,14 +36,12 @@ export class TourProvider extends React.Component<Props> {
     this.pushToQueue(id);
   }
 
-  unsubscribe = (id, tourWasClosed: boolean) => {
+  unsubscribe = (id) => {
     this.removeFromQueue(id);
     delete this.listeners[id];
-
-    if (tourWasClosed) {
-      this.props.onTourShown(id);
-    }
   }
+
+  close = (id) => this.props.onTourShown(id);
 
   notify(id) {
     this.listeners[id]();
