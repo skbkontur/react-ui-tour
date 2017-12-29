@@ -88,7 +88,8 @@ export class Tour extends React.Component<OwnProps> {
         onClose: onClose,
         onNext: onNext,
         onPrev: onPrev,
-        index: this.state.currentIndex,
+        stepIndex: this.state.currentIndex,
+        stepsCount: React.Children.count(this.props.children),
       }
     );
     return (

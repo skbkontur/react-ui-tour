@@ -26,6 +26,8 @@ export interface Props {
   header?: React.ReactElement<any> | string;
   footer?: (props: any) => React.ReactElement<any>;
   render?: (props: any) => React.ReactElement<any>;
+  stepIndex?: number;
+  stepsCount?: number;
   final?: boolean;
 }
 
@@ -79,15 +81,15 @@ export class TooltipStep extends React.Component<Props, State> {
 
   render() {
     const {
-      header, content, footer, onNext, onPrev, onClose,
-      render, popupPositions, highlight, offset,
+      header, content, footer, onNext, onPrev, onClose, render,
+      popupPositions, highlight, offset, stepIndex, stepsCount,
     } = this.props;
 
     const tooltip = () => {
       const footerContent = footer && footer({onNext, onPrev}) ||
         <MultiStepFooter
-          points={3}
-          activePoint={2}
+          points={stepsCount}
+          activePoint={stepIndex + 1}
           onPrev={onPrev}
           onNext={onNext}
         />;

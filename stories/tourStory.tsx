@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import {TooltipStep} from '../src/tour/tooltipStep/tooltipStep';
+import {TooltipStep} from '../src/tour/tooltipStep/TooltipStep';
 import {ModalStep} from '../src/tour/modalStep/modalStep';
 
 declare let module: any;
@@ -16,6 +16,8 @@ storiesOf('Tour', module)
       onNext={action('next')}
       onPrev={action('prev')}
       onClose={action('close')}
+      stepIndex={1}
+      stepsCount={3}
     />
   ))
   .add('modal step', () => (
