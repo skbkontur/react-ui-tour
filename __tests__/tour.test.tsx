@@ -1,56 +1,66 @@
 import * as React from 'react';
-import {mount} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {TourProvider} from '../src/tour/tourProvider';
-import {Tour} from '../src/tour/tour';
 
 describe('test tour main logic', () => {
-  const tourId = 'id1';
-  const tourSecondId = 'id2';
-  const predicateFunc = jest.fn();
-  let providerWrapper, onTourShownFunc;
+  const tourIds = {
+    first: 'id1',
+    second: 'id2',
+    third: 'id3',
+  };
+  let providerWrapper, predicateFunc, onTourShownFunc;
 
   beforeEach(() => {
-    onTourShownFunc = jest.fn(id => `shown tour ${id}`);
-    predicateFunc.mockReturnValue(true);
+    predicateFunc = jest.fn(id => id !== tourIds.second);
+    onTourShownFunc = jest.fn(id => id);
 
-    providerWrapper = mount(<TourProvider
+    providerWrapper = shallow(<TourProvider
       predicate={predicateFunc}
       onTourShown={onTourShownFunc}
     >
-      <div>
-        <Tour id={tourId}/>
-        <Tour id={tourSecondId}/>
-      </div>
+      <div/>
     </TourProvider>);
   });
 
-  it('tour was successfully mounted and unmounted', () => {
-    const tourWrapper = providerWrapper.find(Tour).first();
-
-    expect(tourWrapper.instance().state.active).toEqual(true);
-    providerWrapper.unmount();
-    expect(providerWrapper.find(Tour)).toHaveLength(0);
-  });
-
-  it('provider\'s subscribe and unsubscribe were successfully called', () => {
-    const providerCmp = providerWrapper.instance();
-    const tourWrapper = providerWrapper.find(Tour).first();
-
-    expect(predicateFunc).toBeCalled();
-    expect(tourWrapper.prop('id')).toEqual(tourId);
-    expect(providerCmp.listeners[tourId]).toBeDefined();
-    expect(providerCmp.currentId).toEqual(tourId);
-    tourWrapper.instance().unsubscribe(true);
-    expect(providerCmp.listeners[tourId]).toBeUndefined();
-  });
-
-  it('onTourShown was called only if tour was displayed', () => {
-    const firstTourWrapper = providerWrapper.find(`#${tourId}`);
-    const secondTourWrapper = providerWrapper.find(`#${tourSecondId}`);
-    firstTourWrapper.instance().unsubscribe(true);
-    secondTourWrapper.instance().componentWillUnmount();
-
+  it('provider\'s onTourShown was called when tour was closed', () => {
+    const providerInstance = providerWrapper.instance();
+    providerInstance.close(tourIds.first);
+    expect(onTourShownFunc).lastCalledWith(tourIds.first);
     expect(onTourShownFunc).toHaveBeenCalledTimes(1);
+  });
+
+  it('provider\'s onTourShown wasn\'t called when tour was unsubsribed', () => {
+    const providerInstance = providerWrapper.instance();
+    providerInstance.unsubscribe(tourIds.first);
+    expect(onTourShownFunc).toHaveBeenCalledTimes(0);
+  });
+
+  it('subscription callback was called', () => {
+    const providerInstance = providerWrapper.instance();
+    const subscribeClb = jest.fn();
+    providerInstance.subscribe(tourIds.first, subscribeClb);
+    expect(predicateFunc).toHaveBeenCalledWith(tourIds.first);
+    expect(subscribeClb).toHaveBeenCalledTimes(1);
+  });
+
+  it('subscription callback wasn\'t called', () => {
+    const providerInstance = providerWrapper.instance();
+    const subscribeClb = jest.fn();
+    providerInstance.subscribe(tourIds.second, subscribeClb);
+    expect(predicateFunc).toHaveBeenCalledWith(tourIds.second);
+    expect(subscribeClb).toHaveBeenCalledTimes(0);
+  });
+
+  it('callbacks in providers\'s queue were called in right order', () => {
+    const providerInstance = providerWrapper.instance();
+    const subscribeClbFirst = jest.fn();
+    const subscribeClbThird = jest.fn();
+    providerInstance.subscribe(tourIds.first, subscribeClbFirst);
+    providerInstance.subscribe(tourIds.third, subscribeClbThird);
+    expect(subscribeClbFirst).toHaveBeenCalledTimes(1);
+    expect(subscribeClbThird).toHaveBeenCalledTimes(0);
+    providerInstance.unsubscribe(tourIds.first);
+    expect(subscribeClbThird).toHaveBeenCalledTimes(1);
   });
 });
