@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = require('./Highlight.less');
+import * as styles from './Highlight.less';
 
 export interface Props {
   pos: ClientRect;
