@@ -20,10 +20,8 @@ describe('Highlight testing', () => {
       pos={document.documentElement.getBoundingClientRect()}
       root={customHighlight}
       backgroundColor='red'
-      rootOffset={10}
     />);
 
-    expect(wrapper.prop('style').padding).toEqual(10);
     expect(wrapper.prop('style').borderColor).toEqual('red');
   });
 });

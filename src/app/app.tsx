@@ -36,7 +36,7 @@ export function showReact(initialState, reactContainer) {
     </div>
   );
 
-  const customHighlight = <div style={{border: '3px solid red', padding: '10px'}} className='lol'/>;
+  const customHighlight = <div style={{border: '3px solid red', margin: -10}}/>;
 
   const highlightTarget = () => document.getElementById('some id');
   const tooltipTarget1 = () => document.getElementById('some id-1-4');
@@ -52,33 +52,41 @@ export function showReact(initialState, reactContainer) {
           <Tour id='id1'>
             <ModalStep header='modal header' content='modal content'/>
             <TooltipStep
-              tooltipTarget={tooltipTarget2()}
+              target={tooltipTarget2()}
               highlightTarget={highlightTarget()}
-              popupPositions={['bottom left']}
+              positions={['bottom left']}
               highlight={customHighlight}
               header='1 строка = 1 требование'
               content={defaultContent}
               offset={30}
             />
             <TooltipStep
-              tooltipTarget={tooltipTarget2()}
-              popupPositions={['bottom right']}
+              target={tooltipTarget2()}
+              positions={['bottom right']}
               header='Квитанция и ответ'
-              offset={30}
-            />
-            <TooltipStep
-              tooltipTarget={element2()}
               highlight={customHighlight}
-              popupPositions={['right middle']}
+              offset={30}
+            />
+            <TooltipStep
+              target={tooltipTarget2()}
+              positions={['bottom right']}
               header='Квитанция и ответ'
               offset={30}
             />
             <TooltipStep
-              tooltipTarget={element2()}
+              target={element2()}
+              highlight={customHighlight}
+              positions={['right middle']}
+              header='Квитанция и ответ'
+              offset={30}
+            />
+            <TooltipStep
+              target={element2()}
               highlight={customHighlight}
               render={CustomStep}
-              popupPositions={['right middle']}
+              positions={['right middle']}
               offset={30}
+              final
             />
           </Tour>
 

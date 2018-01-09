@@ -5,19 +5,17 @@ const styles = require('./Highlight.less');
 export interface Props {
   pos: ClientRect;
   root: React.ReactElement<any>;
-  rootOffset?: number;
   backgroundColor?: string;
 }
 
 export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
-  const {pos, root, backgroundColor, rootOffset} = props;
+  const {pos, root, backgroundColor} = props;
   const computedStyles: React.CSSProperties = {
     borderColor: backgroundColor,
-    padding: rootOffset,
-    borderTopWidth: pos.top - rootOffset,
-    borderLeftWidth: pos.left - rootOffset,
-    borderRightWidth: document.documentElement.offsetWidth - pos.right - rootOffset,
-    borderBottomWidth: document.documentElement.offsetHeight - pos.bottom - rootOffset,
+    borderTopWidth: pos.top,
+    borderLeftWidth: pos.left,
+    borderRightWidth: document.documentElement.offsetWidth - pos.right,
+    borderBottomWidth: document.documentElement.offsetHeight - pos.bottom,
     width: pos.width,
     height: pos.height,
   };
@@ -27,8 +25,4 @@ export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
       {root}
     </div>
   );
-};
-
-Highlight.defaultProps = {
-  rootOffset: 0,
 };

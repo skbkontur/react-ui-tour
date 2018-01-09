@@ -14,8 +14,8 @@ const initialRect = {
 } as ClientRect;
 
 export interface Props {
-  tooltipTarget: HTMLElement;
-  popupPositions: string[];
+  target: HTMLElement;
+  positions: string[];
   highlightTarget?: HTMLElement;
   highlight?: React.ReactElement<any>;
   offset?: number;
@@ -31,58 +31,21 @@ export interface Props {
   final?: boolean;
 }
 
-interface State {
-  tooltipRect: ClientRect;
-  highlightRect: ClientRect;
-}
+export class TooltipStep extends React.Component<Props> {
+  tooltipRect = null;
+  highlightRect = null;
 
-export class TooltipStep extends React.Component<Props, State> {
-  state = {
-    tooltipRect: initialRect,
-    highlightRect: initialRect,
-  };
-
-  componentWillMount() {
-    const {tooltipTarget, highlightTarget} = this.props;
-    const tooltipRect = tooltipTarget && tooltipTarget.getBoundingClientRect();
-    const highlightRect = highlightTarget && highlightTarget.getBoundingClientRect();
-    this.setState({
-      tooltipRect: tooltipRect || initialRect,
-      highlightRect: highlightRect || initialRect,
-    });
-  }
-
-  buildHighlightElement = () => {
-    const {highlight, highlightTarget} = this.props;
-    const highlightRoot = React.cloneElement(
-      highlight,
-      {
-        ...highlight.props,
-        style: {
-          ...highlight.props.style,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-        },
-      }
-    );
-    const rootOffset = highlight.props.style ? parseInt(highlight.props.style.padding) : 0;
-
-    return (
-      <Highlight
-        pos={highlightTarget ? this.state.highlightRect : this.state.tooltipRect}
-        root={highlightRoot}
-        rootOffset={rootOffset}
-      />
-    );
+  constructor(props) {
+    super(props);
+    const {target, highlightTarget} = this.props;
+    this.tooltipRect = target && target.getBoundingClientRect() || initialRect;
+    this.highlightRect = highlightTarget && highlightTarget.getBoundingClientRect() || initialRect;
   }
 
   render() {
     const {
-      header, content, footer, onNext, onPrev, onClose, render,
-      popupPositions, highlight, offset, stepIndex, stepsCount,
+      target, highlightTarget, header, content, footer, onNext, onPrev,
+      onClose, render, positions, highlight, offset, stepIndex, stepsCount,
     } = this.props;
 
     const renderTooltip = () => {
@@ -103,14 +66,17 @@ export class TooltipStep extends React.Component<Props, State> {
         />
       );
     };
-    const highlightElement = highlight ? this.buildHighlightElement() : null;
+    const highlightElement = buildHighlightElement(
+      highlight,
+      highlightTarget ? this.highlightRect : this.tooltipRect
+    );
 
     return (
       <RenderContainer>
         <div onClick={onClose}>
           <Popup
-            anchorElement={this.props.tooltipTarget}
-            positions={popupPositions}
+            anchorElement={target}
+            positions={positions}
             margin={offset}
             pinSize={16}
             pinOffset={32}
@@ -126,3 +92,27 @@ export class TooltipStep extends React.Component<Props, State> {
   }
 }
 
+export function buildHighlightElement(highlight, position) {
+  highlight = highlight || <div/>;
+  const highlightRoot = React.cloneElement(
+    highlight,
+    {
+      ...highlight.props,
+      style: {
+        ...highlight.props.style,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      },
+    }
+  );
+
+  return (
+    <Highlight
+      pos={position}
+      root={highlightRoot}
+    />
+  );
+}

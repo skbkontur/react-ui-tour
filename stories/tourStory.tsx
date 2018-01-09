@@ -11,8 +11,8 @@ storiesOf('Tour', module)
   .add('tooltip step', () => (
     <TooltipStep
       header='hi there'
-      tooltipTarget={document.documentElement}
-      popupPositions={['bottom left']}
+      target={document.documentElement}
+      positions={['bottom left']}
       onNext={action('next')}
       onPrev={action('prev')}
       onClose={action('close')}
