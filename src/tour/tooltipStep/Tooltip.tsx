@@ -3,21 +3,33 @@ import * as React from 'react';
 import * as styles from './Tooltip.less';
 
 interface Props {
-  children?: React.ReactElement<any> | React.ReactElement<any>[];
+  children?: React.ReactElement<any> | React.ReactElement<any>[] | string;
 }
 
-export function Tooltip({header, content, footer, onClose}) {
+export interface TooltipProps extends Props {
+  header: React.ReactElement<any> | string;
+  content: React.ReactElement<any> | string;
+  footer: React.ReactElement<any> | ((props: any) => React.ReactElement<any>);
+  width: number;
+  onClose?: () => void;
+}
+
+export const Tooltip: React.StatelessComponent<TooltipProps> = (props: TooltipProps) => {
   return (
-    <div className={styles.tooltipContainer}>
-      <span className={styles.tooltipClose} onClick={onClose}/>
+    <div className={styles.tooltipContainer} style={{width: props.width}}>
+      <span className={styles.tooltipClose} onClick={props.onClose}/>
       <div>
-        <Header header={header}/>
-        <Content>{content}</Content>
-        {footer}
+        <Header header={props.header}/>
+        <Content>{props.content}</Content>
+        {props.footer}
       </div>
     </div>
   );
-}
+};
+
+Tooltip.defaultProps = {
+  width: 500
+};
 
 export function Content({children}: Props) {
   return (
@@ -27,7 +39,7 @@ export function Content({children}: Props) {
   );
 }
 
-export function Header({header}: {header: string}) {
+export function Header({header}) {
   return (
     <div className={styles.tooltipHeader}>
       {header}

@@ -8,7 +8,7 @@ export interface Props {
   backgroundColor?: string;
 }
 
-export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
+export function Highlight(props: Props) {
   const {pos, root, backgroundColor} = props;
   const computedStyles: React.CSSProperties = {
     borderColor: backgroundColor,
@@ -25,4 +25,4 @@ export const Highlight: React.StatelessComponent<Props> = (props: Props) => {
       {root}
     </div>
   );
-};
+}

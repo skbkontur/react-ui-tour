@@ -19,6 +19,7 @@ export interface Props {
   highlightTarget?: HTMLElement;
   highlight?: React.ReactElement<any>;
   offset?: number;
+  width?: number;
   onPrev?: () => void;
   onNext?: () => void;
   onClose?: () => void;
@@ -44,7 +45,7 @@ export class TooltipStep extends React.Component<Props> {
 
   render() {
     const {
-      target, highlightTarget, header, content, footer, onNext, onPrev,
+      target, highlightTarget, header, content, footer, width, onNext, onPrev,
       onClose, render, positions, highlight, offset, stepIndex, stepsCount,
     } = this.props;
 
@@ -63,6 +64,7 @@ export class TooltipStep extends React.Component<Props> {
           content={content}
           footer={footerContent}
           onClose={onClose}
+          width={width}
         />
       );
     };
