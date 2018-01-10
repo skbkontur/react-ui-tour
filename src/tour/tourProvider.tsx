@@ -26,7 +26,7 @@ export class TourProvider extends React.Component<Props> {
       [TourProvider.contextName]: {
         subscribe: this.subscribe,
         unsubscribe: this.unsubscribe,
-        close: this.close,
+        onShown: this.onShown,
       },
     };
   }
@@ -41,7 +41,7 @@ export class TourProvider extends React.Component<Props> {
     delete this.listeners[id];
   }
 
-  close = (id) => this.props.onTourShown(id);
+  onShown = (id) => this.props.onTourShown(id);
 
   notify(id) {
     this.listeners[id]();

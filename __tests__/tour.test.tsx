@@ -25,7 +25,7 @@ describe('test tour main logic', () => {
 
   it('provider\'s onTourShown was called when tour was closed', () => {
     const providerInstance = providerWrapper.instance();
-    providerInstance.close(tourIds.first);
+    providerInstance.onShown(tourIds.first);
     expect(onTourShownFunc).lastCalledWith(tourIds.first);
     expect(onTourShownFunc).toHaveBeenCalledTimes(1);
   });

@@ -103,6 +103,6 @@ export class Tour extends React.Component<OwnProps> {
 
   closeTour() {
     this.unsubscribe();
-    this.context[TourProvider.contextName].close(this.props.id);
+    this.context[TourProvider.contextName].onShown(this.props.id);
   }
 }
