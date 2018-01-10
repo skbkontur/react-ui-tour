@@ -59,7 +59,7 @@ export class Tour extends React.Component<OwnProps> {
 
     const goto = (ind, fn) => {
       const step = stepsArray[fn(ind, 1)];
-      if (step === finalStep && !this.closed) {
+      if (finalStep && step === finalStep && !this.closed) {
         goto(fn(ind, 1), fn); // workaround
       } else {
         gotoIndex(fn(ind, 1));

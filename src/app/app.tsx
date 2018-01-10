@@ -86,7 +86,6 @@ export function showReact(initialState, reactContainer) {
               render={CustomStep}
               positions={['right middle']}
               offset={30}
-              final
             />
           </Tour>
 
