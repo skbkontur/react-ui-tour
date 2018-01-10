@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as styles from './TourButton.less';
+const styles = require('./TourButton.less');
 
 export interface Props {
   color: string;

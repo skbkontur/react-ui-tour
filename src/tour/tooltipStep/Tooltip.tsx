@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as styles from './Tooltip.less';
+const styles = require('./Tooltip.less');
 
 interface Props {
   children?: React.ReactElement<any> | React.ReactElement<any>[] | string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as styles from './Points.less';
+const styles = require('./Points.less');
 
 export interface Props {
   count: number;
