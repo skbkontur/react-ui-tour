@@ -1,0 +1,153 @@
+:local {
+  .tourButton {
+    border: 0;
+    color: #404040;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    margin: 0;
+    outline: 0;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+    font-size: 16px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 20px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  .tourButton::-moz-focus-inner {
+    border: 0;
+    padding: 0
+  }
+
+  .greyTourButton {
+    background-image: linear-gradient(-180deg, #FFF, #EBEBEB);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15)
+  }
+
+  .greyTourButton:hover {
+    background-image: linear-gradient(-180deg, #F2F2F2, #DFDFDF);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .2)
+  }
+
+  .greyTourButton:active {
+    background: #E1E1E1;
+    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .2), inset 0 1px 2px 0 rgba(0, 0, 0, .1)
+  }
+
+  .rtIe8 .greyTourButton,
+  .rtIe8 .greyTourButton:active,
+  .rtIe8 .greyTourButton:hover,
+  .rtIe8 .greyTourButton,
+  .rtIe8 .greyTourButton:active,
+  .rtIe8 .greyTourButton:hover {
+    background: #f9f9f9;
+    box-shadow: none;
+    outline: #b2b2b2 solid 1px
+  }
+
+  .blueTourButton {
+    background-image: linear-gradient(-180deg, #2899ea, #167ac1);
+    box-shadow: 0 0 0 1px rgba(14, 81, 129, .7), 0 1px 0 0 rgba(7, 37, 80, .5);
+    color: #fff
+  }
+
+  .blueTourButton:hover {
+    background-image: linear-gradient(#0087D5, #167ac1);
+    box-shadow: 0 0 0 1px rgba(5, 60, 99, .7), 0 1px 0 0 rgba(7, 37, 80, .3)
+  }
+
+  .blueTourButton:active {
+    background: #0079c3;
+    box-shadow: 0 0 0 1px rgba(10, 63, 99, .75), 0 -1px 0 0 rgba(8, 45, 96, .5), inset 0 1px 2px 0 rgba(0, 0, 0, .2)
+  }
+
+  .rtIe8 .blueTourButton,
+  .rtIe8 .blueTourButton:active,
+  .rtIe8 .blueTourButton:hover,
+  .rtIe8 .blueTourButton,
+  .rtIe8 .blueTourButton:active,
+  .rtIe8 .blueTourButton:hover {
+    background: #1e8dd4;
+    box-shadow: none;
+    outline: #1e8dd4 solid 1px
+  }
+
+  .tourButtonArrow::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transform: scaleX(0.6) rotate(45deg);
+    height: 29px;
+    width: 29px;
+    border: 0;
+  }
+
+  .rtIe8 .tourButtonArrow::after,
+  .rtIe8 .tourButtonArrow::after {
+    display: none;
+  }
+
+  .rightTourButtonArrow {
+    padding-right: 14px;
+  }
+
+  .leftTourButtonArrow {
+    padding-left: 14px;
+  }
+
+  .rtIe8 .leftTourButtonArrow,
+  .rtIe9 .leftTourButtonArrow {
+    padding-left: 20px !important;
+  }
+
+  .rtIe8 .rightTourButtonArrow,
+  .rtIe8 .rightTourButtonArrow {
+    padding-right: 20px !important;
+  }
+
+  .leftTourButtonArrow::after {
+    left: -15px;
+    top: 6px;
+  }
+
+  .rightTourButtonArrow::after {
+    right: -15px;
+    top: 6px;
+  }
+
+  .greyTourButton.leftTourButtonArrow::after {
+    background: linear-gradient(135deg, #FFF, #EBEBEB);
+    border-bottom: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+  }
+
+  .greyTourButton.leftTourButtonArrow:hover::after {
+    background: linear-gradient(135deg, #F2F2F2, #DFDFDF);
+  }
+
+  .greyTourButton.leftTourButtonArrow:active::after {
+    background: #E1E1E1;
+  }
+
+  .blueTourButton.rightTourButtonArrow::after {
+    background: linear-gradient(135deg, #2899ea, #167ac1);
+    border-top: 1px solid #5785a6;
+    border-right: 1px solid #5785a6;
+  }
+
+  .blueTourButton.rightTourButtonArrow:hover::after {
+    background: linear-gradient(135deg, #0087D5, #167ac1);
+    border-top: 1px solid #5785a6;
+    border-right: 1px solid #5785a6;
+  }
+
+  .blueTourButton.rightTourButtonArrow:active::after {
+    background: #0079c3;
+  }
+}

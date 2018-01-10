@@ -10,17 +10,32 @@ interface OwnProps {
 export class Tour extends React.Component<OwnProps> {
   static contextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,
-  }
+  };
+
   state = {
     currentIndex: 0,
     active: false,
+  };
+
+  closed = false;
+
+  componentDidMount() {
+    this.context[TourProvider.contextName].subscribe(
+      this.props.id,
+      () => this.setState({active: true})
+    );
   }
-  closed = false
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   goto = (index) => {
     this.setState({currentIndex: index});
   }
+
   render() {
-    const {id} = this.props
+    const {id} = this.props;
     if (!this.state.active) {
       return null;
     }
@@ -36,36 +51,36 @@ export class Tour extends React.Component<OwnProps> {
       if (step && step.props.onBefore) {
         step.props.onBefore()
           .then(() => this.goto(ind))
-          .then(() => step.props.onAfter && step.props.onAfter())
+          .then(() => step.props.onAfter && step.props.onAfter());
       } else {
         this.goto(ind);
       }
-    }
+    };
 
     const goto = (ind, fn) => {
       const step = stepsArray[fn(ind, 1)];
-      if (step === finalStep && !this.closed) {
-        goto(fn(ind, 1), fn) //workaround
+      if (finalStep && step === finalStep && !this.closed) {
+        goto(fn(ind, 1), fn); // workaround
       } else {
         gotoIndex(fn(ind, 1));
       }
-    }
+    };
 
     const onClose = () => {
       if (finalStepIndex >= 0 && !this.closed) {
         this.closed = true;
         gotoIndex(finalStepIndex);
       } else {
-        this.unsubscribe();
-        gotoIndex(count)
+        this.closeTour();
+        gotoIndex(count);
       }
-    }
+    };
 
     const addFunc = (a, b) => a + b;
     const minusFunc = (a, b) => a - b;
 
-    const onNext = () => goto(currentIndex, addFunc)
-    const onPrev = () => goto(currentIndex, minusFunc)
+    const onNext = () => goto(currentIndex, addFunc);
+    const onPrev = () => goto(currentIndex, minusFunc);
 
     const currentStepWithProps = currentStep && React.cloneElement(
       currentStep as React.ReactElement<any>,
@@ -73,20 +88,21 @@ export class Tour extends React.Component<OwnProps> {
         onClose: onClose,
         onNext: onNext,
         onPrev: onPrev,
-        index: this.state.currentIndex,
+        stepIndex: this.state.currentIndex,
+        stepsCount: React.Children.count(this.props.children),
       }
     );
     return (
       <div>{currentStepWithProps}</div>
-    )
-  }
-  componentDidMount() {
-    this.context[TourProvider.contextName].subscribe(
-      this.props.id,
-      () => this.setState({active: true})
     );
   }
+
   unsubscribe() {
-    this.context[TourProvider.contextName].unsubscribe(this.props.id)
+    this.context[TourProvider.contextName].unsubscribe(this.props.id);
+  }
+
+  closeTour() {
+    this.unsubscribe();
+    this.context[TourProvider.contextName].onShown(this.props.id);
   }
 }

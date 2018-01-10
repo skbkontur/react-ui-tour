@@ -15,7 +15,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.ts(x?)$/,
-				loader: require.resolve('ts-loader'),
+				loader: require.resolve('awesome-typescript-loader'),
 			},
 			{
 				test: /\.jsx?$/,
