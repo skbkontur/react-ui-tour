@@ -1,13 +1,11 @@
 import * as React from 'react';
-import {pushToQueue, removeFromQueue} from './tourReducer';
-import {connectHelper} from '../helpers/reduxHelpers';
 import {TourProvider} from './tourProvider';
 
-interface OwnProps {
+export interface TourProps {
   id: string;
 }
 
-export class Tour extends React.Component<OwnProps> {
+export class Tour extends React.Component<TourProps> {
   static contextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,
   };

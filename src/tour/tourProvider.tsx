@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-interface Props {
+export interface TourProviderProps {
   predicate: (id: string) => boolean;
   onTourShown: (id: string) => void;
 }
 
-export class TourProvider extends React.Component<Props> {
+export class TourProvider extends React.Component<TourProviderProps> {
   static contextName = '__tour__';
   static childContextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,

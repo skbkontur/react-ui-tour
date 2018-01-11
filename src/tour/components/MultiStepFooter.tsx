@@ -9,7 +9,7 @@ import {
   FooterRightPart
 } from '../tooltipStep/Tooltip';
 
-interface Props {
+export interface MultiStepFooterProps {
   points: number;
   activePoint: number;
   prevButtonText?: string;
@@ -18,7 +18,7 @@ interface Props {
   onPrev?: () => void;
 }
 
-export function MultiStepFooter(props: Props) {
+export function MultiStepFooter(props: MultiStepFooterProps) {
   if (!props.points) {
     return null;
   }

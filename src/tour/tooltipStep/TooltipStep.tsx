@@ -13,7 +13,7 @@ const initialRect = {
   height: 0,
 } as ClientRect;
 
-export interface Props {
+export interface TooltipStepProps {
   target: HTMLElement;
   positions: string[];
   highlightTarget?: HTMLElement;
@@ -32,7 +32,7 @@ export interface Props {
   final?: boolean;
 }
 
-export class TooltipStep extends React.Component<Props> {
+export class TooltipStep extends React.Component<TooltipStepProps> {
   tooltipRect = null;
   highlightRect = null;
 

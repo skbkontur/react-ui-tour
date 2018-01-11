@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack -p",
+    "build": "tsc",
+    "build:prod": "webpack -p",
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:watch": "jest --watch",

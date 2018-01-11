@@ -2,11 +2,11 @@ import * as React from 'react';
 
 const styles = require('./Tooltip.less');
 
-interface Props {
+export interface BaseProps {
   children?: React.ReactElement<any> | React.ReactElement<any>[] | string;
 }
 
-export interface TooltipProps extends Props {
+export interface TooltipProps extends BaseProps {
   header: React.ReactElement<any> | string;
   content: React.ReactElement<any> | string;
   footer: React.ReactElement<any> | ((props: any) => React.ReactElement<any>);
@@ -31,7 +31,7 @@ Tooltip.defaultProps = {
   width: 500
 };
 
-export function Content({children}: Props) {
+export function Content({children}: BaseProps) {
   return (
     <div className={styles.tooltipContent}>
       {children}
@@ -47,7 +47,7 @@ export function Header({header}) {
   );
 }
 
-export function Footer({children}: Props) {
+export function Footer({children}: BaseProps) {
   return (
     <div className={styles.tooltipFooter}>
       {children}
@@ -55,7 +55,7 @@ export function Footer({children}: Props) {
   );
 }
 
-export function FooterLeftPart({children}: Props) {
+export function FooterLeftPart({children}: BaseProps) {
   return (
     <div className={styles.tooltipFooterLeftPart}>
       {children}
@@ -63,7 +63,7 @@ export function FooterLeftPart({children}: Props) {
   );
 }
 
-export function FooterCenterPart({children}: Props) {
+export function FooterCenterPart({children}: BaseProps) {
   return (
     <div className={styles.tooltipFooterCenterPart}>
       {children}
@@ -71,7 +71,7 @@ export function FooterCenterPart({children}: Props) {
   );
 }
 
-export function FooterRightPart({children}: Props) {
+export function FooterRightPart({children}: BaseProps) {
   return (
     <div className={styles.tooltipFooterRightPart}>
       {children}
