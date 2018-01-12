@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 
-import {Highlight} from '../src/tour/components/highlight/Highlight';
+import {Highlight} from '../src/lib';
 
 describe('Highlight testing', () => {
   const customHighlight = <div style={{border: '3px solid red', padding: '10px'}}/>;

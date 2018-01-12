@@ -18,7 +18,7 @@
     "outDir": "./dist"
   },
   "include": [
-    "src/tour/**/*",
+    "src/lib/**/*",
     "typings"
   ]
 }
