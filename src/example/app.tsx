@@ -2,7 +2,6 @@ import * as React from 'react';
 import {render} from 'react-dom';
 
 import {Tour, TourProvider, ModalStep, TooltipStep} from '../lib';
-
 import './app.less';
 
 export function showReact(initialState, reactContainer) {
