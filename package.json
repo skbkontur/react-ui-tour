@@ -6,7 +6,6 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "node build.prod.js",
-    "build:prod": "webpack -p",
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:watch": "jest --watch",

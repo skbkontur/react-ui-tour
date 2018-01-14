@@ -17,7 +17,7 @@ for (let i = 2; i < process.argv.length; i++){
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
-    app: './app/app',
+    app: './example/app',
   },
   output: {
     path: path.join(__dirname, 'dist'),
