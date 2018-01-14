@@ -1,66 +1,120 @@
+
 import * as React from 'react';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 
-import {TourProvider} from '../src/lib';
+import {TourProvider, Tour} from '../src/lib';
 
-describe('test tour main logic', () => {
-  const tourIds = {
-    first: 'id1',
-    second: 'id2',
-    third: 'id3',
-  };
-  let providerWrapper, predicateFunc, onTourShownFunc;
+const withStep = (id: string): React.SFC<any> =>
+  ({onNext, onPrev, onClose}) => (
+    <div id={id}>
+      <button className="next" onClick={onNext}>next</button>
+      <button className="prev" onClick={onPrev}>prev</button>
+      <button className="close" onClick={onClose}>close</button>
+    </div>
+  )
 
+const Step1 = withStep('id1');
+const Step2 = withStep('id2');
+const Step3 = withStep('id3');
+
+//todo: check onTourShown
+//todo: onBefore, onAfter
+describe('Tour works fine', () => {
+  let wrapper;
+  beforeAll(() => {
+    wrapper = mount(
+      <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
+        <Tour id="someid">
+          <Step1 />
+          <Step2 />
+          <Step3 />
+        </Tour>
+      </TourProvider>
+    )
+  })
+  it('only first rendering on start', () => {
+    expect(wrapper.find('#id1').length).toBe(1)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+  it('after next click only second tour is showing', () => {
+    wrapper.find('.next').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(1)
+  })
+  it('after prev click only first is rendering', () => {
+    wrapper.find('.prev').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(1)
+    expect(wrapper.find('#id2').length).toBe(0)
+  })
+  it('after close nothing is showing', () => {
+    wrapper.find('.close').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+})
+
+describe('Tour. final step in the middle', () => {
+  let wrapper;
   beforeEach(() => {
-    predicateFunc = jest.fn(id => id !== tourIds.second);
-    onTourShownFunc = jest.fn(id => id);
+    wrapper = mount(
+      <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
+        <Tour id="someid">
+          <Step1 />
+          <Step2 final/>
+          <Step3/>
+        </Tour>
+      </TourProvider>
+    )
+  })
+  it('after next click final tour is skiping', () => {
+    wrapper.find('.next').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(1)
+  })
+  it('after next click on last step tour is closing', () => {
+    wrapper.find('.next').simulate('click')
+    wrapper.find('.next').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+  it('after close only final step is showing', () => {
+    wrapper.find('.close').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(1)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+})
 
-    providerWrapper = shallow(<TourProvider
-      predicate={predicateFunc}
-      onTourShown={onTourShownFunc}
-    >
-      <div/>
-    </TourProvider>);
-  });
-
-  it('provider\'s onTourShown was called when tour was closed', () => {
-    const providerInstance = providerWrapper.instance();
-    providerInstance.onShown(tourIds.first);
-    expect(onTourShownFunc).lastCalledWith(tourIds.first);
-    expect(onTourShownFunc).toHaveBeenCalledTimes(1);
-  });
-
-  it('provider\'s onTourShown wasn\'t called when tour was unsubsribed', () => {
-    const providerInstance = providerWrapper.instance();
-    providerInstance.unsubscribe(tourIds.first);
-    expect(onTourShownFunc).toHaveBeenCalledTimes(0);
-  });
-
-  it('subscription callback was called', () => {
-    const providerInstance = providerWrapper.instance();
-    const subscribeClb = jest.fn();
-    providerInstance.subscribe(tourIds.first, subscribeClb);
-    expect(predicateFunc).toHaveBeenCalledWith(tourIds.first);
-    expect(subscribeClb).toHaveBeenCalledTimes(1);
-  });
-
-  it('subscription callback wasn\'t called', () => {
-    const providerInstance = providerWrapper.instance();
-    const subscribeClb = jest.fn();
-    providerInstance.subscribe(tourIds.second, subscribeClb);
-    expect(predicateFunc).toHaveBeenCalledWith(tourIds.second);
-    expect(subscribeClb).toHaveBeenCalledTimes(0);
-  });
-
-  it('callbacks in providers\'s queue were called in right order', () => {
-    const providerInstance = providerWrapper.instance();
-    const subscribeClbFirst = jest.fn();
-    const subscribeClbThird = jest.fn();
-    providerInstance.subscribe(tourIds.first, subscribeClbFirst);
-    providerInstance.subscribe(tourIds.third, subscribeClbThird);
-    expect(subscribeClbFirst).toHaveBeenCalledTimes(1);
-    expect(subscribeClbThird).toHaveBeenCalledTimes(0);
-    providerInstance.unsubscribe(tourIds.first);
-    expect(subscribeClbThird).toHaveBeenCalledTimes(1);
-  });
-});
+describe('Tour. final step in the end', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = mount(
+      <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
+        <Tour id="someid">
+          <Step1 />
+          <Step2 final/>
+        </Tour>
+      </TourProvider>
+    )
+  })
+  it('after close only final step is showing', () => {
+    wrapper.find('.close').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(1)
+  })
+  it('after close on final step nothing is showing', () => {
+    wrapper.find('.close').simulate('click')
+    wrapper.find('.close').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+  })
+  it('after next click tour is closing', () => {
+    wrapper.find('.next').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+  })
+})

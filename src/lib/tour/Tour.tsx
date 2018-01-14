@@ -11,11 +11,37 @@ export class Tour extends React.Component<TourProps> {
   };
 
   state = {
-    currentIndex: 0,
+    stepIndex: 0,
     active: false,
   };
 
-  closed = false;
+  steps = React.Children.toArray(this.props.children) as React.ReactElement<any>[];
+
+  //todo: warning for two final steps
+  finalStepIndex = this.steps.reduce((acc, step, i) => step.props.final ? i : acc, -1)
+
+  render() {
+    const {id} = this.props;
+    if (!this.state.active) {
+      return null;
+    }
+    const {stepIndex} = this.state;
+    const step = this.steps[stepIndex];
+
+    const currentStepWithProps = step && React.cloneElement(
+      step as React.ReactElement<any>,
+      {
+        onClose: this.handleClose,
+        onNext: this.handleNext,
+        onPrev: this.handlePrev,
+        stepIndex: this.state.stepIndex,
+        stepsCount: this.steps.length,
+      }
+    );
+    return (
+      <div>{currentStepWithProps}</div>
+    );
+  }
 
   componentDidMount() {
     this.context[TourProvider.contextName].subscribe(
@@ -28,72 +54,43 @@ export class Tour extends React.Component<TourProps> {
     this.unsubscribe();
   }
 
-  goto = (index) => {
-    this.setState({currentIndex: index});
+  updateIndex = (index) => {
+    this.setState({stepIndex: index});
   }
 
-  render() {
-    const {id} = this.props;
-    if (!this.state.active) {
-      return null;
+  handleNext = () => this.move(this.state.stepIndex, (a, b) => a + b);
+  handlePrev = () => this.move(this.state.stepIndex, (a, b) => a - b);
+
+  move = (ind, moveFunc) => {
+    const nextStep = this.steps[moveFunc(ind, 1)];
+    if (nextStep && nextStep.props.final) {
+      this.move(moveFunc(ind, 1), moveFunc);
+    } else {
+      this.moveTo(moveFunc(ind, 1));
     }
-    const {currentIndex} = this.state;
-    const stepsArray = React.Children.toArray(this.props.children) as React.ReactElement<any>[];
-    const count = stepsArray.length;
-    const finalStep = stepsArray.find(step => step.props.final);
-    const finalStepIndex = stepsArray.indexOf(finalStep);
-    const currentStep = currentIndex !== count ? stepsArray[currentIndex] : null;
+  };
 
-    const gotoIndex = (ind) => {
-      const step = stepsArray[ind];
-      if (step && step.props.onBefore) {
-        step.props.onBefore()
-          .then(() => this.goto(ind))
-          .then(() => step.props.onAfter && step.props.onAfter());
-      } else {
-        this.goto(ind);
-      }
-    };
+  moveTo = (ind) => {
+    const step = this.steps[ind];
+    if (step && step.props.onBefore) {
+      step.props.onBefore()
+        .then(() => this.updateIndex(ind))
+        .then(() => step.props.onAfter && step.props.onAfter());
+    } else {
+      this.updateIndex(ind);
+    }
+  };
 
-    const goto = (ind, fn) => {
-      const step = stepsArray[fn(ind, 1)];
-      if (finalStep && step === finalStep && !this.closed) {
-        goto(fn(ind, 1), fn); // workaround
-      } else {
-        gotoIndex(fn(ind, 1));
-      }
-    };
-
-    const onClose = () => {
-      if (finalStepIndex >= 0 && !this.closed) {
-        this.closed = true;
-        gotoIndex(finalStepIndex);
-      } else {
-        this.closeTour();
-        gotoIndex(count);
-      }
-    };
-
-    const addFunc = (a, b) => a + b;
-    const minusFunc = (a, b) => a - b;
-
-    const onNext = () => goto(currentIndex, addFunc);
-    const onPrev = () => goto(currentIndex, minusFunc);
-
-    const currentStepWithProps = currentStep && React.cloneElement(
-      currentStep as React.ReactElement<any>,
-      {
-        onClose: onClose,
-        onNext: onNext,
-        onPrev: onPrev,
-        stepIndex: this.state.currentIndex,
-        stepsCount: React.Children.count(this.props.children),
-      }
-    );
-    return (
-      <div>{currentStepWithProps}</div>
-    );
-  }
+  handleClose = () => {
+    const hasFinalStepToGo = this.finalStepIndex >= 0
+      && this.finalStepIndex !== this.state.stepIndex;
+    if (hasFinalStepToGo) {
+      this.moveTo(this.finalStepIndex);
+    } else {
+      this.closeTour();
+      this.moveTo(this.steps.length);
+    }
+  };
 
   unsubscribe() {
     this.context[TourProvider.contextName].unsubscribe(this.props.id);
