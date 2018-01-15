@@ -12,7 +12,7 @@ export function Highlight(props: HighlightProps) {
   const {pos, root, backgroundColor} = props;
   const computedStyles: React.CSSProperties = {
     borderColor: backgroundColor,
-    borderTopWidth: pos.top,
+    borderTopWidth: pos.top + document.documentElement.scrollTop,
     borderLeftWidth: pos.left,
     borderRightWidth: document.documentElement.offsetWidth - pos.right,
     borderBottomWidth: document.documentElement.offsetHeight - pos.bottom,
