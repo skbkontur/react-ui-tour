@@ -2,7 +2,8 @@
   "name": "extern-tour-js",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "node build.prod.js",
