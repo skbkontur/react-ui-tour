@@ -43,8 +43,7 @@ export function showReact(initialState, reactContainer) {
         <Tour id='id1'>
           <ModalStep header='modal header' content='modal content'/>
           <TooltipStep
-            target={tooltipTarget2()}
-            highlightTarget={highlightTarget()}
+            targetGetter={tooltipTarget2}
             positions={['bottom left']}
             highlight={customHighlight}
             header='1 строка = 1 требование'
@@ -52,27 +51,27 @@ export function showReact(initialState, reactContainer) {
             offset={30}
           />
           <TooltipStep
-            target={tooltipTarget2()}
+            targetGetter={tooltipTarget2}
             positions={['bottom right']}
             header='Квитанция и ответ'
             highlight={customHighlight}
             offset={30}
           />
           <TooltipStep
-            target={tooltipTarget2()}
+            targetGetter={tooltipTarget2}
             positions={['bottom right']}
             header='Квитанция и ответ'
             offset={30}
           />
           <TooltipStep
-            target={element2()}
+            targetGetter={element2}
             highlight={customHighlight}
             positions={['right middle']}
             header='Квитанция и ответ'
             offset={30}
           />
           <TooltipStep
-            target={element2()}
+            targetGetter={element2}
             highlight={customHighlight}
             render={CustomStep}
             positions={['right middle']}
