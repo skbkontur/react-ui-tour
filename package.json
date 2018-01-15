@@ -1,8 +1,8 @@
 {
-  "name": "starter2",
+  "name": "extern-tour-js",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "build/index",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "node build.prod.js",

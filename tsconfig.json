@@ -15,7 +15,7 @@
       "ScriptHost"
     ],
     "declaration": true,
-    "outDir": "./dist"
+    "outDir": "./build"
   },
   "include": [
     "src/lib/**/*",

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TourProvider} from './tourProvider';
+import {TourProvider} from './TourProvider';
 
 export interface TourProps {
   id: string;

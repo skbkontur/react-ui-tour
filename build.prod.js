@@ -4,7 +4,7 @@ const path = require('path')
 ncp.limit = 1000
 
 var source = path.join(__dirname, 'src/lib')
-var destination = path.join(__dirname, 'dist')
+var destination = path.join(__dirname, 'build')
 var options = {
   filter: /^[A-Za-z\-\/]*(\.less|$)/
 }
