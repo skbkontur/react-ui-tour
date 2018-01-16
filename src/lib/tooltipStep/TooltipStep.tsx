@@ -14,9 +14,9 @@ const initialRect = {
 } as ClientRect;
 
 export interface TooltipStepProps {
-  targetGetter: () => HTMLElement;
+  target: () => HTMLElement;
   positions: string[];
-  highlightTargetGetter?: () => HTMLElement;
+  highlightTarget?: () => HTMLElement;
   highlight?: React.ReactElement<any>;
   offset?: number;
   width?: number;
@@ -36,17 +36,17 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
   tooltipRect = null;
   highlightRect = null;
 
-  constructor(props) {
+  constructor(props: TooltipStepProps) {
     super(props);
-    const target = props.targetGetter();
-    const highlightTarget = props.highlightTargetGetter && props.highlightTargetGetter();
+    const target = props.target();
+    const highlightTarget = props.highlightTarget && props.highlightTarget();
     this.tooltipRect = target && target.getBoundingClientRect() || initialRect;
     this.highlightRect = highlightTarget && highlightTarget.getBoundingClientRect() || initialRect;
   }
 
   render() {
     const {
-      targetGetter, highlightTargetGetter, header, content,
+      target, highlightTarget, header, content,
       footer, width, onNext, onPrev, onClose, render,
       positions, highlight, offset, stepIndex, stepsCount,
     } = this.props;
@@ -70,17 +70,17 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         />
       );
     };
-    const highlightTarget = highlightTargetGetter && highlightTargetGetter();
+    const hTargetRoot = highlightTarget && highlightTarget();
     const highlightElement = buildHighlightElement(
       highlight,
-      highlightTarget ? this.highlightRect : this.tooltipRect
+      hTargetRoot ? this.highlightRect : this.tooltipRect
     );
 
     return (
       <RenderContainer>
         <div onClick={onClose}>
           <Popup
-            anchorElement={targetGetter()}
+            anchorElement={target()}
             positions={positions}
             margin={offset}
             pinSize={16}
