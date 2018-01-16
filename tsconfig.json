@@ -1,24 +1,24 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "jsx": "react",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "importHelpers": true,
-        "lib": [
-            "DOM",
-            "ES6",
-            "ES2015.Promise",
-            "es2015.core",
-            "ScriptHost"
-        ]
-    },
-    "include": [
-        "stories",
-        "src",
-        "typings",
-        "__tests__"
-    ]
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "importHelpers": true,
+    "lib": [
+      "DOM",
+      "ES6",
+      "ES2015.Promise",
+      "es2015.core",
+      "ScriptHost"
+    ],
+    "declaration": true,
+    "outDir": "./build"
+  },
+  "include": [
+    "src/lib/**/*",
+    "typings"
+  ]
 }

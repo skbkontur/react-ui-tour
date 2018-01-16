@@ -13,10 +13,10 @@ const initialRect = {
   height: 0,
 } as ClientRect;
 
-export interface Props {
-  target: HTMLElement;
+export interface TooltipStepProps {
+  target: () => HTMLElement;
   positions: string[];
-  highlightTarget?: HTMLElement;
+  highlightTarget?: () => HTMLElement;
   highlight?: React.ReactElement<any>;
   offset?: number;
   width?: number;
@@ -32,21 +32,23 @@ export interface Props {
   final?: boolean;
 }
 
-export class TooltipStep extends React.Component<Props> {
+export class TooltipStep extends React.Component<TooltipStepProps> {
   tooltipRect = null;
   highlightRect = null;
 
-  constructor(props) {
+  constructor(props: TooltipStepProps) {
     super(props);
-    const {target, highlightTarget} = this.props;
+    const target = props.target();
+    const highlightTarget = props.highlightTarget && props.highlightTarget();
     this.tooltipRect = target && target.getBoundingClientRect() || initialRect;
     this.highlightRect = highlightTarget && highlightTarget.getBoundingClientRect() || initialRect;
   }
 
   render() {
     const {
-      target, highlightTarget, header, content, footer, width, onNext, onPrev,
-      onClose, render, positions, highlight, offset, stepIndex, stepsCount,
+      target, highlightTarget, header, content,
+      footer, width, onNext, onPrev, onClose, render,
+      positions, highlight, offset, stepIndex, stepsCount,
     } = this.props;
 
     const renderTooltip = () => {
@@ -68,16 +70,17 @@ export class TooltipStep extends React.Component<Props> {
         />
       );
     };
+    const hTargetRoot = highlightTarget && highlightTarget();
     const highlightElement = buildHighlightElement(
       highlight,
-      highlightTarget ? this.highlightRect : this.tooltipRect
+      hTargetRoot ? this.highlightRect : this.tooltipRect
     );
 
     return (
       <RenderContainer>
         <div onClick={onClose}>
           <Popup
-            anchorElement={target}
+            anchorElement={target()}
             positions={positions}
             margin={offset}
             pinSize={16}

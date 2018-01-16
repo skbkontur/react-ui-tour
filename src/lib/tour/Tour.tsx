@@ -1,9 +1,7 @@
 import * as React from 'react';
-import {pushToQueue, removeFromQueue} from './tourReducer';
-import {connectHelper} from '../helpers/reduxHelpers';
-import {TourProvider} from './tourProvider';
+import {TourProvider} from './TourProvider';
 
-interface TourProps {
+export interface TourProps {
   id: string;
 }
 

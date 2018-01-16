@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const styles = require('./TourButton.less');
 
-export interface Props {
+export interface TourButtonProps {
   color: string;
   arrow?: string;
   style?: Object;
@@ -10,7 +10,7 @@ export interface Props {
   children?: React.ReactText;
 }
 
-export function TourButton(props: Props) {
+export function TourButton(props: TourButtonProps) {
   let className = `${styles.tourButton} ${styles[props.color + 'TourButton']}`;
   if (props.arrow === 'right' || props.arrow === 'left') {
     className = `${className} ${styles.tourButtonArrow} ${styles[props.arrow + 'TourButtonArrow']}`;

@@ -1,9 +1,7 @@
-
 import * as React from 'react';
 import {mount} from 'enzyme';
 
-import {TourProvider} from '../src/tour/tourProvider';
-import {Tour} from '../src/tour/tour'
+import {TourProvider, Tour} from '../src/lib';
 
 const withStep = (id: string): React.SFC<any> =>
   ({onNext, onPrev, onClose}) => (

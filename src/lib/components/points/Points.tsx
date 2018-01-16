@@ -2,12 +2,12 @@ import * as React from 'react';
 
 const styles = require('./Points.less');
 
-export interface Props {
+export interface PointsProps {
   count: number;
   activePointIndex: number;
 }
 
-export function Points(props: Props) {
+export function Points(props: PointsProps) {
   const points = [];
   for (let i = 1; i <= props.count; i++) {
     if (i === props.activePointIndex) {
