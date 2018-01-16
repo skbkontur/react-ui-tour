@@ -55,7 +55,11 @@ export class Tour extends React.Component<TourProps> {
   }
 
   updateIndex = (index) => {
-    this.setState({stepIndex: index});
+    this.setState({stepIndex: index}, () => {
+      if (this.state.stepIndex === this.steps.length) {
+        this.closeTour();
+      }
+    });
   }
 
   handleNext = () => this.move(this.state.stepIndex, (a, b) => a + b);
@@ -87,7 +91,6 @@ export class Tour extends React.Component<TourProps> {
     if (hasFinalStepToGo) {
       this.moveTo(this.finalStepIndex);
     } else {
-      this.closeTour();
       this.moveTo(this.steps.length);
     }
   };
