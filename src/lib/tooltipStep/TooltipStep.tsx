@@ -13,20 +13,33 @@ const initialRect = {
   height: 0,
 } as ClientRect;
 
+export interface FooterProps {
+  onPrev: () => void;
+  onNext: () => void;
+  stepIndex: number;
+  stepsCount: number;
+}
+
+export interface RenderProps {
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}
+
 export interface TooltipStepProps {
-  target: () => HTMLElement;
+  target: () => Element;
   positions: string[];
-  highlightTarget?: () => HTMLElement;
+  highlightTarget?: () => Element;
   highlight?: React.ReactElement<any>;
   offset?: number;
   width?: number;
+  content?: React.ReactElement<any> | string;
+  header?: React.ReactElement<any> | string;
+  footer?: (props: FooterProps) => React.ReactElement<any>;
+  render?: (props: RenderProps) => React.ReactElement<any>;
   onPrev?: () => void;
   onNext?: () => void;
   onClose?: () => void;
-  content?: React.ReactElement<any> | string;
-  header?: React.ReactElement<any> | string;
-  footer?: (props: any) => React.ReactElement<any>;
-  render?: (props: any) => React.ReactElement<any>;
   stepIndex?: number;
   stepsCount?: number;
   final?: boolean;
@@ -52,7 +65,8 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
     } = this.props;
 
     const renderTooltip = () => {
-      const footerContent = footer && footer({onNext, onPrev}) ||
+      const footerContent = footer &&
+        footer({onNext, onPrev, stepsCount, stepIndex: stepIndex + 1}) ||
         <MultiStepFooter
           points={stepsCount}
           activePoint={stepIndex + 1}
@@ -87,8 +101,9 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
             pinOffset={32}
             opened
             hasPin
+            hasShadow
           >
-            {!render ? renderTooltip() : render(this.props)}
+            {!render ? renderTooltip() : render({onNext, onPrev, onClose})}
           </Popup>
           {highlightElement}
         </div>
