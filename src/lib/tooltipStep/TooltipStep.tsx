@@ -5,6 +5,7 @@ import Popup from '@skbkontur/react-ui/components/Popup';
 import {Highlight} from '../components/highlight/Highlight';
 import {Tooltip} from './Tooltip';
 import {MultiStepFooter} from '../components/MultiStepFooter';
+const styles = require('./TooltipStep.less');
 
 const initialRect = {
   top: 0,
@@ -92,7 +93,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
 
     return (
       <RenderContainer>
-        <div onClick={onClose}>
+        <div className={styles.popupWrapper} onClick={onClose}>
           <Popup
             anchorElement={target()}
             positions={positions}
