@@ -10,7 +10,7 @@ storiesOf('Tour', module)
   .add('tooltip step', () => (
     <TooltipStep
       header='hi there'
-      target={document.documentElement}
+      target={() => document.documentElement}
       positions={['bottom left']}
       onNext={action('next')}
       onPrev={action('prev')}
