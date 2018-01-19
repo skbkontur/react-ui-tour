@@ -32,7 +32,7 @@ export class Tour extends React.Component<TourProps> {
   steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
 
   //todo: warning for two final steps
-  finalStepIndex = this.steps.reduce((acc, step, i) => step.props.final ? i : acc, -1)
+  finalStepIndex = this.steps.findIndex((step) => step.props.final);
 
   render() {
     const {id} = this.props;
