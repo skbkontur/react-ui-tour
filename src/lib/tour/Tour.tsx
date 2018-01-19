@@ -2,7 +2,7 @@ import * as React from 'react';
 import {TourProvider} from './TourProvider';
 
 export interface StepProps {
-  final?: boolean;
+  isFallback?: boolean;
   onBefore?: () => Promise<void>;
   onAfter?: () => Promise<void>;
 }
@@ -32,7 +32,7 @@ export class Tour extends React.Component<TourProps> {
   steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
 
   //todo: warning for two final steps
-  finalStepIndex = this.steps.findIndex((step) => step.props.final);
+  finalStepIndex = this.steps.findIndex((step) => step.props.isFallback);
 
   render() {
     const {id} = this.props;
@@ -77,7 +77,7 @@ export class Tour extends React.Component<TourProps> {
 
   move = (ind, moveFunc) => {
     const nextStep = this.steps[moveFunc(ind, 1)];
-    if (nextStep && nextStep.props.final) {
+    if (nextStep && nextStep.props.isFallback) {
       this.move(moveFunc(ind, 1), moveFunc);
     } else {
       this.moveTo(moveFunc(ind, 1));
