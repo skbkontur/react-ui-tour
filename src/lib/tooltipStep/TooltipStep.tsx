@@ -5,6 +5,7 @@ import Popup from '@skbkontur/react-ui/components/Popup';
 import {Highlight} from '../components/highlight/Highlight';
 import {Tooltip} from './Tooltip';
 import {MultiStepFooter} from '../components/MultiStepFooter';
+import {StepProps, StepInternalProps} from '../tour/Tour'
 
 const initialRect = {
   top: 0,
@@ -13,24 +14,20 @@ const initialRect = {
   height: 0,
 } as ClientRect;
 
-export interface TooltipStepProps {
-  target: () => HTMLElement;
+export interface TooltipStepOuterProps {
+  target: () => Element;
   positions: string[];
-  highlightTarget?: () => HTMLElement;
+  highlightTarget?: () => Element;
   highlight?: React.ReactElement<any>;
   offset?: number;
   width?: number;
-  onPrev?: () => void;
-  onNext?: () => void;
-  onClose?: () => void;
   content?: React.ReactElement<any> | string;
   header?: React.ReactElement<any> | string;
   footer?: (props: any) => React.ReactElement<any>;
   render?: (props: any) => React.ReactElement<any>;
-  stepIndex?: number;
-  stepsCount?: number;
-  final?: boolean;
 }
+
+export interface TooltipStepProps extends TooltipStepOuterProps, StepProps {}
 
 export class TooltipStep extends React.Component<TooltipStepProps> {
   tooltipRect = null;
@@ -49,7 +46,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
       target, highlightTarget, header, content,
       footer, width, onNext, onPrev, onClose, render,
       positions, highlight, offset, stepIndex, stepsCount,
-    } = this.props;
+    } = this.props as TooltipStepProps & StepInternalProps;
 
     const renderTooltip = () => {
       const footerContent = footer && footer({onNext, onPrev}) ||

@@ -1,6 +1,20 @@
 import * as React from 'react';
 import {TourProvider} from './TourProvider';
 
+export interface StepProps {
+  final?: boolean;
+  onBefore?: () => Promise<void>;
+  onAfter?: () => Promise<void>;
+}
+
+export interface StepInternalProps {
+  stepIndex: number;
+  stepsCount: number;
+  onPrev: () => void;
+  onNext: () => void;
+  onClose: () => void;
+}
+
 export interface TourProps {
   id: string;
 }
@@ -15,7 +29,7 @@ export class Tour extends React.Component<TourProps> {
     active: false,
   };
 
-  steps = React.Children.toArray(this.props.children) as React.ReactElement<any>[];
+  steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
 
   //todo: warning for two final steps
   finalStepIndex = this.steps.reduce((acc, step, i) => step.props.final ? i : acc, -1)
@@ -29,7 +43,7 @@ export class Tour extends React.Component<TourProps> {
     const step = this.steps[stepIndex];
 
     const currentStepWithProps = step && React.cloneElement(
-      step as React.ReactElement<any>,
+      step,
       {
         onClose: this.handleClose,
         onNext: this.handleNext,
