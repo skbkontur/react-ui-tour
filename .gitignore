@@ -6,6 +6,7 @@ dist
 
 .awcache
 .idea
+build
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 crashlytics.properties
