@@ -27,7 +27,7 @@ export interface TooltipStepOuterProps {
   render?: (props: any) => React.ReactElement<any>;
 }
 
-export interface TooltipStepProps extends TooltipStepOuterProps, StepProps {}
+export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Partial<StepInternalProps> {}
 
 export class TooltipStep extends React.Component<TooltipStepProps> {
   tooltipRect = null;
@@ -46,7 +46,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
       target, highlightTarget, header, content,
       footer, width, onNext, onPrev, onClose, render,
       positions, highlight, offset, stepIndex, stepsCount,
-    } = this.props as TooltipStepProps & StepInternalProps;
+    } = this.props;
 
     const renderTooltip = () => {
       const footerContent = footer && footer({onNext, onPrev}) ||

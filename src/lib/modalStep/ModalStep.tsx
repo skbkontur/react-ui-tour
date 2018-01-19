@@ -11,7 +11,7 @@ export interface ModalStepOuterProps {
   render?: (props: any) => React.ReactElement<any>;
 }
 
-export interface ModalStepProps extends ModalStepOuterProps, StepProps {}
+export interface ModalStepProps extends ModalStepOuterProps, StepProps, Partial<StepInternalProps> {}
 
 export class ModalStep extends React.Component<ModalStepProps> {
   render() {
