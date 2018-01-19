@@ -23,8 +23,8 @@ export interface TooltipStepOuterProps {
   width?: number;
   content?: React.ReactElement<any> | string;
   header?: React.ReactElement<any> | string;
-  footer?: (props: any) => React.ReactElement<any>;
-  render?: (props: any) => React.ReactElement<any>;
+  footer?: (props: StepInternalProps) => React.ReactElement<any>;
+  render?: (props: StepInternalProps) => React.ReactElement<any>;
 }
 
 export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Partial<StepInternalProps> {}
@@ -49,7 +49,8 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
     } = this.props;
 
     const renderTooltip = () => {
-      const footerContent = footer && footer({onNext, onPrev}) ||
+      const footerContent = footer 
+        && footer({onNext, onPrev, onClose, stepIndex, stepsCount}) ||
         <MultiStepFooter
           points={stepsCount}
           activePoint={stepIndex + 1}
@@ -85,7 +86,9 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
             opened
             hasPin
           >
-            {!render ? renderTooltip() : render(this.props)}
+            {!render
+              ? renderTooltip()
+              : render({onNext, onPrev, onClose, stepIndex, stepsCount})}
           </Popup>
           {highlightElement}
         </div>
