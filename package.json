@@ -13,7 +13,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@skbkontur/react-ui": "^0.9.10",
+    "@skbkontur/react-ui": "^0.10.8",
     "react": "^0.14.9",
     "react-dom": "^0.14.9"
   },
