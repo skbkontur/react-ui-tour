@@ -5,6 +5,7 @@ import Popup from '@skbkontur/react-ui/components/Popup';
 import {Highlight} from '../components/highlight/Highlight';
 import {Tooltip} from './Tooltip';
 import {MultiStepFooter} from '../components/MultiStepFooter';
+import {StepProps, StepInternalProps} from '../tour/Tour'
 const styles = require('./TooltipStep.less');
 
 const initialRect = {
@@ -14,20 +15,7 @@ const initialRect = {
   height: 0,
 } as ClientRect;
 
-export interface FooterProps {
-  onPrev: () => void;
-  onNext: () => void;
-  stepIndex: number;
-  stepsCount: number;
-}
-
-export interface RenderProps {
-  onClose: () => void;
-  onPrev: () => void;
-  onNext: () => void;
-}
-
-export interface TooltipStepProps {
+export interface TooltipStepOuterProps {
   target: () => Element;
   positions: string[];
   highlightTarget?: () => Element;
@@ -36,15 +24,11 @@ export interface TooltipStepProps {
   width?: number;
   content?: React.ReactElement<any> | string;
   header?: React.ReactElement<any> | string;
-  footer?: (props: FooterProps) => React.ReactElement<any>;
-  render?: (props: RenderProps) => React.ReactElement<any>;
-  onPrev?: () => void;
-  onNext?: () => void;
-  onClose?: () => void;
-  stepIndex?: number;
-  stepsCount?: number;
-  final?: boolean;
+  footer?: (props: StepInternalProps) => React.ReactElement<any>;
+  render?: (props: StepInternalProps) => React.ReactElement<any>;
 }
+
+export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Partial<StepInternalProps> {}
 
 export class TooltipStep extends React.Component<TooltipStepProps> {
   tooltipRect = null;
@@ -67,7 +51,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
 
     const renderTooltip = () => {
       const footerContent = footer &&
-        footer({onNext, onPrev, stepsCount, stepIndex: stepIndex + 1}) ||
+        footer({onNext, onPrev, stepsCount, stepIndex: stepIndex + 1, onClose}) ||
         <MultiStepFooter
           points={stepsCount}
           activePoint={stepIndex + 1}
@@ -104,7 +88,9 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
             hasPin
             hasShadow
           >
-            {!render ? renderTooltip() : render({onNext, onPrev, onClose})}
+            {!render
+              ? renderTooltip()
+              : render({onNext, onPrev, onClose, stepIndex, stepsCount})}
           </Popup>
           {highlightElement}
         </div>
