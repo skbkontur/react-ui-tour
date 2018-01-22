@@ -7,8 +7,8 @@ export interface ModalStepOuterProps {
   width?: number;
   content?: React.ReactElement<any> | string;
   header?: React.ReactElement<any> | string;
-  footer?: (props: any) => React.ReactElement<any>;
-  render?: (props: any) => React.ReactElement<any>;
+  footer?: (props: StepInternalProps) => React.ReactElement<any>;
+  render?: (props: StepInternalProps) => React.ReactElement<any>;
 }
 
 export interface ModalStepProps extends ModalStepOuterProps, StepProps, Partial<StepInternalProps> {}
