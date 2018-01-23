@@ -19,7 +19,7 @@ export interface TooltipStepOuterProps {
   target: () => Element;
   positions: string[];
   highlightTarget?: () => Element;
-  highlight?: React.ReactNode;
+  highlight?: React.ReactElement<any>;
   offset?: number;
   width?: number;
   content?: React.ReactElement<any> | string;
@@ -46,7 +46,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
     const {
       target, highlightTarget, header, content,
       footer, width, onNext, onPrev, onClose, render,
-      positions, highlight, offset, stepsCount,
+      positions, highlight, offset, stepsCount, stepIndex
     } = this.props;
 
     const renderTooltip = () => {
