@@ -1,6 +1,6 @@
 {
   "name": "extern-tour-js",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -51,7 +51,7 @@
     "webpack-dev-server": "^1.16.5"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vladimir Tolstikov",
   "license": "ISC",
   "jest": {
     "setupFiles": [
