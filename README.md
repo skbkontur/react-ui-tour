@@ -6,7 +6,7 @@
 Basic usage:
 
 Place `TourProvider` at the root of your app:
-```js
+```tsx
 <TourProvider predicate={id => true}
               onTourShown={id => makeSmt()}>
   <YourApp />
@@ -14,7 +14,7 @@ Place `TourProvider` at the root of your app:
 ```
 
 Then, anywhere inside the `TourProvider` add a `Tour` with some [steps](#steps):
-```jsx
+```tsx
 <Tour id='My Tour' />
   <TooltipStep
     target={() => document.getElementById('id-1')}
@@ -56,14 +56,17 @@ interface TourProps {
 ```
 
 ### Steps
-Step can be any React component that accepts props of the following type
+There are some types of steps: `Step`, `ModalStep`, `TooltipStep`
+All of these take the following props:
 ```ts
-interface StepProps {
   isFallback?: boolean; // that step to be showing if only tour was closed
   onBefore?: () => Promise<void>;
   onAfter?: () => Promise<void>;
-}
-
+  render?: (props: StepInternalProps) => React.ReactElement<any>
+```
+Prop `render` provides ability to customize whole Step.
+It's a function of the following props:
+```ts
 interface StepInternalProps {
   stepIndex: number;
   stepsCount: number;
@@ -72,7 +75,12 @@ interface StepInternalProps {
   onClose: () => void;
 }
 ```
-Directly from lib you can use **TooltipStep** and **ModalStep**
+
+**Step**
+It's clear component and hasn't any view
+
+**TooltipStep**
+It provides step with tooltip view. Method `render` affects only to content of tooltip
 ```ts
 interface TooltipStepOuterProps {
   target: () => Element; // element to be pointed to
@@ -86,7 +94,10 @@ interface TooltipStepOuterProps {
   footer?: (props: StepInternalProps) => React.ReactElement<any>;
   render?: (props: StepInternalProps) => React.ReactElement<any>; // that ovveride usage of content, header and footer props
 }
-
+```
+**ModalStep**
+It provides step with modal view. Method `render` affects only to content of modal
+```ts
 interface ModalStepOuterProps {
   width?: number;
   content?: React.ReactElement<any> | string;
