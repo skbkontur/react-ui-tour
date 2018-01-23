@@ -39,7 +39,10 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
     );
   };
 
-  const points = <Points count={props.points} activePointIndex={props.activePoint }/>;
+  const points = <Points
+    count={props.points}
+    activePointIndex={props.activePoint }
+  />;
 
   let leftPartContent;
   let centerPartContent;

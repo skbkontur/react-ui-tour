@@ -19,7 +19,7 @@ export interface TooltipStepOuterProps {
   target: () => Element;
   positions: string[];
   highlightTarget?: () => Element;
-  highlight?: React.ReactElement<any>;
+  highlight?: React.ReactNode;
   offset?: number;
   width?: number;
   content?: React.ReactElement<any> | string;
@@ -46,15 +46,16 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
     const {
       target, highlightTarget, header, content,
       footer, width, onNext, onPrev, onClose, render,
-      positions, highlight, offset, stepIndex, stepsCount,
+      positions, highlight, offset, stepsCount,
     } = this.props;
 
     const renderTooltip = () => {
+      const stepIndex = this.props.stepIndex + 1;
       const footerContent = footer &&
         footer({onNext, onPrev, stepsCount, stepIndex: stepIndex + 1, onClose}) ||
         <MultiStepFooter
           points={stepsCount}
-          activePoint={stepIndex + 1}
+          activePoint={stepIndex}
           onPrev={onPrev}
           onNext={onNext}
         />;
@@ -70,10 +71,6 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
       );
     };
     const hTargetRoot = highlightTarget && highlightTarget();
-    const highlightElement = buildHighlightElement(
-      highlight,
-      hTargetRoot ? this.highlightRect : this.tooltipRect
-    );
 
     return (
       <RenderContainer>
@@ -92,21 +89,24 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
               ? renderTooltip()
               : render({onNext, onPrev, onClose, stepIndex, stepsCount})}
           </Popup>
-          {highlightElement}
+          <TooltipHighlight
+            highlightElem={highlight}
+            position={hTargetRoot ? this.highlightRect : this.tooltipRect}
+          />
         </div>
       </RenderContainer>
     );
   }
 }
 
-export function buildHighlightElement(highlight, position) {
-  highlight = highlight || <div/>;
+export function TooltipHighlight({highlightElem, position}) {
+  highlightElem = highlightElem || <div/>;
   const highlightRoot = React.cloneElement(
-    highlight,
+    highlightElem,
     {
-      ...highlight.props,
+      ...highlightElem.props,
       style: {
-        ...highlight.props.style,
+        ...highlightElem.props.style,
         position: 'absolute',
         top: 0,
         left: 0,
