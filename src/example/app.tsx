@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {render} from 'react-dom';
 
-import {Tour, TourProvider, ModalStep, TooltipStep} from '../lib';
+import {Tour, TourProvider, ModalStep, TooltipStep, Step} from '../lib';
 import './app.less';
 
 export function showReact(initialState, reactContainer) {
   const CustomStep = ({onNext, onPrev, onClose}) => (
-    <div>
+    <div style={{border: '2px solid red', padding: 10}}>
       <h1> custom markup </h1>
-      <button onClick={onNext}>next</button>
       <button onClick={onPrev}>prev</button>
+      <button onClick={onNext}>next</button>
       <span onClick={onClose}> X </span>
     </div>
   );
@@ -41,6 +41,7 @@ export function showReact(initialState, reactContainer) {
                   onTourShown={(id) => console.log(`shown tour ${id}`)}>
       <div>
         <Tour id='id1'>
+          <Step render={CustomStep}/>
           <ModalStep header='modal header' content='modal content'/>
           <TooltipStep
             target={tooltipTarget2}

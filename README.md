@@ -1,4 +1,102 @@
-# React Redux Typescript Starter Kit
+
+# ReactUI tours library
+
+## Documentation
+
+Basic usage:
+
+Place `TourProvider` at the root of your app:
+```js
+<TourProvider predicate={id => true}
+              onTourShown={id => makeSmt()}>
+  <YourApp />
+</TourProvider>
+```
+
+Then, anywhere inside the `TourProvider` add a `Tour` with some [steps](#steps):
+```jsx
+<Tour id='My Tour' />
+  <TooltipStep
+    target={() => document.getElementById('id-1')}
+    positions={['bottom right', 'right bottom']}
+    header='Step 1'
+    content={(
+     <div>Hi, there!</div>
+    )}
+  />
+  <TooltipStep
+    target={() => document.getElementById('id-2')}
+    positions={['top left', 'top-right']}
+    header='Step 2'
+    content={(
+     <div>Hi, there again!</div>
+    )}
+  />
+</Tour>
+```
+
+## Api
+
+### TourProvider
+A wrapper component with the following props:
+```ts
+interface TourProviderProps {
+  predicate: (id: string) => boolean; // whether to show a tour with given id
+  onTourShown: (id: string) => void; // will be called when a tour is closed
+}
+```
+
+### Tour
+A sequence of steps to be shown. Should be provided with an unique identifier. Has the following props:
+```ts
+interface TourProps {
+  id: string; // a string to identify a tour
+              // will be passed to `predicate` and `onTourShown` callbacks of `TourProvider`
+}
+```
+
+### Steps
+Step can be any React component that accepts props of the following type
+```ts
+interface StepProps {
+  isFallback?: boolean; // that step to be showing if only tour was closed
+  onBefore?: () => Promise<void>;
+  onAfter?: () => Promise<void>;
+}
+
+interface StepInternalProps {
+  stepIndex: number;
+  stepsCount: number;
+  onPrev: () => void;
+  onNext: () => void;
+  onClose: () => void;
+}
+```
+Directly from lib you can use **TooltipStep** and **ModalStep**
+```ts
+interface TooltipStepOuterProps {
+  target: () => Element; // element to be pointed to
+  positions: string[];
+  highlightTarget?: () => Element; // element to be highlighted to
+  highlight?: React.ReactElement<any>; // highlight for pointed element
+  offset?: number;
+  width?: number;
+  content?: React.ReactElement<any> | string;
+  header?: React.ReactElement<any> | string;
+  footer?: (props: StepInternalProps) => React.ReactElement<any>;
+  render?: (props: StepInternalProps) => React.ReactElement<any>; // that ovveride usage of content, header and footer props
+}
+
+interface ModalStepOuterProps {
+  width?: number;
+  content?: React.ReactElement<any> | string;
+  header?: React.ReactElement<any> | string;
+  footer?: (props: StepInternalProps) => React.ReactElement<any>;
+  render?: (props: StepInternalProps) => React.ReactElement<any>; // that ovveride usage of content, header and footer props
+}
+```
+
+## Maintain
 
 ### How to build it on your local machine
 * `npm i`

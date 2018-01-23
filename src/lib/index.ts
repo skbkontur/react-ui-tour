@@ -1,5 +1,6 @@
 export * from './tour/TourProvider';
 export * from './tour/Tour';
+export * from './step/step';
 export * from './tooltipStep/TooltipStep'
 export * from './tooltipStep/Tooltip'
 export * from './modalStep/ModalStep'

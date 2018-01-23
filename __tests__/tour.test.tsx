@@ -61,7 +61,7 @@ describe('Tour. final step in the middle', () => {
       <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
         <Tour id="someid">
           <Step1 />
-          <Step2 final/>
+          <Step2 isFallback/>
           <Step3/>
         </Tour>
       </TourProvider>
@@ -95,7 +95,7 @@ describe('Tour. final step in the end', () => {
       <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
         <Tour id="someid">
           <Step1 />
-          <Step2 final/>
+          <Step2 isFallback/>
         </Tour>
       </TourProvider>
     )
