@@ -1,0 +1,10 @@
+full-build:
+  deps:
+
+  build:
+    tool: npm
+    target: run cmbuild
+    configuration: Release
+
+  artifacts:
+    - build\index.js

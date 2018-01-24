@@ -7,6 +7,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "node build.prod.js",
+    "cmbuild": "npm i && npm run build",
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:watch": "jest --watch",
