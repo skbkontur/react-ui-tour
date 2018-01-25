@@ -4,8 +4,6 @@
     "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "importHelpers": true,
     "lib": [
       "DOM",
@@ -18,7 +16,8 @@
     "outDir": "./build"
   },
   "include": [
-    "src/lib/**/*",
-    "typings"
+    "src",
+    "__tests__",
+    "stories"
   ]
 }
