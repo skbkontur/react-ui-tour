@@ -4,8 +4,6 @@ import {storiesOf} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
 import {TooltipStep, ModalStep} from '../src/lib';
 
-declare let module: any;
-
 storiesOf('Tour', module)
   .add('tooltip step', () => (
     <TooltipStep
