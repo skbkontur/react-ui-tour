@@ -60,12 +60,23 @@ export class Tour extends React.Component<TourProps> {
   componentDidMount() {
     this.context[TourProvider.contextName].subscribe(
       this.props.id,
-      () => this.setState({active: true})
+      () => this.showTour()
     );
   }
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  showTour = () => {
+    const firstStep = this.steps[0];
+    const {onBefore, onAfter} = firstStep.props;
+    if (onBefore) {
+      return onBefore().then(() => {
+        this.setState({active: true})
+      })
+    }
+    this.setState({active: true})
   }
 
   updateIndex = (index) => {
@@ -84,28 +95,30 @@ export class Tour extends React.Component<TourProps> {
     if (nextStep && nextStep.props.isFallback) {
       this.move(moveFunc(ind, 1), moveFunc);
     } else {
-      this.moveTo(moveFunc(ind, 1));
+      this.moveTo(moveFunc(ind, 1), ind);
     }
   };
 
-  moveTo = (ind) => {
+  moveTo = (ind, prevInd) => {
     const step = this.steps[ind];
+    const prevStep = this.steps[prevInd];
+    prevStep && prevStep.props.onAfter && prevStep.props.onAfter()
     if (step && step.props.onBefore) {
       step.props.onBefore()
         .then(() => this.updateIndex(ind))
-        .then(() => step.props.onAfter && step.props.onAfter());
     } else {
       this.updateIndex(ind);
     }
   };
 
   handleClose = () => {
+    const {stepIndex} = this.state;
     const hasFinalStepToGo = this.finalStepIndex >= 0
-      && this.finalStepIndex !== this.state.stepIndex;
+      && this.finalStepIndex !== stepIndex;
     if (hasFinalStepToGo) {
-      this.moveTo(this.finalStepIndex);
+      this.moveTo(this.finalStepIndex, stepIndex);
     } else {
-      this.moveTo(this.steps.length);
+      this.moveTo(this.steps.length, stepIndex);
     }
   };
 
