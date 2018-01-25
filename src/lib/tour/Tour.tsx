@@ -3,8 +3,8 @@ import {TourProvider} from './TourProvider';
 
 export interface StepProps {
   isFallback?: boolean;
-  onBefore?: () => Promise<void>;
-  onAfter?: () => Promise<void>;
+  onBefore?: () => Promise<any>;
+  onAfter?: () => Promise<any>;
 }
 
 export interface StepInternalProps {
