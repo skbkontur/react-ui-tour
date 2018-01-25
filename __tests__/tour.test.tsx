@@ -16,6 +16,44 @@ const Step1 = withStep('id1');
 const Step2 = withStep('id2');
 const Step3 = withStep('id3');
 
+describe('Tour. basic scenario', () => {
+  let wrapper;
+  beforeAll(() => {
+    wrapper = mount(
+      <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
+        <Tour id="someid">
+          <Step render={Step1}/>
+          <Step render={Step2}/>
+          <Step render={Step3}/>
+        </Tour>
+      </TourProvider>
+    )
+  })
+  it('only first step will be rendered on start', () => {
+    expect(wrapper.find('#id1').length).toBe(1)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+  it('after next click only second tour is showing', () => {
+    wrapper.find('.next').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(1)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+  it('after prev click only first is rendering', () => {
+    wrapper.find('.prev').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(1)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+  it('after close nothing is showing', () => {
+    wrapper.find('.close').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)
+  })
+})
+
 describe('Tour. onBefore, onAfter', () => {
   let wrapper;
   const beforeStep1 = jest.fn();
