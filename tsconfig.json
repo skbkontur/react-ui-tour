@@ -16,8 +16,6 @@
     "outDir": "./build"
   },
   "include": [
-    "src",
-    "__tests__",
-    "stories"
+    "src/lib/**/*"
   ]
 }

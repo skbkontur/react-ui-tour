@@ -1,14 +1,10 @@
 var fs = require('fs');
-var ncp = require('ncp').ncp;
-const path = require('path');
+var cpx = require('cpx');
+var path = require('path');
 
-ncp.limit = 1000;
-
-var source = path.join(__dirname, './src/lib');
+var source = path.join(__dirname, './src/lib/**/*.less');
 var destination = path.join(__dirname, './build');
-var options = {
-  filter: /^[A-Za-z\-\/]*(\.less|$)/
-};
+var options = {clean: true};
 
 (function deleteFolderRecursive (path) {
   if (fs.existsSync(path)) {
@@ -24,15 +20,16 @@ var options = {
   }
 })(destination);
 
-ncp(source, destination, options, function (err) {
+
+cpx.copySync(source, destination, options, function (err) {
   if (err) {
     return console.error(err);
   }
-})
+});
 
 var exec = require('child_process').exec;
 var child = exec('tsc', function (error, stdout, stderr) {
   if (error !== null) {
     console.log('tsc error: ' + error);
   }
-})
+});
