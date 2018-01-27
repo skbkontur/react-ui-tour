@@ -28,7 +28,7 @@ cpx.copySync(source, destination, options, function (err) {
 });
 
 var exec = require('child_process').exec;
-var child = exec('tsc', function (error, stdout, stderr) {
+var child = exec('tsc -p tsconfig.prod.json', function (error, stdout, stderr) {
   if (error !== null) {
     console.log('tsc error: ' + error);
   }
