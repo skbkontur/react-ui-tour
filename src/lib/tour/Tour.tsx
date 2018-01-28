@@ -21,7 +21,7 @@ export interface TourProps {
 
 const SAFETY_EMPTY_INDEX = 10000;
 
-export class Tour extends React.Component<TourProps> {
+export class Tour extends React.Component<TourProps, {}> {
   static contextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,
   };

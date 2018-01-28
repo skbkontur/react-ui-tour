@@ -8,7 +8,7 @@ export interface StepOuterProps {
 
 export interface IStep extends StepOuterProps, StepProps, Partial<StepInternalProps> {}
 
-export class Step extends React.Component<IStep> {
+export class Step extends React.Component<IStep, {}> {
   render() {
     const {render, onNext, onPrev, onClose, stepIndex, stepsCount} = this.props;
 

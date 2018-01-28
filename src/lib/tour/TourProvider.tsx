@@ -5,7 +5,7 @@ export interface TourProviderProps {
   onTourShown: (id: string) => void;
 }
 
-export class TourProvider extends React.Component<TourProviderProps> {
+export class TourProvider extends React.Component<TourProviderProps, {}> {
   static contextName = '__tour__';
   static childContextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,

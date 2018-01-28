@@ -30,7 +30,7 @@ export interface TooltipStepOuterProps {
 
 export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Partial<StepInternalProps> {}
 
-export class TooltipStep extends React.Component<TooltipStepProps> {
+export class TooltipStep extends React.Component<TooltipStepProps, {}> {
   tooltipRect = null;
   highlightRect = null;
 

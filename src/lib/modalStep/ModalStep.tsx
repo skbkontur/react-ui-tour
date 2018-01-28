@@ -14,7 +14,7 @@ export interface ModalStepOuterProps {
 
 export interface ModalStepProps extends ModalStepOuterProps, StepProps, Partial<StepInternalProps> {}
 
-export class ModalStep extends React.Component<ModalStepProps> {
+export class ModalStep extends React.Component<ModalStepProps, {}> {
   render() {
     const {header, content
       , footer, onNext
