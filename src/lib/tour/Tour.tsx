@@ -19,6 +19,8 @@ export interface TourProps {
   id: string;
 }
 
+const SAFETY_EMPTY_INDEX = 10000;
+
 export class Tour extends React.Component<TourProps> {
   static contextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,
@@ -104,6 +106,7 @@ export class Tour extends React.Component<TourProps> {
     const prevStep = this.steps[prevInd];
     prevStep && prevStep.props.onAfter && prevStep.props.onAfter()
     if (step && step.props.onBefore) {
+      this.updateIndex(SAFETY_EMPTY_INDEX)
       step.props.onBefore()
         .then(() => this.updateIndex(ind))
     } else {
@@ -111,6 +114,7 @@ export class Tour extends React.Component<TourProps> {
     }
   };
 
+  //todo: do not show finalStep if step is last
   handleClose = () => {
     const {stepIndex} = this.state;
     const hasFinalStepToGo = this.finalStepIndex >= 0

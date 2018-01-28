@@ -192,6 +192,7 @@ describe('Tour. Api', () => {
   })
   it('subscribe will be called after render', () => {
     expect(subscribe.mock.calls.length).toBe(1);
+    expect(onShown.mock.calls.length).toBe(0);
   })
   it('onShown and unsubscribe called after close', () => {
     wrapper.find('.close').simulate('click')
