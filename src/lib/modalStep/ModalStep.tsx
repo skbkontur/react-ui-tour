@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Modal from '@skbkontur/react-ui/components/Modal';
+import Button from '@skbkontur/react-ui/components/Button';
 
 import {StepProps, StepInternalProps} from '../tour/Tour'
 
@@ -23,7 +24,7 @@ export class ModalStep extends React.Component<ModalStepProps> {
         <Modal.Header>{header}</Modal.Header>
         <Modal.Body>{content}</Modal.Body>
         <Modal.Footer>
-          <button onClick={onNext}>next</button>
+          <Button use="primary" onClick={onNext}>Поехали</Button>
         </Modal.Footer>
       </Modal>
     )
