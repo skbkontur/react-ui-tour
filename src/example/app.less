@@ -1,12 +1,59 @@
-html, body {
+html,
+body {
   height: 100%;
 }
 body {
-  padding: 0;
   margin: 0;
-  font: 14px 'Segoe UI', Helvetica, Arial, sans-serif;
-  color: #f2f2f2;
+  font: 14px "Segoe UI", Helvetica, Arial, sans-serif;
+  color: #333;
   line-height: 1.42;
-  background: #333;
-  padding: 30px;
+  overflow: hidden;
+}
+
+.container {
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
+}
+
+.demo {
+  position: absolute;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  font-size: 22px;
+  line-height: 70px;
+  height: 70px;
+  width: 120px;
+  text-align: center;
+}
+
+.demo1 {
+  .demo();
+  left: 0;
+  top: 0;
+}
+
+.demo2 {
+  .demo();
+  right: -200px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transition: .5s;
+  &.shown {
+    right: 0;
+  }
+}
+
+.demo3 {
+  .demo();
+  left: -200px;
+  bottom: 0;
+  transition: .5s;
+  &.shown {
+    left: 0;
+  }
 }
