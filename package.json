@@ -1,7 +1,7 @@
 {
-  "name": "extern-tour-js",
+  "name": "react-ui-tour",
   "version": "0.0.1",
-  "description": "",
+  "description": "react tours library",
   "repository": "https://git.skbkontur.ru/vtolstikov/tour.git",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -10,6 +10,7 @@
     "build": "node build.prod.js",
     "cmbuild": "npm i && npm run build",
     "storybook": "start-storybook -p 6006",
+    "prepublish": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -56,6 +57,7 @@
   "keywords": [],
   "author": "Vladimir Tolstikov",
   "license": "ISC",
+  "files": ["build/"],
   "jest": {
     "setupFiles": [
       "./setupTests.ts"
