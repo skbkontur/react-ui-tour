@@ -3,6 +3,7 @@
 pages:
   stage: deploy
   script:
+  - npm i && npm run build
   - mkdir .public
   - cp -r * .public
   - mv .public public
