@@ -3,7 +3,7 @@
 pages:
   stage: deploy
   script:
-  - npm i && webpack
+  - npm i && npm run build-doc
   - mkdir .public
   - cp -r * .public
   - mv .public public
