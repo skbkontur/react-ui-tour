@@ -15,7 +15,7 @@ Place `TourProvider` at the root of your app:
 
 Then, anywhere inside the `TourProvider` add a `Tour` with some [steps](#steps):
 ```tsx
-<Tour id='My Tour' />
+<Tour id='My Tour' >
   <TooltipStep
     target={() => document.getElementById('id-1')}
     positions={['bottom right', 'right bottom']}
