@@ -3,7 +3,7 @@ var cpx = require('cpx');
 var path = require('path');
 
 var source = path.join(__dirname, './src/lib/**/*.less');
-var destination = path.join(__dirname, './build');
+var destination = path.join(__dirname, './public');
 var options = {clean: true};
 
 (function deleteFolderRecursive (path) {
