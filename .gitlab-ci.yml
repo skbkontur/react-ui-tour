@@ -4,9 +4,9 @@ pages:
   stage: deploy
   script:
   - npm i && npm run build
-  - mkdir .public
-  - cp -r * .public
-  - mv .public public
+  - mkdir .dist
+  - cp -r * .dist
+  - mv .dist dist
   artifacts:
     paths:
     - dist
