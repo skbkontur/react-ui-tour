@@ -10,14 +10,16 @@ export interface HighlightProps {
 
 export function Highlight(props: HighlightProps) {
   const {pos, root, backgroundColor} = props;
+  const width = pos.right - pos.left;
+  const height = pos.bottom - pos.top;
   const computedStyles: React.CSSProperties = {
     borderColor: backgroundColor,
     borderTopWidth: pos.top + document.documentElement.scrollTop,
     borderLeftWidth: pos.left + document.documentElement.scrollLeft,
     borderRightWidth: document.documentElement.offsetWidth - pos.right,
     borderBottomWidth: document.documentElement.offsetHeight - pos.bottom,
-    width: pos.width,
-    height: pos.height,
+    width: width,
+    height: height,
   };
 
   return (
