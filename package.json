@@ -1,6 +1,6 @@
 {
   "name": "react-ui-tour",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "react tours library",
   "repository": "https://git.skbkontur.ru/vtolstikov/tour.git",
   "main": "./build/index.js",
