@@ -38,7 +38,7 @@ export function showReact(initialState, reactContainer) {
   const demo2 = () => document.querySelector("[data-tour-id=demo2]");
   const demo3 = () => document.querySelector("[data-tour-id=demo3]");
 
-  class App extends React.Component {
+  class App extends React.Component<{}, {}> {
     state = {
       demo2isShown: false,
       demo3isShown: false
