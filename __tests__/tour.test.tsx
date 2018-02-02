@@ -3,6 +3,15 @@ import {mount} from 'enzyme';
 
 import {TourProvider, Tour, Step} from '../src/lib';
 
+jest.useFakeTimers();
+
+const createDelay = (ms) => (fn) => {
+  return new Promise(res => {
+    setTimeout(() => {fn(), res()}, ms)
+  })
+}
+
+
 const withStep = (id: string) =>
   ({onNext, onPrev, onClose}) => (
     <div id={id}>
@@ -60,47 +69,60 @@ describe('Tour. onBefore, onAfter', () => {
   const beforeStep2 = jest.fn();
   const afterStep1 = jest.fn();
   const afterStep2 = jest.fn();
-  const onBefore1 = () => Promise.resolve().then(beforeStep1);
-  const onBefore2 = () => Promise.resolve().then(beforeStep2);
-  const onAfter1 = () => Promise.resolve().then(afterStep1);
-  const onAfter2 = () => Promise.resolve().then(afterStep2);
+  const onShown = jest.fn()
+  const delay = createDelay(1000);
+  const onBefore1 = () => delay(beforeStep1);
+  const onBefore2 = () => delay(beforeStep2);
+  const onAfter1 = () => delay(afterStep1);
+  const onAfter2 = () => delay(afterStep2);
   const cbs = [beforeStep1, afterStep1, beforeStep2, afterStep2]
   const getCalls = (cbs) => cbs.map(cb => cb.mock.calls.length).join(' ');
   beforeAll(() => {
     wrapper = mount(
-      <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
+      <TourProvider predicate={(id) => true} onTourShown={(id) => onShown(id)}>
         <Tour id="someid">
           <Step onBefore={onBefore1} onAfter={onAfter1} render={Step1}/>
           <Step onBefore={onBefore2} onAfter={onAfter2} render={Step2}/>
         </Tour>
       </TourProvider>
     )
-  })
-  it('only first step will be rendered on start', () => {
-    wrapper.update();
+  });
+
+  it('only onBefore will be called on start', () => {
+    jest.runOnlyPendingTimers();
     expect(getCalls(cbs)).toBe('1 0 0 0');
   })
-  it('after next click only second tour is showing', () => {
+  it('after next click onAfter should be called', () => {
+    wrapper.update();
     wrapper.find('.next').simulate('click')
-    return Promise.resolve().then(() => {
-      expect(getCalls(cbs)).toBe('1 1 1 0');
-    }).then(() => {
-      wrapper.update();
-    })
+    jest.runOnlyPendingTimers();
+    expect(getCalls(cbs)).toBe('1 1 0 0');
   })
-  it('after prev click only first is rendering', () => {
+  it('onBefore should be called right after onAfter', () => {
+    jest.runOnlyPendingTimers();
+    expect(getCalls(cbs)).toBe('1 1 1 0');
+  })
+  it('after prev click onAfter should be called', () => {
+    wrapper.update();
     wrapper.find('.prev').simulate('click')
-    return Promise.resolve().then(() => {
-      expect(getCalls(cbs)).toBe('2 1 1 1');
-    }).then(() => {
-      wrapper.update();
-    })
+    jest.runOnlyPendingTimers();
+    expect(getCalls(cbs)).toBe('1 1 1 1');
   })
-  it('after close nothing is showing', () => {
+  it('onBefore should be called right after onAfter', () => {
+    jest.runOnlyPendingTimers();
+    expect(getCalls(cbs)).toBe('2 1 1 1');
+  })
+  it('after close just onAfter will be called', () => {
+    wrapper.update();
     wrapper.find('.close').simulate('click')
-    return Promise.resolve().then(() => {
-      expect(getCalls(cbs)).toBe('2 2 1 1');
-    })
+    jest.runOnlyPendingTimers();
+    expect(onShown).not.toHaveBeenCalled();
+    expect(getCalls(cbs)).toBe('2 2 1 1');
+  })
+  it('onShown should be called right after onAfter', () => {
+    jest.runOnlyPendingTimers();
+    expect(getCalls(cbs)).toBe('2 2 1 1');
+    expect(onShown).toHaveBeenCalledWith('someid')
   })
 })
 

@@ -21,6 +21,7 @@ export interface TourProps {
 
 const SAFETY_EMPTY_INDEX = 10000;
 
+//todo: avoid extra rerendering
 export class Tour extends React.Component<TourProps, {}> {
   static contextTypes = {
     [TourProvider.contextName]: React.PropTypes.object.isRequired,
@@ -104,14 +105,26 @@ export class Tour extends React.Component<TourProps, {}> {
   moveTo = (ind, prevInd) => {
     const step = this.steps[ind];
     const prevStep = this.steps[prevInd];
-    prevStep && prevStep.props.onAfter && prevStep.props.onAfter()
-    if (step && step.props.onBefore) {
-      this.updateIndex(SAFETY_EMPTY_INDEX)
-      step.props.onBefore()
-        .then(() => this.updateIndex(ind))
-    } else {
+    const onBefore = step && step.props.onBefore;
+    const onAfter = prevStep && prevStep.props.onAfter;
+
+    if (!onBefore && !onAfter) {
       this.updateIndex(ind);
+      return;
     }
+
+    const resolve = () => Promise.resolve();
+
+    const before = onBefore || resolve
+    const after = onAfter || resolve
+
+    this.updateIndex(SAFETY_EMPTY_INDEX)
+    after().then(() => {
+      this.updateIndex(SAFETY_EMPTY_INDEX)
+      return before();
+    }).then(() => {
+      this.updateIndex(ind);
+    })
   };
 
   //todo: do not show finalStep if step is last
