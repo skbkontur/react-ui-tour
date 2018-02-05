@@ -9,7 +9,7 @@ describe('Highlight testing', () => {
   it('should render a Highlight', () => {
     const wrapper = shallow(<Highlight
       pos={document.documentElement.getBoundingClientRect()}
-      root={customHighlight}
+      highlight={customHighlight}
     />);
 
     expect(wrapper.prop('children')).toEqual(customHighlight);
@@ -18,8 +18,8 @@ describe('Highlight testing', () => {
   it('should render a Highlight with backgroundColor and rootOffset', () => {
     const wrapper = shallow(<Highlight
       pos={document.documentElement.getBoundingClientRect()}
-      root={customHighlight}
-      backgroundColor='red'
+      highlight={customHighlight}
+      color='red'
     />);
 
     expect(wrapper.prop('style').borderColor).toEqual('red');

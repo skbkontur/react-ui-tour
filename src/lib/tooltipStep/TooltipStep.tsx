@@ -1,19 +1,12 @@
 import * as React from 'react';
 import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
+import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import {Highlight} from '../components/highlight/Highlight';
+import {TooltipHighlight} from '../components/highlight/TooltipHighlight';
 import {Tooltip} from './Tooltip';
 import {MultiStepFooter} from '../components/MultiStepFooter';
 import {StepProps, StepInternalProps} from '../tour/Tour'
-const styles = require('./TooltipStep.less');
-
-const initialRect = {
-  top: 0,
-  left: 0,
-  width: 0,
-  height: 0,
-} as ClientRect;
 
 export interface TooltipStepOuterProps {
   target: () => Element;
@@ -31,22 +24,11 @@ export interface TooltipStepOuterProps {
 export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Partial<StepInternalProps> {}
 
 export class TooltipStep extends React.Component<TooltipStepProps, {}> {
-  tooltipRect = null;
-  highlightRect = null;
-
-  constructor(props: TooltipStepProps) {
-    super(props);
-    const target = props.target();
-    const highlightTarget = props.highlightTarget && props.highlightTarget();
-    this.tooltipRect = target && target.getBoundingClientRect() || initialRect;
-    this.highlightRect = highlightTarget && highlightTarget.getBoundingClientRect() || initialRect;
-  }
-
   render() {
     const {
-      target, highlightTarget, header, content,
+      target, header, content, highlight,
       footer, width, onNext, onPrev, onClose, render,
-      positions, highlight, offset, stepsCount, stepIndex
+      positions, offset, stepsCount, stepIndex
     } = this.props;
 
     const renderTooltip = () => {
@@ -70,11 +52,10 @@ export class TooltipStep extends React.Component<TooltipStepProps, {}> {
         />
       );
     };
-    const hTargetRoot = highlightTarget && highlightTarget();
 
     return (
-      <RenderContainer>
-        <div className={styles.popupWrapper} onClick={onClose}>
+      <span>
+        <RenderLayer onClickOutside={onClose} onFocusOutside={() => {}} active>
           <Popup
             anchorElement={target()}
             positions={positions}
@@ -89,37 +70,26 @@ export class TooltipStep extends React.Component<TooltipStepProps, {}> {
               ? renderTooltip()
               : render({onNext, onPrev, onClose, stepIndex, stepsCount})}
           </Popup>
-          <TooltipHighlight
-            highlightElem={highlight}
-            position={hTargetRoot ? this.highlightRect : this.tooltipRect}
-          />
-        </div>
-      </RenderContainer>
+        </RenderLayer>
+        <RenderContainer>
+          {this.renderHighlight()}
+        </RenderContainer>
+      </span>
     );
   }
-}
 
-export function TooltipHighlight({highlightElem, position}) {
-  highlightElem = highlightElem || <div/>;
-  const highlightRoot = React.cloneElement(
-    highlightElem,
-    {
-      ...highlightElem.props,
-      style: {
-        ...highlightElem.props.style,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-      },
-    }
-  );
+  renderHighlight() {
+    const {highlightTarget, highlight} = this.props;
 
-  return (
-    <Highlight
-      pos={position}
-      root={highlightRoot}
-    />
-  );
+    const target = highlightTarget ? highlightTarget() : this.props.target();
+
+    if (!highlight || !target) return null;
+
+    return (
+      <TooltipHighlight
+        highlight={highlight}
+        target={target}
+      />
+    )
+  }
 }
