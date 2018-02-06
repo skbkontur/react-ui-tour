@@ -227,3 +227,43 @@ describe('Tour. Api', () => {
     expect(onShown.mock.calls.length).toBe(1);
   })
 })
+
+export class TourContainer extends React.Component {
+  tour = null;
+
+  render() {
+    return (
+      <div>
+        <TourProvider predicate={(id) => true} onTourShown={() => {}}>
+          <Tour id="someid" ref={(tour) => this.tour = tour}>
+            {this.props.children}
+          </Tour>
+        </TourProvider>
+        <button className="run" onClick={this.run}>run</button>
+      </div>
+    )
+  }
+
+  run = () => {
+    this.tour.run();
+  }
+}
+
+describe('Tour. restart', () => {
+  let wrapper;
+  beforeAll(() => {
+    wrapper = mount(
+      <TourContainer>
+        <Step render={Step1}/>
+        <Step render={Step2}/>
+      </TourContainer>
+    )
+  })
+  it('tour should start again', () => {
+    expect(wrapper.find('#id1').length).toBe(1)
+    wrapper.find('.close').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    wrapper.find('.run').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(1)
+  })
+})
