@@ -8,7 +8,7 @@ export interface PointsProps {
 }
 
 export function Points(props: PointsProps) {
-  const points = [];
+  const points = [] as React.ReactElement<any>[];
   for (let i = 1; i <= props.count; i++) {
     if (i === props.activePointIndex) {
       points.push(<span key={i} className={

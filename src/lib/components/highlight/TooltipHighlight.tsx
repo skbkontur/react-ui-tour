@@ -19,7 +19,7 @@ export class TooltipHighlight extends React.Component<HighlightProps> {
   state = {
     pos: initialRect
   }
-  _layoutEventsToken = null;
+  _layoutEventsToken;
   render() {
     const {target, highlight} = this.props;
 
