@@ -71,9 +71,7 @@ export class TooltipStep extends React.Component<TooltipStepProps, {}> {
               : render({onNext, onPrev, onClose, stepIndex, stepsCount})}
           </Popup>
         </RenderLayer>
-        <RenderContainer>
-          {this.renderHighlight()}
-        </RenderContainer>
+        {this.renderHighlight()}
       </span>
     );
   }
@@ -86,10 +84,12 @@ export class TooltipStep extends React.Component<TooltipStepProps, {}> {
     if (!highlight || !target) return null;
 
     return (
-      <TooltipHighlight
-        highlight={highlight}
-        target={target}
-      />
+      <RenderContainer>
+        <TooltipHighlight
+          highlight={highlight}
+          target={target}
+        />
+      </RenderContainer>
     )
   }
 }
