@@ -34,6 +34,7 @@ export class TooltipHighlight extends React.Component<HighlightProps> {
   componentDidMount() {
     this.reflow();
 
+    //add throttle
     this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
   }
 
