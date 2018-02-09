@@ -11,7 +11,7 @@
     "build-doc": "webpack",
     "cmbuild": "npm i && npm run build",
     "storybook": "start-storybook -p 6006",
-    "prepublish": "npm run build",
+    "prepublish": "npm run test && npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"

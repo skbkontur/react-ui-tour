@@ -21,23 +21,16 @@ var options = {clean: true};
   }
 })(destination);
 
-var testProcess = exec('npm run test', function (error, stdout, stderr) {
+cpx.copySync(source, destination, options, function (err) {
+  if (err) {
+    console.error(err);
+    throw err;
+  }
+});
+
+var tscProcess = exec('tsc -p tsconfig.prod.json', function (error, stdout, stderr) {
   if (error !== null) {
-    console.error('test error:');
+    console.error('tsc error:');
     throw error;
   }
-
-  cpx.copySync(source, destination, options, function (err) {
-    if (err) {
-      console.error(err);
-      throw err;
-    }
-  });
-
-  var tscProcess = exec('tsc -p tsconfig.prod.json', function (error, stdout, stderr) {
-    if (error !== null) {
-      console.error('tsc error:');
-      throw error;
-    }
-  });
 });
