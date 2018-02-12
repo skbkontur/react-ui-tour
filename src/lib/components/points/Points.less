@@ -1,0 +1,30 @@
+:local {
+  .tooltipPoint {
+    display: inline-block;
+    padding-right: 4px;
+    width: 8px;
+  }
+
+  .tooltipPointActive {
+    position: relative;
+    top: 1px;
+    width: 10px !important;
+  }
+
+  .tooltipPoint:before {
+    content: "\25cf";
+    font-size: 16px;
+    color: #d7d7d7;
+  }
+
+  .tooltipPointActive:before {
+    color: #4a90e2;
+    font-size: 20px;
+  }
+
+  .tooltipSelector {
+    display: inline-block;
+    position: relative;
+    top: 6px;
+  }
+}

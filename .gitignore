@@ -1,0 +1,14 @@
+manifest.json
+node_modules
+dist
+**.DS_Store
+**.less.d.ts
+
+.awcache
+.idea
+build
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
