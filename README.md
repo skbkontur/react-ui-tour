@@ -1,7 +1,5 @@
 # ReactUI tours library
 
-[Demo](http://vtolstikov.gitlab-pages.dev.kontur/tour/)
-
 ## Documentation
 
 Basic usage:

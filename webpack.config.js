@@ -4,6 +4,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 var es3ifyPlugin = require('es3ify-webpack-plugin');
 
 let production = false;
@@ -21,7 +22,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/dist/',
+    publicPath: production ? 'http://tech.skbkontur.ru/react-ui-tour/' : '/dist/',
     filename: production ? '[name].[hash].js' : '[name].js',
     library: ['[name]'],
     libraryTarget: 'umd',
@@ -50,12 +51,10 @@ module.exports = {
   plugins: [
     new webpack.WatchIgnorePlugin([ /less\.d\.ts$/ ]),
     new ExtractTextPlugin(production ? '[name].[hash].css' : '[name].css'),
-  ].concat(!production ? [] : [
-    new WebpackCleanupPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
-    new es3ifyPlugin()
-  ]),
+    new HtmlWebpackPlugin(),
+    new WebpackCleanupPlugin({
+      exclude: ['.git/**/*', '.*']
+    })
+  ],
   devtool: production ? null : 'inline-source-map',
 }
