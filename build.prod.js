@@ -1,6 +1,7 @@
 var fs = require('fs');
 var cpx = require('cpx');
 var path = require('path');
+var exec = require('child_process').exec;
 
 var source = path.join(__dirname, './src/lib/**/*.less');
 var destination = path.join(__dirname, './build');
@@ -20,17 +21,16 @@ var options = {clean: true};
   }
 })(destination);
 
-
 cpx.copySync(source, destination, options, function (err) {
   if (err) {
-    return console.error(err);
+    console.error(err);
+    throw err;
   }
 });
 
-var exec = require('child_process').exec;
-//todo: throw error
-var child = exec('tsc -p tsconfig.prod.json', function (error, stdout, stderr) {
+var tscProcess = exec('tsc -p tsconfig.prod.json', function (error, stdout, stderr) {
   if (error !== null) {
-    console.log('tsc error: ' + error);
+    console.error('tsc error:');
+    throw error;
   }
 });
