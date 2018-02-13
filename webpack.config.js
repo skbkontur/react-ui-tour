@@ -15,6 +15,7 @@ for (let i = 2; i < process.argv.length; i++){
   }
 }
 
+//todo: turn off warnings
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {

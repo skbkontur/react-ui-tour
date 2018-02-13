@@ -9,6 +9,7 @@
     "start": "webpack-dev-server",
     "build": "node build.prod.js",
     "build-doc": "webpack -p",
+    "publish-doc": "rimraf dist && git clone -b gh-pages git@github.com:skbkontur/react-ui-tour.git dist && npm run build-doc && cd dist && git add --all && git commit --allow-empty -m \"published doc\" && git push && cd ..",
     "cmbuild": "npm i && npm run build",
     "storybook": "start-storybook -p 6006",
     "prepublish": "npm run build",
