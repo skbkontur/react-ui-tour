@@ -2,7 +2,8 @@ export * from './tour/TourProvider';
 export * from './tour/Tour';
 export * from './step/step';
 export * from './tooltipStep/TooltipStep'
-export * from './tooltipStep/Tooltip'
+export * from './components/tooltip/Tooltip'
+export * from './components/tooltip/TooltipParts'
 export * from './modalStep/ModalStep'
 export * from './components/highlight/Highlight'
 export * from './components/points/Points'

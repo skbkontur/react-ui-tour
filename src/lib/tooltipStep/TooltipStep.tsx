@@ -4,7 +4,7 @@ import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
 import {TooltipHighlight} from '../components/highlight/TooltipHighlight';
-import {Tooltip} from './Tooltip';
+import {Tooltip} from '../components/tooltip/Tooltip';
 import {MultiStepFooter} from '../components/MultiStepFooter';
 import {StepProps, StepInternalProps} from '../tour/Tour'
 
@@ -26,15 +26,15 @@ export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Part
 export class TooltipStep extends React.Component<TooltipStepProps, {}> {
   render() {
     const {
-      target, header, content, highlight,
-      footer, width, onNext, onPrev, onClose, render,
-      positions, offset, stepsCount, stepIndex
+      target, header, content, footer, width,
+      onNext, onPrev, onClose, render,
+      positions, offset, stepsCount
     } = this.props;
+    const stepIndex = this.props.stepIndex + 1;
 
     const renderTooltip = () => {
-      const stepIndex = this.props.stepIndex + 1;
       const footerContent = footer &&
-        footer({onNext, onPrev, stepsCount, stepIndex: stepIndex + 1, onClose}) ||
+        footer({onNext, onPrev, stepsCount, stepIndex, onClose}) ||
         <MultiStepFooter
           points={stepsCount}
           activePoint={stepIndex}
