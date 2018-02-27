@@ -1,10 +1,12 @@
 import * as React from 'react';
 import {TourProvider} from './TourProvider';
+import {processMove} from './processMove'
 
 export interface StepProps {
   isFallback?: boolean;
   onBefore?: () => Promise<any>;
   onAfter?: () => Promise<any>;
+  group?: string;
 }
 
 export interface StepInternalProps {
@@ -109,26 +111,13 @@ export class Tour extends React.Component<TourProps, {}> {
   moveTo = (ind, prevInd) => {
     const step = this.steps[ind];
     const prevStep = this.steps[prevInd];
-    const onBefore = step && step.props.onBefore;
-    const onAfter = prevStep && prevStep.props.onAfter;
 
-    if (!onBefore && !onAfter) {
-      this.updateIndex(ind);
-      return;
-    }
-
-    const resolve = () => Promise.resolve();
-
-    const before = onBefore || resolve
-    const after = onAfter || resolve
-
-    this.updateIndex(SAFETY_EMPTY_INDEX)
-    after().then(() => {
-      this.updateIndex(SAFETY_EMPTY_INDEX)
-      return before();
-    }).then(() => {
-      this.updateIndex(ind);
-    })
+    processMove(
+      prevStep,
+      step,
+      () => this.updateIndex(ind),
+      () => this.updateIndex(SAFETY_EMPTY_INDEX)
+    );
   };
 
   //todo: do not show finalStep if step is last
