@@ -87,6 +87,7 @@ class App extends React.Component<{}, {}> {
               content={defaultContent}
               highlight={customHighlight}
               offset={30}
+              pinOptions={{hasPin: false}}
               onBefore={() =>
                 new Promise((res) => {
                   this.setState({ demo2isShown: true });
