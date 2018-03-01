@@ -66,8 +66,10 @@ describe('Tour. basic scenario', () => {
 describe('Tour. onBefore, onAfter, onOpen', () => {
   let wrapper;
   const onShown = jest.fn()
-  const cbs = new Array(6).fill(0).map(() => jest.fn(() => Promise.resolve()));
-  const [onBefore1, onAfter1, onBefore2, onAfter2, onOpen1, onOpen2] = cbs;
+  const cbs = new Array(4).fill(0).map(() => jest.fn(() => Promise.resolve()));
+  const [onBefore1, onAfter1, onBefore2, onAfter2] = cbs;
+  const onOpen1 = jest.fn();
+  const onOpen2 = jest.fn();
   const getCalls = (cbs) => cbs.map(cb => cb.mock.calls.length).join(' ');
   beforeAll(() => {
     wrapper = mount(
@@ -81,32 +83,42 @@ describe('Tour. onBefore, onAfter, onOpen', () => {
   });
 
   it('only onBefore will be called on start', () => {
-    expect(getCalls(cbs)).toBe('1 0 0 0 0 0');
+    expect(getCalls(cbs)).toBe('1 0 0 0');
+  })
+  it('onOpen in the first step will be called', () => {
+    expect(onOpen1).toHaveBeenCalledTimes(1);
+    expect(onOpen2).toHaveBeenCalledTimes(0);
   })
   it('after next click onAfter should be called', () => {
     wrapper.update()
     wrapper.find('.next').simulate('click')
-    expect(getCalls(cbs)).toBe('1 1 0 0 0 0');
+    expect(getCalls(cbs)).toBe('1 1 0 0');
   })
-  it('onBefore & onOpen should be called right after onAfter', () => {
-    expect(getCalls(cbs)).toBe('1 1 1 0 0 1');
+  it('onOpen in the second step will be called', () => {
+    expect(onOpen2).toHaveBeenCalledTimes(1);
+  })
+  it('onBefore should be called right after onAfter', () => {
+    expect(getCalls(cbs)).toBe('1 1 1 0');
   })
   it('after prev click onAfter should be called', () => {
     wrapper.update();
     wrapper.find('.prev').simulate('click')
-    expect(getCalls(cbs)).toBe('1 1 1 1 0 1');
+    expect(getCalls(cbs)).toBe('1 1 1 1');
   })
-  it('onBefore & onOpen should be called right after onAfter', () => {
-    expect(getCalls(cbs)).toBe('2 1 1 1 1 1');
+  it('onBefore should be called right after onAfter', () => {
+    expect(getCalls(cbs)).toBe('2 1 1 1');
+  })
+  it('onOpen in the first step will be called again', () => {
+    expect(onOpen1).toHaveBeenCalledTimes(2);
   })
   it('after close just onAfter will be called', () => {
     wrapper.update();
     wrapper.find('.close').simulate('click')
     expect(onShown).not.toHaveBeenCalled();
-    expect(getCalls(cbs)).toBe('2 2 1 1 1 1');
+    expect(getCalls(cbs)).toBe('2 2 1 1');
   })
   it('onShown should be called right after onAfter', () => {
-    expect(getCalls(cbs)).toBe('2 2 1 1 1 1');
+    expect(getCalls(cbs)).toBe('2 2 1 1');
     expect(onShown).toHaveBeenCalledWith('someid')
   })
 })

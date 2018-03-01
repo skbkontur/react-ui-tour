@@ -74,11 +74,13 @@ export class Tour extends React.Component<TourProps, {}> {
     this.unsubscribe();
   }
 
-  showTour = () => {
-    this.setState({active: true, stepIndex: 0})
+  showTour = (clb: () => void) => {
+    this.setState(
+      {active: true, stepIndex: 0},
+      () => clb && clb());
   }
 
-  updateIndex = (index) => {
+  updateIndex = (index: number) => {
     this.setState({stepIndex: index}, () => {
       if (this.state.stepIndex === this.steps.length) {
         this.closeTour();
@@ -88,13 +90,15 @@ export class Tour extends React.Component<TourProps, {}> {
 
   run = () => {
     const firstStep = this.steps[0];
-    const {onBefore} = firstStep.props;
+    const {onBefore, onOpen} = firstStep.props;
+
     if (onBefore) {
       return onBefore().then(() => {
-        this.showTour();
+        this.showTour(onOpen);
       })
     }
-    this.showTour();
+
+    this.showTour(onOpen);
   }
 
   handleNext = () => this.move(this.state.stepIndex, (a, b) => a + b);

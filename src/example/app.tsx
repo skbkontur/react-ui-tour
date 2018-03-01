@@ -73,6 +73,11 @@ class App extends React.Component<{}, {}> {
             <ModalStep
               header="Это приветственный шаг первого тура"
               content="А это текст для приветственного шага"
+              onBefore={() => new Promise((res) =>
+                setTimeout(res, 500)
+              )}
+              onAfter={() => new Promise((res) => res())}
+              onOpen={() => console.log('Это приветственный шаг, onOpen')}
             />
             <TooltipStep
               target={demo1}
