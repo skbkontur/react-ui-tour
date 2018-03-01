@@ -6,6 +6,7 @@ export interface StepProps {
   isFallback?: boolean;
   onBefore?: () => Promise<any>;
   onAfter?: () => Promise<any>;
+  onOpen?: () => void;
   group?: string;
 }
 
@@ -115,7 +116,10 @@ export class Tour extends React.Component<TourProps, {}> {
     processMove(
       prevStep,
       step,
-      () => this.updateIndex(ind),
+      () => {
+        this.updateIndex(ind);
+        step && step.props.onOpen && step.props.onOpen();
+      },
       () => this.updateIndex(SAFETY_EMPTY_INDEX)
     );
   };
