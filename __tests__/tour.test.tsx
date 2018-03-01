@@ -2,15 +2,15 @@ import * as React from 'react';
 import {mount} from 'enzyme';
 
 import {TourProvider, Tour, Step} from '../src/lib';
+import {processMove} from '../src/lib/tour/processMove'
 
 jest.useFakeTimers();
 
-const createDelay = (ms) => (fn) => {
+const createDelay = (ms) => (fn?) => {
   return new Promise(res => {
-    setTimeout(() => {fn(), res()}, ms)
+    setTimeout(() => {fn && fn(), res()}, ms)
   })
 }
-
 
 const withStep = (id: string) =>
   ({onNext, onPrev, onClose}) => (
@@ -63,65 +63,50 @@ describe('Tour. basic scenario', () => {
   })
 })
 
-describe('Tour. onBefore, onAfter', () => {
+describe('Tour. onBefore, onAfter, onOpen', () => {
   let wrapper;
-  const beforeStep1 = jest.fn();
-  const beforeStep2 = jest.fn();
-  const afterStep1 = jest.fn();
-  const afterStep2 = jest.fn();
   const onShown = jest.fn()
-  const delay = createDelay(1000);
-  const onBefore1 = () => delay(beforeStep1);
-  const onBefore2 = () => delay(beforeStep2);
-  const onAfter1 = () => delay(afterStep1);
-  const onAfter2 = () => delay(afterStep2);
-  const cbs = [beforeStep1, afterStep1, beforeStep2, afterStep2]
+  const cbs = new Array(6).fill(0).map(() => jest.fn(() => Promise.resolve()));
+  const [onBefore1, onAfter1, onBefore2, onAfter2, onOpen1, onOpen2] = cbs;
   const getCalls = (cbs) => cbs.map(cb => cb.mock.calls.length).join(' ');
   beforeAll(() => {
     wrapper = mount(
       <TourProvider predicate={(id) => true} onTourShown={(id) => onShown(id)}>
         <Tour id="someid">
-          <Step onBefore={onBefore1} onAfter={onAfter1} render={Step1}/>
-          <Step onBefore={onBefore2} onAfter={onAfter2} render={Step2}/>
+          <Step onBefore={onBefore1} onAfter={onAfter1} render={Step1} onOpen={onOpen1}/>
+          <Step onBefore={onBefore2} onAfter={onAfter2} render={Step2} onOpen={onOpen2}/>
         </Tour>
       </TourProvider>
     )
   });
 
   it('only onBefore will be called on start', () => {
-    jest.runOnlyPendingTimers();
-    expect(getCalls(cbs)).toBe('1 0 0 0');
+    expect(getCalls(cbs)).toBe('1 0 0 0 0 0');
   })
   it('after next click onAfter should be called', () => {
-    wrapper.update();
+    wrapper.update()
     wrapper.find('.next').simulate('click')
-    jest.runOnlyPendingTimers();
-    expect(getCalls(cbs)).toBe('1 1 0 0');
+    expect(getCalls(cbs)).toBe('1 1 0 0 0 0');
   })
-  it('onBefore should be called right after onAfter', () => {
-    jest.runOnlyPendingTimers();
-    expect(getCalls(cbs)).toBe('1 1 1 0');
+  it('onBefore & onOpen should be called right after onAfter', () => {
+    expect(getCalls(cbs)).toBe('1 1 1 0 0 1');
   })
   it('after prev click onAfter should be called', () => {
     wrapper.update();
     wrapper.find('.prev').simulate('click')
-    jest.runOnlyPendingTimers();
-    expect(getCalls(cbs)).toBe('1 1 1 1');
+    expect(getCalls(cbs)).toBe('1 1 1 1 0 1');
   })
-  it('onBefore should be called right after onAfter', () => {
-    jest.runOnlyPendingTimers();
-    expect(getCalls(cbs)).toBe('2 1 1 1');
+  it('onBefore & onOpen should be called right after onAfter', () => {
+    expect(getCalls(cbs)).toBe('2 1 1 1 1 1');
   })
   it('after close just onAfter will be called', () => {
     wrapper.update();
     wrapper.find('.close').simulate('click')
-    jest.runOnlyPendingTimers();
     expect(onShown).not.toHaveBeenCalled();
-    expect(getCalls(cbs)).toBe('2 2 1 1');
+    expect(getCalls(cbs)).toBe('2 2 1 1 1 1');
   })
   it('onShown should be called right after onAfter', () => {
-    jest.runOnlyPendingTimers();
-    expect(getCalls(cbs)).toBe('2 2 1 1');
+    expect(getCalls(cbs)).toBe('2 2 1 1 1 1');
     expect(onShown).toHaveBeenCalledWith('someid')
   })
 })
@@ -264,6 +249,101 @@ describe('Tour. restart', () => {
     wrapper.find('.close').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
     wrapper.find('.run').simulate('click')
-    expect(wrapper.find('#id1').length).toBe(1)
+    expect(wrapper.find('#id1').length).toBe(1) })
+})
+
+describe('processMove. delays', ()=> {
+  const delay = createDelay(1000);
+  const callbacks = new Array<jest.Mock>(4).fill(null).map(
+    () => jest.fn()
+  );
+  const [before1, before2, after1, after2] = callbacks;
+  const move = jest.fn();
+  const clear = jest.fn();
+  const [onBefore1, onBefore2, onAfter1, onAfter2] = callbacks.map(
+    cb => () => delay(cb)
+  )
+  const step1 = <Step onBefore={onBefore1} onAfter={onAfter1} render={Step1}/>
+  const step2 = <Step onBefore={onBefore2} onAfter={onAfter2} render={Step2}/>
+  processMove(step1, step2, move, clear);
+  it('nothing should be called except clear', () => {
+    expect(callbacks.reduce((acc, fn) => acc + fn.mock.calls.length, 0)).toBe(0)
+    expect(clear).toBeCalled();
+  })
+  it('after first delay onafter callback should be called', () => {
+    jest.runOnlyPendingTimers();
+    expect(callbacks.reduce((acc, fn) => acc + fn.mock.calls.length, 0)).toBe(1)
+    expect(after1).toBeCalled();
+  })
+  it('after second delay onbefore callback should be called', () => {
+    jest.runOnlyPendingTimers();
+    expect(callbacks.reduce((acc, fn) => acc + fn.mock.calls.length, 0)).toBe(2)
+    expect(before2).toBeCalled();
+  })
+  it('after all should be called move fn', () => {
+    jest.runAllTicks()
+    expect(move).toBeCalled();
+  })
+})
+
+describe('processMove. group', () => {
+  let stepProps1;
+  let stepProps2;
+  let move;
+  let clear;
+  beforeEach(() => {
+    const callbacks = new Array<jest.Mock>(4).fill(null).map(
+      () => jest.fn(() => Promise.resolve())
+    );
+    const [onBefore1, onAfter1, onBefore2, onAfter2] = callbacks
+    move = jest.fn()
+    clear = jest.fn()
+    stepProps1 = {
+      onBefore: onBefore1,
+      onAfter: onAfter1,
+      render: Step1
+    }
+    stepProps2 = {
+      onBefore: onBefore2,
+      onAfter: onAfter2,
+      render: Step2
+    }
+  })
+  it('onBefore & onAfter should not be called in same group',() => {
+    const step1 = <Step {...stepProps1} group='1'/>
+    const step2 = <Step {...stepProps2} group='1'/>
+
+    return processMove(step1, step2, move, clear).then(() => {
+      expect(move).toBeCalled();
+      expect(stepProps1.onAfter).not.toBeCalled()
+      expect(stepProps2.onBefore).not.toBeCalled()
+    })
+  })
+
+  it('onBefore & onAfter should be called in different groups',() => {
+    const step1 = <Step {...stepProps1} group='2'/>
+    const step2 = <Step {...stepProps2} group='1'/>
+
+    return processMove(step1, step2, move, clear).then(() => {
+      expect(move).toBeCalled();
+      expect(stepProps1.onAfter).toBeCalled()
+      expect(stepProps2.onBefore).toBeCalled()
+    })
+  })
+
+  it('onBefore & onAfter should be called in different groups',() => {
+    const step1 = <Step {...stepProps1} />
+    const step2 = <Step {...stepProps2} group='1'/>
+
+    return processMove(step1, step2, move, clear).then(() => {
+      expect(move).toBeCalled();
+      expect(stepProps1.onAfter).toBeCalled()
+      expect(stepProps2.onBefore).toBeCalled()
+      return processMove(step2, step1, move, clear);
+    }).then(() => {
+      expect(move).toHaveBeenCalledTimes(2)
+      expect(stepProps2.onAfter).toBeCalled()
+      expect(stepProps1.onBefore).toBeCalled();
+    })
   })
 })

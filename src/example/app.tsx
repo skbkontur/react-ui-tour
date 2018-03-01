@@ -1,15 +1,16 @@
 import * as React from "react";
-import { render } from "react-dom";
+import {render} from "react-dom";
 import * as classnames from "classnames";
 
-import { Tour, TourProvider, ModalStep, TooltipStep, Step } from "../lib";
+import {Tour, TourProvider, ModalStep, TooltipStep, Step} from "../lib";
+
 const styles = require("./app.less");
 
 const reactContainer = document.createElement('div');
 document.body.appendChild(reactContainer);
 
-const CustomStep = ({ onNext, onPrev, onClose }) => (
-  <div style={{ border: "2px solid red", padding: 10 }}>
+const CustomStep = ({onNext, onPrev, onClose}) => (
+  <div style={{border: "2px solid red", padding: 10}}>
     <h1> custom markup </h1>
     <button onClick={onPrev}>prev</button>
     <button onClick={onNext}>next</button>
@@ -28,7 +29,7 @@ const defaultContent = (
   </div>
 );
 
-const customHighlight = <div style={{ border: "3px solid #ff8000" }} />;
+const customHighlight = <div style={{border: "3px solid #ff8000"}}/>;
 
 const highlightTarget = () => document.getElementById("some id");
 const tooltipTarget1 = () => document.getElementById("some id-1-4");
@@ -45,6 +46,7 @@ class App extends React.Component<{}, {}> {
     demo2isShown: false,
     demo3isShown: false
   };
+
   render() {
     const demo2Class = classnames(styles.demo2, {
       [styles.shown]: this.state.demo2isShown
@@ -69,7 +71,7 @@ class App extends React.Component<{}, {}> {
           </div>
           <Tour id="id1">
             <ModalStep
-              header="Это приветственный шаг"
+              header="Это приветственный шаг первого тура"
               content="А это текст для приветственного шага"
             />
             <TooltipStep
@@ -88,17 +90,13 @@ class App extends React.Component<{}, {}> {
               highlight={customHighlight}
               offset={30}
               pinOptions={{hasPin: false}}
-              onBefore={() =>
-                new Promise((res) => {
-                  this.setState({ demo2isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise((res) =>
-                  this.setState({ demo2isShown: false }, res)
-                )
-              }
+              onBefore={() => new Promise((res) => {
+                this.setState({demo2isShown: true});
+                setTimeout(res, 500);
+              })}
+              onAfter={() => new Promise((res) =>
+                this.setState({demo2isShown: false}, res)
+              )}
             />
             <TooltipStep
               target={demo3}
@@ -106,18 +104,73 @@ class App extends React.Component<{}, {}> {
               header="И последний шаг"
               content={defaultContent}
               highlight={customHighlight}
-              onBefore={() =>
-                new Promise((res) => {
-                  this.setState({ demo3isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise((res) =>
-                  this.setState({ demo3isShown: false }, res)
-                )
-              }
+              onBefore={() => new Promise((res) => {
+                this.setState({demo3isShown: true});
+                setTimeout(res, 500);
+              })}
+              onAfter={() => new Promise((res) =>
+                this.setState({demo3isShown: false}, res)
+              )}
               offset={30}
+            />
+          </Tour>
+
+          <Tour id="id2">
+            <ModalStep
+              header="Это приветственный шаг второго тура"
+              content="А это текст для приветственного шага"
+            />
+            <TooltipStep
+              target={demo2}
+              positions={["left middle"]}
+              header="Это второй шаг"
+              content={defaultContent}
+              highlight={customHighlight}
+              offset={30}
+              onOpen={() => console.log('Это второй шаг, onOpen')}
+              group='group1'
+              onBefore={() => new Promise((res) => {
+                console.log('Это второй шаг, onBefore');
+                this.setState({demo2isShown: true});
+                setTimeout(res, 500);
+              })}
+              onAfter={() => new Promise((res) => {
+                console.log('Это второй шаг, onAfter');
+                this.setState({demo2isShown: false}, res)
+              })}
+            />
+            <TooltipStep
+              target={demo2}
+              positions={["left middle"]}
+              header="Третий шаг"
+              content={defaultContent}
+              highlight={customHighlight}
+              group='group1'
+              offset={30}
+              onBefore={() => new Promise((res) => {
+                console.log('Это третий шаг, onBefore');
+                this.setState({demo2isShown: true});
+                setTimeout(res, 500);
+              })}
+              onAfter={() => new Promise((res) => {
+                console.log('Это третий шаг, onAfter');
+                this.setState({demo2isShown: false}, res)
+              })}
+            />
+            <TooltipStep
+              target={demo3}
+              positions={["right bottom"]}
+              header="И последний шаг"
+              content={defaultContent}
+              highlight={customHighlight}
+              offset={30}
+              onBefore={() => new Promise((res) => {
+                this.setState({demo3isShown: true});
+                setTimeout(res, 500);
+              })}
+              onAfter={() => new Promise((res) =>
+                this.setState({demo3isShown: false}, res)
+              )}
             />
           </Tour>
         </div>
@@ -126,4 +179,4 @@ class App extends React.Component<{}, {}> {
   }
 }
 
-render(<App />, reactContainer);
+render(<App/>, reactContainer);
