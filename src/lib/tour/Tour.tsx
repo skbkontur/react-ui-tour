@@ -20,6 +20,7 @@ export interface StepInternalProps {
 
 export interface TourProps {
   id: string;
+  children: React.ReactNode;
 }
 
 const SAFETY_EMPTY_INDEX = 10000;
@@ -38,7 +39,7 @@ export class Tour extends React.Component<TourProps, {}> {
   steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
 
   componentWillReceiveProps(nextProps: TourProps) {
-    this.steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
+    this.steps = React.Children.toArray(nextProps.children) as React.ReactElement<StepProps & StepInternalProps>[];
   }
 
   //todo: warning for two final steps
