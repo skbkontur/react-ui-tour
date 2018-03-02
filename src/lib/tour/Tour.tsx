@@ -37,6 +37,10 @@ export class Tour extends React.Component<TourProps, {}> {
 
   steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
 
+  componentWillReceiveProps(nextProps: TourProps) {
+    this.steps = React.Children.toArray(this.props.children) as React.ReactElement<StepProps & StepInternalProps>[];
+  }
+
   //todo: warning for two final steps
   finalStepIndex = this.steps.findIndex((step) => !!step.props.isFallback);
 
