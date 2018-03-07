@@ -293,7 +293,6 @@ describe('processMove. delays', ()=> {
     expect(before2).toBeCalled();
   })
   it('after all should be called move fn', () => {
-    jest.runAllTicks()
     expect(move).toBeCalled();
   })
 })
