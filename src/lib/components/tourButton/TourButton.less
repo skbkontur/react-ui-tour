@@ -1,7 +1,9 @@
+@import '../variables';
+
 :local {
   .tourButton {
     border: 0;
-    color: #404040;
+    color: @btn-default-color-text;
     cursor: pointer;
     display: inline-block;
     font-family: inherit;
@@ -22,22 +24,22 @@
 
   .tourButton::-moz-focus-inner {
     border: 0;
-    padding: 0
+    padding: 0;
   }
 
   .greyTourButton {
-    background-image: linear-gradient(-180deg, #FFF, #EBEBEB);
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15)
+    background-image: linear-gradient(-180deg, @btn-default-bg-start, @btn-default-bg-end);
+    box-shadow: @btn-default-shadow;
   }
 
   .greyTourButton:hover {
-    background-image: linear-gradient(-180deg, #F2F2F2, #DFDFDF);
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .2)
+    background-image: linear-gradient(-180deg, @btn-default-hover-bg-start, @btn-default-hover-bg-end);
+    box-shadow: @btn-default-hover-shadow;
   }
 
   .greyTourButton:active {
-    background: #E1E1E1;
-    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .2), inset 0 1px 2px 0 rgba(0, 0, 0, .1)
+    background: @btn-default-active-bg;
+    box-shadow: @btn-default-active-shadow;
   }
 
   :global(.rt-ie8),
@@ -48,25 +50,25 @@
     .greyTourButton,
     .greyTourButton:active,
     .greyTourButton:hover {
-      background: #f9f9f9;
+      background: @btn-default-bg;
       box-shadow: none;
-      outline: #b2b2b2 solid 1px
+      outline: @border-color-gray-dark solid 1px;
     }
   }
   .blueTourButton {
-    background-image: linear-gradient(-180deg, #2899ea, #167ac1);
-    box-shadow: 0 0 0 1px rgba(14, 81, 129, .7), 0 1px 0 0 rgba(7, 37, 80, .5);
-    color: #fff
+    background-image: linear-gradient(-180deg, @btn-primary-bg-start, @btn-primary-bg-end);
+    box-shadow: @btn-primary-shadow;
+    color: @btn-primary-color-text;
   }
 
   .blueTourButton:hover {
-    background-image: linear-gradient(#0087D5, #167ac1);
-    box-shadow: 0 0 0 1px rgba(5, 60, 99, .7), 0 1px 0 0 rgba(7, 37, 80, .3)
+    background-image: linear-gradient(@btn-primary-hover-bg-start, @btn-primary-hover-bg-end);
+    box-shadow: @btn-primary-hover-shadow;
   }
 
   .blueTourButton:active {
-    background: #0079c3;
-    box-shadow: 0 0 0 1px rgba(10, 63, 99, .75), 0 -1px 0 0 rgba(8, 45, 96, .5), inset 0 1px 2px 0 rgba(0, 0, 0, .2)
+    background: @btn-primary-active-bg;
+    box-shadow: @btn-primary-active-shadow;
   }
 
   :global(.rt-ie8),
@@ -77,9 +79,9 @@
     .blueTourButton,
     .blueTourButton:active,
     .blueTourButton:hover {
-      background: #1e8dd4;
+      background: @btn-primary-bg;
       box-shadow: none;
-      outline: #1e8dd4 solid 1px
+      outline: @btn-primary-bg solid 1px
     }
   }
 
@@ -127,32 +129,32 @@
   }
 
   .greyTourButton.leftTourButtonArrow::after {
-    background: linear-gradient(135deg, #FFF, #EBEBEB);
-    border-bottom: 1px solid #d9d9d9;
-    border-left: 1px solid #d9d9d9;
+    background: linear-gradient(135deg, @btn-default-bg-start, @btn-default-bg-end);
+    border-bottom: @btn-default-arrow-border;
+    border-left: @btn-default-arrow-border;
   }
 
   .greyTourButton.leftTourButtonArrow:hover::after {
-    background: linear-gradient(135deg, #F2F2F2, #DFDFDF);
+    background: linear-gradient(135deg, @btn-default-hover-bg-start, @btn-default-hover-bg-end);
   }
 
   .greyTourButton.leftTourButtonArrow:active::after {
-    background: #E1E1E1;
+    background: @btn-default-active-bg;
   }
 
   .blueTourButton.rightTourButtonArrow::after {
-    background: linear-gradient(135deg, #2899ea, #167ac1);
-    border-top: 1px solid #5785a6;
-    border-right: 1px solid #5785a6;
+    background: linear-gradient(135deg, @btn-primary-bg-start, @btn-primary-bg-end);
+    border-top: @btn-primary-arrow-border;
+    border-right: @btn-primary-arrow-border;
   }
 
   .blueTourButton.rightTourButtonArrow:hover::after {
-    background: linear-gradient(135deg, #0087D5, #167ac1);
-    border-top: 1px solid #5785a6;
-    border-right: 1px solid #5785a6;
+    background: linear-gradient(135deg, @btn-primary-hover-bg-start, @btn-primary-hover-bg-end);
+    border-top: @btn-primary-arrow-border;
+    border-right: @btn-primary-arrow-border;
   }
 
   .blueTourButton.rightTourButtonArrow:active::after {
-    background: #0079c3;
+    background: @btn-primary-active-bg;
   }
 }

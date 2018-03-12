@@ -1,9 +1,11 @@
+@import '../variables.less';
+
 :local {
   .tooltipContainer {
     box-sizing: border-box;
     padding: 30px 35px 45px 38px;
     position: relative;
-    color: #333;
+    color: @tooltip-color-text;
   }
 
   .tooltipHeader {
@@ -24,13 +26,13 @@
 
   .tooltipContent a {
     text-decoration: none;
-    color: rgb(48, 115, 197);
+    color: @tooltip-color-link;
   }
 
   .tooltipClose:before {
     content: "×";
     cursor: pointer;
-    color: #555555;
+    color: @tooltip-color-close-btn;
   }
 
   .tooltipClose {

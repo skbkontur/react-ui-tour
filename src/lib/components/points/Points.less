@@ -1,3 +1,5 @@
+@import '../variables';
+
 :local {
   .tooltipPoint {
     display: inline-block;
@@ -14,11 +16,11 @@
   .tooltipPoint:before {
     content: "\25cf";
     font-size: 16px;
-    color: #d7d7d7;
+    color: @point-bg-default;
   }
 
   .tooltipPointActive:before {
-    color: #4a90e2;
+    color: @point-bg-active;
     font-size: 20px;
   }
 
