@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {TourProvider} from './TourProvider';
 import {processMove} from './processMove'
 
@@ -43,7 +44,7 @@ export class Tour extends React.Component<TourProps, {}> {
   }
 
   //todo: warning for two final steps
-  finalStepIndex = this.steps.findIndex((step) => !!step.props.isFallback);
+  fallbackStepIndex = this.steps.findIndex((step) => !!step.props.isFallback);
 
   render() {
     const {id} = this.props;
@@ -52,6 +53,7 @@ export class Tour extends React.Component<TourProps, {}> {
     }
     const {stepIndex} = this.state;
     const step = this.steps[stepIndex];
+    const stepsCount = this.steps.length;
 
     const currentStepWithProps = step && React.cloneElement(
       step,
@@ -60,7 +62,7 @@ export class Tour extends React.Component<TourProps, {}> {
         onNext: this.handleNext,
         onPrev: this.handlePrev,
         stepIndex: this.state.stepIndex,
-        stepsCount: this.steps.length,
+        stepsCount: this.fallbackStepIndex ? stepsCount - 1 : stepsCount
       }
     );
     return (
@@ -136,10 +138,10 @@ export class Tour extends React.Component<TourProps, {}> {
   //todo: do not show finalStep if step is last
   handleClose = () => {
     const {stepIndex} = this.state;
-    const hasFinalStepToGo = this.finalStepIndex >= 0
-      && this.finalStepIndex !== stepIndex;
-    if (hasFinalStepToGo) {
-      this.moveTo(this.finalStepIndex, stepIndex);
+    const hasFallbackStepToGo = this.fallbackStepIndex >= 0
+      && this.fallbackStepIndex !== stepIndex && stepIndex !== this.steps.length - 1;
+    if (hasFallbackStepToGo) {
+      this.moveTo(this.fallbackStepIndex, stepIndex);
     } else {
       this.moveTo(this.steps.length, stepIndex);
     }

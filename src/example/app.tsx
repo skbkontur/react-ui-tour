@@ -104,6 +104,7 @@ class App extends React.Component<{}, {}> {
               )}
             />
             <TooltipStep
+              isFallback
               target={demo3}
               positions={["right bottom"]}
               header="И последний шаг"
