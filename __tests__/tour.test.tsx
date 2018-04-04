@@ -123,7 +123,7 @@ describe('Tour. onBefore, onAfter, onOpen', () => {
   })
 })
 
-describe('Tour. final step in the middle', () => {
+describe('Tour. fallback step in the middle', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = mount(
@@ -136,7 +136,7 @@ describe('Tour. final step in the middle', () => {
       </TourProvider>
     )
   })
-  it('after next click final tour is skiping', () => {
+  it('after next click fallback tour is skiping', () => {
     wrapper.find('.next').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
     expect(wrapper.find('#id2').length).toBe(0)
@@ -149,7 +149,7 @@ describe('Tour. final step in the middle', () => {
     expect(wrapper.find('#id2').length).toBe(0)
     expect(wrapper.find('#id3').length).toBe(0)
   })
-  it('after close only final step is showing', () => {
+  it('after close only fallback step is showing', () => {
     wrapper.find('.close').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
     expect(wrapper.find('#id2').length).toBe(1)
@@ -157,7 +157,7 @@ describe('Tour. final step in the middle', () => {
   })
 })
 
-describe('Tour. final step in the end', () => {
+describe('Tour. fallback step in the end', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = mount(
@@ -169,12 +169,17 @@ describe('Tour. final step in the end', () => {
       </TourProvider>
     )
   })
-  it('after close only final step is showing', () => {
+  it('after next tour is closing', () => {
+    wrapper.find('.next').simulate('click')
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+  })
+  it('after close only fallback step is showing', () => {
     wrapper.find('.close').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
     expect(wrapper.find('#id2').length).toBe(1)
   })
-  it('after close on final step nothing is showing', () => {
+  it('after close on fallback step nothing is showing', () => {
     wrapper.find('.close').simulate('click')
     wrapper.find('.close').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
