@@ -164,31 +164,38 @@ describe('Tour. fallback step in the end', () => {
       <TourProvider predicate={(id) => true} onTourShown={(id) => {}}>
         <Tour id="someid">
           <Step render={Step1}/>
-          <Step isFallback render={Step2}/>
+          <Step render={Step2}/>          
+          <Step isFallback render={Step3}/>
         </Tour>
       </TourProvider>
     )
   })
-  it('after next tour is closing', () => {
+  it('after next click tour is closing', () => {
     wrapper.find('.next').simulate('click')
+    wrapper.find('.next').simulate('click')    
     expect(wrapper.find('#id1').length).toBe(0)
     expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)  
   })
   it('after close only fallback step is showing', () => {
     wrapper.find('.close').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
-    expect(wrapper.find('#id2').length).toBe(1)
+    expect(wrapper.find('#id2').length).toBe(0)    
+    expect(wrapper.find('#id3').length).toBe(1)
+  })
+  it('after close in last step tour is closing', () => {
+    wrapper.find('.next').simulate('click')
+    wrapper.find('.close').simulate('click')    
+    expect(wrapper.find('#id1').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id3').length).toBe(0)    
   })
   it('after close on fallback step nothing is showing', () => {
     wrapper.find('.close').simulate('click')
     wrapper.find('.close').simulate('click')
     expect(wrapper.find('#id1').length).toBe(0)
-    expect(wrapper.find('#id2').length).toBe(0)
-  })
-  it('after next click tour is closing', () => {
-    wrapper.find('.next').simulate('click')
-    expect(wrapper.find('#id1').length).toBe(0)
-    expect(wrapper.find('#id2').length).toBe(0)
+    expect(wrapper.find('#id2').length).toBe(0)  
+    expect(wrapper.find('#id3').length).toBe(0)
   })
 })
 

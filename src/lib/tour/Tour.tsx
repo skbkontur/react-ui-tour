@@ -41,22 +41,19 @@ export class Tour extends React.Component<TourProps, {}> {
 
   constructor(props: TourProps) {
     super(props);
-    const steps = React.Children.toArray(props.children) as React.ReactElement<StepProps & StepInternalProps>[];
     //todo: warning for two final steps
-    this.steps = this.processSteps(steps);
-    this.fallbackStepIndex = steps.findIndex(step => step.props.isFallback);
+    this.steps = this.processSteps(props.children);
+    this.fallbackStepIndex = this.steps.findIndex(step => step.props.isFallback);
   }
 
   componentWillReceiveProps(nextProps: TourProps) {
-    this.steps = this.processSteps(nextProps.children as React.ReactElement<StepProps & StepInternalProps>[]);
+    this.steps = this.processSteps(nextProps.children);
   }
 
-  processSteps = (steps: React.ReactElement<StepProps & StepInternalProps>[]) => 
-    steps.sort((a, b) => {
-      const aP = +!!a.props.isFallback;
-      const bP = +!!b.props.isFallback;
-      return aP > bP ? 1 : aP < bP ? -1 : 0;
-    })
+  processSteps = (children: React.ReactNode) => {
+    const steps = React.Children.toArray(children) as React.ReactElement<StepProps & StepInternalProps>[];    
+    return steps.sort((a, b) => a.props.isFallback ? 1 : 0);    
+  }
 
   render() {
     const {id} = this.props;
@@ -150,8 +147,8 @@ export class Tour extends React.Component<TourProps, {}> {
   handleClose = () => {
     const {stepIndex} = this.state;
     const hasFallbackStepToGo = this.fallbackStepIndex >= 0
-      && this.fallbackStepIndex !== stepIndex && stepIndex !== this.steps.length - 1;
-
+      && this.fallbackStepIndex !== stepIndex && stepIndex + 1 < this.fallbackStepIndex;
+      
     if (hasFallbackStepToGo) {
       this.moveTo(this.fallbackStepIndex, stepIndex);
     } else {
