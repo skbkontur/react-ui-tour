@@ -55,6 +55,10 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
   } else if (props.activePoint === props.points) {
     leftPartContent = renderPrevButton();
     rightPartContent = renderNextButton('Приступить', false);
+  } else if (props.activePoint > props.points) {
+    leftPartContent = renderPrevButton();
+    centerPartContent = null;
+    rightPartContent = renderNextButton('Приступить', false);
   } else {
     leftPartContent = renderPrevButton();
     rightPartContent = renderNextButton();
