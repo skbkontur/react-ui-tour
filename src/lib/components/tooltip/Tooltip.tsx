@@ -44,7 +44,7 @@ export const Tooltip: React.SFC<TooltipProps> = props => {
         {props.render ? (
           props.render()
         ) : (
-          <TooltipContainer onClose={props.onClose}>
+          <TooltipContainer width={props.width} onClose={props.onClose}>
             <Header>{props.header}</Header>
             <Content>{props.content}</Content>
             <Footer>{props.footer}</Footer>

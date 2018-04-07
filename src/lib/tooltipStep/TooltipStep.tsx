@@ -83,6 +83,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
           header,
           content,
           footer,
+          width,
           onClose
         }
       : {
