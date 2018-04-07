@@ -28,12 +28,20 @@
   }
 
   .greyTourButton {
-    background-image: linear-gradient(-180deg, @btn-default-bg-start, @btn-default-bg-end);
+    background-image: linear-gradient(
+      -180deg,
+      @btn-default-bg-start,
+      @btn-default-bg-end
+    );
     box-shadow: @btn-default-shadow;
   }
 
   .greyTourButton:hover {
-    background-image: linear-gradient(-180deg, @btn-default-hover-bg-start, @btn-default-hover-bg-end);
+    background-image: linear-gradient(
+      -180deg,
+      @btn-default-hover-bg-start,
+      @btn-default-hover-bg-end
+    );
     box-shadow: @btn-default-hover-shadow;
   }
 
@@ -56,13 +64,20 @@
     }
   }
   .blueTourButton {
-    background-image: linear-gradient(-180deg, @btn-primary-bg-start, @btn-primary-bg-end);
+    background-image: linear-gradient(
+      -180deg,
+      @btn-primary-bg-start,
+      @btn-primary-bg-end
+    );
     box-shadow: @btn-primary-shadow;
     color: @btn-primary-color-text;
   }
 
   .blueTourButton:hover {
-    background-image: linear-gradient(@btn-primary-hover-bg-start, @btn-primary-hover-bg-end);
+    background-image: linear-gradient(
+      @btn-primary-hover-bg-start,
+      @btn-primary-hover-bg-end
+    );
     box-shadow: @btn-primary-hover-shadow;
   }
 
@@ -81,7 +96,7 @@
     .blueTourButton:hover {
       background: @btn-primary-bg;
       box-shadow: none;
-      outline: @btn-primary-bg solid 1px
+      outline: @btn-primary-bg solid 1px;
     }
   }
 
@@ -129,13 +144,21 @@
   }
 
   .greyTourButton.leftTourButtonArrow::after {
-    background: linear-gradient(135deg, @btn-default-bg-start, @btn-default-bg-end);
+    background: linear-gradient(
+      135deg,
+      @btn-default-bg-start,
+      @btn-default-bg-end
+    );
     border-bottom: @btn-default-arrow-border;
     border-left: @btn-default-arrow-border;
   }
 
   .greyTourButton.leftTourButtonArrow:hover::after {
-    background: linear-gradient(135deg, @btn-default-hover-bg-start, @btn-default-hover-bg-end);
+    background: linear-gradient(
+      135deg,
+      @btn-default-hover-bg-start,
+      @btn-default-hover-bg-end
+    );
   }
 
   .greyTourButton.leftTourButtonArrow:active::after {
@@ -143,13 +166,21 @@
   }
 
   .blueTourButton.rightTourButtonArrow::after {
-    background: linear-gradient(135deg, @btn-primary-bg-start, @btn-primary-bg-end);
+    background: linear-gradient(
+      135deg,
+      @btn-primary-bg-start,
+      @btn-primary-bg-end
+    );
     border-top: @btn-primary-arrow-border;
     border-right: @btn-primary-arrow-border;
   }
 
   .blueTourButton.rightTourButtonArrow:hover::after {
-    background: linear-gradient(135deg, @btn-primary-hover-bg-start, @btn-primary-hover-bg-end);
+    background: linear-gradient(
+      135deg,
+      @btn-primary-hover-bg-start,
+      @btn-primary-hover-bg-end
+    );
     border-top: @btn-primary-arrow-border;
     border-right: @btn-primary-arrow-border;
   }

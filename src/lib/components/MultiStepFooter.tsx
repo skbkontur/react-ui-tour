@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {Points} from './points/Points';
-import {TourButton} from './tourButton/TourButton';
+import { Points } from './points/Points';
+import { TourButton } from './tourButton/TourButton';
 import {
   Footer,
   FooterCenterPart,
@@ -25,7 +25,11 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
 
   const renderNextButton = (innerText?: string, needArrow: boolean = true) => {
     return (
-      <TourButton onClick={props.onNext} color='blue' arrow={needArrow && 'right'}>
+      <TourButton
+        onClick={props.onNext}
+        color="blue"
+        arrow={needArrow && 'right'}
+      >
         {props.nextButtonText || innerText || 'Далее'}
       </TourButton>
     );
@@ -33,16 +37,19 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
 
   const renderPrevButton = (innerText?: string, needArrow: boolean = true) => {
     return (
-      <TourButton color='grey' onClick={props.onPrev} arrow={needArrow && 'left'}>
+      <TourButton
+        color="grey"
+        onClick={props.onPrev}
+        arrow={needArrow && 'left'}
+      >
         {props.prevButtonText || innerText || 'Назад'}
       </TourButton>
     );
   };
 
-  const points = <Points
-    count={props.points}
-    activePointIndex={props.activePoint }
-  />;
+  const points = (
+    <Points count={props.points} activePointIndex={props.activePoint} />
+  );
 
   let leftPartContent;
   let centerPartContent = points;
@@ -72,4 +79,3 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
     </Footer>
   );
 }
-

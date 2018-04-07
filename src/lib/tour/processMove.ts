@@ -1,11 +1,12 @@
 import * as React from 'react';
-import {StepProps} from './Tour'
+
+import { StepProps } from './Tour';
 
 export const processMove = (
   prevStep: React.ReactElement<StepProps>,
   step: React.ReactElement<StepProps>,
   onMove: () => void,
-  onClear: () => void,
+  onClear: () => void
 ): Promise<void> => {
   const onBefore = step && step.props.onBefore;
   const onAfter = prevStep && prevStep.props.onAfter;
@@ -13,13 +14,13 @@ export const processMove = (
   const stepGroup = step && step.props.group;
   const prevStepGroup = prevStep && prevStep.props.group;
 
-  if (!onBefore && !onAfter || !!stepGroup && stepGroup === prevStepGroup) {
+  if ((!onBefore && !onAfter) || (!!stepGroup && stepGroup === prevStepGroup)) {
     onMove();
     return Promise.resolve();
   }
 
-  return processMoveAsync(onMove, onClear, onBefore, onAfter)
-}
+  return processMoveAsync(onMove, onClear, onBefore, onAfter);
+};
 
 const processMoveAsync = (
   onMove: () => void,
@@ -29,13 +30,13 @@ const processMoveAsync = (
 ): Promise<void> => {
   const resolve = () => Promise.resolve();
 
-  const before = onBefore || resolve
-  const after = onAfter || resolve
+  const before = onBefore || resolve;
+  const after = onAfter || resolve;
 
-  onClear()
-  return after().then(() => {
-    return before();
-  }).then(() => {
-    onMove();
-  })
-}
+  onClear();
+  return after()
+    .then(() => before())
+    .then(() => {
+      onMove();
+    });
+};
