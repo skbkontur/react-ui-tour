@@ -1,9 +1,6 @@
 import * as React from 'react';
-import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
-import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
-import Popup from '@skbkontur/react-ui/components/Popup';
 
-import { TooltipHighlight } from '../components/highlight/TooltipHighlight';
+import { TooltipHighlight } from '../components/tooltip/TooltipHighlight';
 import { MultiStepFooter } from '../components/MultiStepFooter';
 import { StepProps, StepInternalProps } from '../tour/Tour';
 import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
@@ -37,10 +34,20 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         {...this.getTooltipRenderProps()}
       />
     );
+    const highlightTarget = this.props.highlightTarget
+      ? this.props.highlightTarget()
+      : this.props.target();
 
-    return this.props.highlight
-      ? withHighlight(tooltip, this.props.highlight, this.props.highlightTarget)
-      : tooltip;
+    return this.props.highlight ? (
+      <TooltipHighlight
+        highlight={this.props.highlight}
+        target={highlightTarget}
+      >
+        {tooltip}
+      </TooltipHighlight>
+    ) : (
+      tooltip
+    );
   }
 
   getTooltipRenderProps = () => {
@@ -84,15 +91,3 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         };
   };
 }
-
-export const withHighlight = (component, highlight, targetGetter?) => {
-  const target = targetGetter ? targetGetter() : component.props.targetGetter()
-  return (
-    <div>
-      {component}
-      <RenderContainer>
-        <TooltipHighlight highlight={highlight} target={target} />
-      </RenderContainer>
-    </div>
-  );
-};

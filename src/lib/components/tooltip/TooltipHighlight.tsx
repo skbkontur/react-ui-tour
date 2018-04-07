@@ -1,33 +1,36 @@
 import * as React from 'react';
-import {Highlight} from './Highlight';
 import LayoutEvents from '@skbkontur/react-ui/lib/LayoutEvents';
+import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
+
+import { Highlight } from '../highlight/Highlight';
 
 const initialRect = {
   top: 0,
   left: 0,
   right: 0,
-  bottom: 0,
+  bottom: 0
 } as ClientRect;
-
 
 export interface HighlightProps {
   target: Element;
   highlight: React.ReactElement<any>;
+  children: React.ReactElement<any>;
 }
 
 export class TooltipHighlight extends React.Component<HighlightProps> {
-  state = {
-    pos: initialRect
-  }
+  state = { pos: initialRect };
   _layoutEventsToken;
+
   render() {
-    const {target, highlight} = this.props;
+    const { target, highlight } = this.props;
 
     return (
-      <Highlight
-        pos={this.state.pos}
-        highlight={highlight}
-      />
+      <div>
+        {this.props.children}
+        <RenderContainer>
+          <Highlight pos={this.state.pos} highlight={highlight} />
+        </RenderContainer>
+      </div>
     );
   }
 
@@ -44,6 +47,6 @@ export class TooltipHighlight extends React.Component<HighlightProps> {
 
   reflow = () => {
     const pos = this.props.target.getBoundingClientRect();
-    this.setState({pos});
-  }
+    this.setState({ pos });
+  };
 }
