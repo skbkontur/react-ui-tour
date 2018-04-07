@@ -3,16 +3,10 @@ import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
 import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import {TooltipHighlight} from '../components/highlight/TooltipHighlight';
-import {Tooltip} from '../components/tooltip/Tooltip';
-import {MultiStepFooter} from '../components/MultiStepFooter';
-import {StepProps, StepInternalProps} from '../tour/Tour'
-
-export interface PinOptions {
-  hasPin?: boolean;
-  pinSize?: number;
-  pinOffset?: number;
-}
+import { TooltipHighlight } from '../components/highlight/TooltipHighlight';
+import { MultiStepFooter } from '../components/MultiStepFooter';
+import { StepProps, StepInternalProps } from '../tour/Tour';
+import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
 
 export interface TooltipStepOuterProps {
   target: () => Element;
@@ -28,81 +22,77 @@ export interface TooltipStepOuterProps {
   pinOptions?: PinOptions;
 }
 
-export interface TooltipStepProps extends TooltipStepOuterProps, StepProps, Partial<StepInternalProps> {}
+export interface TooltipStepProps
+  extends TooltipStepOuterProps,
+    StepProps,
+    Partial<StepInternalProps> {}
 
-export class TooltipStep extends React.Component<TooltipStepProps, {}> {
-  static defaultProps = {
-    pinOptions: {
-      hasPin: true,
-      pinSize: 16,
-      pinOffset: 32,
-    },
-  };
-
+export class TooltipStep extends React.Component<TooltipStepProps> {
   render() {
-    return (
-      <span>
-        <RenderLayer onClickOutside={this.props.onClose} onFocusOutside={() => {}} active>
-          <Popup
-            anchorElement={this.props.target()}
-            positions={this.props.positions}
-            margin={this.props.offset}
-            {...this.props.pinOptions}
-            opened
-            hasShadow
-          >
-            {this.renderContent()}
-          </Popup>
-        </RenderLayer>
-        {this.renderHighlight()}
-      </span>
+    const tooltip = (
+      <Tooltip
+        targetGetter={this.props.target}
+        positions={this.props.positions}
+        offset={this.props.offset}
+        {...this.getTooltipRenderProps()}
+      />
     );
+
+    return this.props.highlight
+      ? withHighlight(tooltip, this.props.highlight, this.props.highlightTarget)
+      : tooltip;
   }
 
-  renderContent = () => {
+  getTooltipRenderProps = () => {
     const {
-      header, content, footer, width, onNext,
-      onPrev, onClose, render, stepsCount
+      header,
+      content,
+      width,
+      onNext,
+      onPrev,
+      onClose,
+      render,
+      stepsCount
     } = this.props;
     const stepIndex = this.props.stepIndex + 1;
+    const footer = (this.props.footer &&
+      this.props.footer({
+        onNext,
+        onPrev,
+        stepsCount,
+        stepIndex,
+        onClose
+      })) || (
+      <MultiStepFooter
+        points={stepsCount}
+        activePoint={stepIndex}
+        onPrev={onPrev}
+        onNext={onNext}
+      />
+    );
 
-    const renderTooltip = () => {
-      const footerContent = footer &&
-        footer({onNext, onPrev, stepsCount, stepIndex, onClose}) ||
-        <MultiStepFooter
-          points={stepsCount}
-          activePoint={stepIndex}
-          onPrev={onPrev}
-          onNext={onNext}
-        />;
-
-      return (
-        <Tooltip
-          header={header}
-          content={content}
-          footer={footerContent}
-          onClose={onClose}
-          width={width}
-        />
-      );
-    };
-
-    return !render ? renderTooltip() : render({onNext, onPrev, onClose, stepIndex, stepsCount})
-  }
-
-  renderHighlight() {
-    const {highlightTarget, highlight} = this.props;
-    const target = highlightTarget ? highlightTarget() : this.props.target();
-
-    if (!highlight || !target) return null;
-
-    return (
-      <RenderContainer>
-        <TooltipHighlight
-          highlight={highlight}
-          target={target}
-        />
-      </RenderContainer>
-    )
-  }
+    return !render
+      ? {
+          header,
+          content,
+          footer,
+          onClose
+        }
+      : {
+          render: () =>
+            render({ onNext, onPrev, onClose, stepIndex, stepsCount })
+        };
+  };
 }
+
+export const withHighlight = (component, highlight, targetGetter?) => {
+  const target = targetGetter ? targetGetter() : component.props.targetGetter()
+  return (
+    <div>
+      {component}
+      <RenderContainer>
+        <TooltipHighlight highlight={highlight} target={target} />
+      </RenderContainer>
+    </div>
+  );
+};

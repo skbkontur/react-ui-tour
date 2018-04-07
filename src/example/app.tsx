@@ -2,7 +2,8 @@ import * as React from "react";
 import {render} from "react-dom";
 import * as classnames from "classnames";
 
-import {Tour, TourProvider, ModalStep, TooltipStep, Step} from "../lib";
+import {Tour, TourProvider, ModalStep, Step} from "../lib";
+import {TooltipStep} from '../lib/tooltipStep/TooltipStep';
 
 const styles = require("./app.less");
 

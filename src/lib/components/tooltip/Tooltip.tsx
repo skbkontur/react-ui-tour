@@ -1,31 +1,66 @@
 import * as React from 'react';
+import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
+import Popup from '@skbkontur/react-ui/components/Popup';
 
-import {Content, Header} from "./TooltipParts";
+import { TooltipContainer, Header, Content, Footer } from './TooltipParts';
 
-const styles = require('./Tooltip.less');
-
-export interface TooltipProps {
-  children?: React.ReactNode;
-  header: React.ReactNode;
-  content: React.ReactNode;
-  footer: React.ReactNode | ((props: any) => React.ReactNode);
-  width?: number;
-  onClose?: () => void;
+export interface PinOptions {
+  hasPin?: boolean;
+  pinSize?: number;
+  pinOffset?: number;
 }
 
-export const Tooltip: React.StatelessComponent<TooltipProps> = props => {
+export type TooltipPartElement = React.ReactElement<any> | React.ReactText;
+
+export interface TooltipProps {
+  targetGetter: () => Element;
+  opened?: boolean;
+  positions?: string[];
+  offset?: number;
+  width?: number;
+  onClose?: () => void;
+  pinOptions?: PinOptions;
+  content?: TooltipPartElement;
+  header?: TooltipPartElement;
+  footer?: TooltipPartElement;
+  render?: () => TooltipPartElement;
+}
+
+export const Tooltip: React.SFC<TooltipProps> = props => {
   return (
-    <div className={styles.tooltipContainer} style={{width: props.width}}>
-      <span className={styles.tooltipClose} onClick={props.onClose}/>
-      <div>
-        <Header>{props.header}</Header>
-        <Content>{props.content}</Content>
-        {props.footer}
-      </div>
-    </div>
+    <RenderLayer
+      onClickOutside={props.onClose}
+      onFocusOutside={() => {}}
+      active
+    >
+      <Popup
+        anchorElement={props.targetGetter()}
+        positions={props.positions}
+        margin={props.offset}
+        {...props.pinOptions}
+        opened={props.opened}
+        hasShadow
+      >
+        {props.render ? (
+          props.render()
+        ) : (
+          <TooltipContainer onClose={props.onClose}>
+            <Header>{props.header}</Header>
+            <Content>{props.content}</Content>
+            <Footer>{props.footer}</Footer>
+          </TooltipContainer>
+        )}
+      </Popup>
+    </RenderLayer>
   );
 };
 
 Tooltip.defaultProps = {
-  width: 500
+  opened: true,
+  positions: ['bottom middle'],
+  pinOptions: {
+    hasPin: true,
+    pinSize: 16,
+    pinOffset: 32
+  }
 };
