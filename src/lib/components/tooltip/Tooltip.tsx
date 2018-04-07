@@ -2,7 +2,7 @@ import * as React from 'react';
 import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import { TooltipContainer, Header, Content, Footer } from './TooltipParts';
+import { TooltipContainer, Header, Content } from './TooltipParts';
 
 export interface PinOptions {
   hasPin?: boolean;
@@ -47,7 +47,7 @@ export const Tooltip: React.SFC<TooltipProps> = props => {
           <TooltipContainer width={props.width} onClose={props.onClose}>
             <Header>{props.header}</Header>
             <Content>{props.content}</Content>
-            <Footer>{props.footer}</Footer>
+            {props.footer}
           </TooltipContainer>
         )}
       </Popup>
@@ -62,5 +62,6 @@ Tooltip.defaultProps = {
     hasPin: true,
     pinSize: 16,
     pinOffset: 32
-  }
+  },
+  onClose: () => {}
 };
