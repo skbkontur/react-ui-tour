@@ -12,7 +12,7 @@ const initialRect = {
 } as ClientRect;
 
 export interface HighlightProps {
-  target: Element;
+  targetGetter: () => Element;
   highlight: React.ReactElement<any>;
   children: React.ReactElement<any>;
 }
@@ -20,21 +20,21 @@ export interface HighlightProps {
 export class TooltipHighlight extends React.Component<HighlightProps> {
   state = { pos: initialRect };
   _layoutEventsToken;
+  target;
 
   render() {
-    const { target, highlight } = this.props;
-
     return (
       <div>
         {this.props.children}
         <RenderContainer>
-          <Highlight pos={this.state.pos} highlight={highlight} />
+          <Highlight pos={this.state.pos} highlight={this.props.highlight} />
         </RenderContainer>
       </div>
     );
   }
 
   componentDidMount() {
+    this.target = this.props.targetGetter();
     this.reflow();
 
     //add throttle
@@ -46,7 +46,7 @@ export class TooltipHighlight extends React.Component<HighlightProps> {
   }
 
   reflow = () => {
-    const pos = this.props.target.getBoundingClientRect();
+    const pos = this.target.getBoundingClientRect();
     this.setState({ pos });
   };
 }

@@ -14,7 +14,6 @@ export type TooltipPartElement = React.ReactElement<any> | React.ReactText;
 
 export interface TooltipProps {
   targetGetter: () => Element;
-  opened?: boolean;
   positions?: string[];
   offset?: number;
   width?: number;
@@ -38,7 +37,7 @@ export const Tooltip: React.SFC<TooltipProps> = props => {
         positions={props.positions}
         margin={props.offset}
         {...props.pinOptions}
-        opened={props.opened}
+        opened
         hasShadow
       >
         {props.render ? (
@@ -56,7 +55,6 @@ export const Tooltip: React.SFC<TooltipProps> = props => {
 };
 
 Tooltip.defaultProps = {
-  opened: true,
   positions: ['bottom middle'],
   pinOptions: {
     hasPin: true,

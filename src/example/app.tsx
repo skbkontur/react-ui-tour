@@ -2,8 +2,9 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import * as classnames from 'classnames';
 
-import { Tour, TourProvider, ModalStep, Step } from '../lib';
+import { Tour, TourProvider, ModalStep, Step, Tooltip } from '../lib';
 import { TooltipStep } from '../lib/tooltipStep/TooltipStep';
+import { TooltipHighlight } from '../lib/components/tooltip/TooltipHighlight';
 
 const styles = require('./app.less');
 
@@ -45,8 +46,13 @@ const demo3 = () => document.querySelector('[data-tour-id=demo3]');
 class App extends React.Component<{}, {}> {
   state = {
     demo2isShown: false,
-    demo3isShown: false
+    demo3isShown: false,
+    tooltipOpened: true
   };
+
+  componentDidMount() {
+    this.setState({ tooltipOpened: true });
+  }
 
   render() {
     const demo2Class = classnames(styles.demo2, {
@@ -56,144 +62,168 @@ class App extends React.Component<{}, {}> {
       [styles.shown]: this.state.demo3isShown
     });
     return (
-      <TourProvider
-        predicate={id => true}
-        onTourShown={id => console.log(`shown tour ${id}`)}
-      >
-        <div className={styles.container}>
-          <div className={styles.demo1} data-tour-id="demo1">
-            Hi, there!
-          </div>
-          <div className={demo2Class} data-tour-id="demo2">
-            Hi, there!
-          </div>
-          <div className={demo3Class} data-tour-id="demo3">
-            Hi, there!
-          </div>
-          <Tour id="id1">
-            <ModalStep
-              header="Это приветственный шаг первого тура"
-              content="А это текст для приветственного шага"
-              onBefore={() => new Promise(res => setTimeout(res, 500))}
-              onAfter={() => new Promise(res => res())}
-              onOpen={() => console.log('Это приветственный шаг, onOpen')}
-            />
-            <TooltipStep
-              target={demo1}
-              positions={['right top']}
-              highlight={customHighlight}
-              header="Это второй шаг"
-              content={defaultContent}
-              offset={30}
-            />
-            <TooltipStep
-              target={demo2}
-              positions={['left middle']}
-              header="Это третий шаг"
-              content={defaultContent}
-              highlight={customHighlight}
+      <div>
+        {this.state.tooltipOpened && (
+          <TooltipHighlight targetGetter={demo1} highlight={customHighlight}>
+            <Tooltip
+              targetGetter={demo1}
+              positions={['right middle']}
+              header="Тултип"
+              content={
+                <div>Это обычный тултип, не зависящий от провайдера</div>
+              }
               offset={30}
               pinOptions={{ hasPin: false }}
-              onBefore={() =>
-                new Promise(res => {
-                  this.setState({ demo2isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise(res => this.setState({ demo2isShown: false }, res))
-              }
+              onClose={() => this.setState({ tooltipOpened: false })}
             />
-            <TooltipStep
-              isFallback
-              target={demo3}
-              positions={['right bottom']}
-              header="И последний шаг"
-              content={defaultContent}
-              highlight={customHighlight}
-              onBefore={() =>
-                new Promise(res => {
-                  this.setState({ demo3isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise(res => this.setState({ demo3isShown: false }, res))
-              }
-              offset={30}
-            />
-          </Tour>
+          </TooltipHighlight>
+        )}
 
-          <Tour id="id2">
-            <ModalStep
-              header="Это приветственный шаг второго тура"
-              content="А это текст для приветственного шага"
-            />
-            <TooltipStep
-              target={demo2}
-              positions={['left middle']}
-              header="Это второй шаг"
-              content={defaultContent}
-              highlight={customHighlight}
-              offset={30}
-              onOpen={() => console.log('Это второй шаг, onOpen')}
-              group="group1"
-              onBefore={() =>
-                new Promise(res => {
-                  console.log('Это второй шаг, onBefore');
-                  this.setState({ demo2isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise(res => {
-                  console.log('Это второй шаг, onAfter');
-                  this.setState({ demo2isShown: false }, res);
-                })
-              }
-            />
-            <TooltipStep
-              target={demo2}
-              positions={['left middle']}
-              header="Третий шаг"
-              content={defaultContent}
-              highlight={customHighlight}
-              group="group1"
-              offset={30}
-              onBefore={() =>
-                new Promise(res => {
-                  console.log('Это третий шаг, onBefore');
-                  this.setState({ demo2isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise(res => {
-                  console.log('Это третий шаг, onAfter');
-                  this.setState({ demo2isShown: false }, res);
-                })
-              }
-            />
-            <TooltipStep
-              target={demo3}
-              positions={['right bottom']}
-              header="И последний шаг"
-              content={defaultContent}
-              highlight={customHighlight}
-              offset={30}
-              onBefore={() =>
-                new Promise(res => {
-                  this.setState({ demo3isShown: true });
-                  setTimeout(res, 500);
-                })
-              }
-              onAfter={() =>
-                new Promise(res => this.setState({ demo3isShown: false }, res))
-              }
-            />
-          </Tour>
-        </div>
-      </TourProvider>
+        <TourProvider
+          predicate={id => true}
+          onTourShown={id => console.log(`shown tour ${id}`)}
+        >
+          <div className={styles.container}>
+            <div className={styles.demo1} data-tour-id="demo1">
+              Hi, there!
+            </div>
+            <div className={demo2Class} data-tour-id="demo2">
+              Hi, there!
+            </div>
+            <div className={demo3Class} data-tour-id="demo3">
+              Hi, there!
+            </div>
+            <Tour id="id1">
+              <ModalStep
+                header="Это приветственный шаг первого тура"
+                content="А это текст для приветственного шага"
+                onBefore={() => new Promise(res => setTimeout(res, 5000))}
+                onAfter={() => new Promise(res => res())}
+                onOpen={() => console.log('Это приветственный шаг, onOpen')}
+              />
+              <TooltipStep
+                target={demo1}
+                positions={['right top']}
+                highlight={customHighlight}
+                header="Это второй шаг"
+                content={defaultContent}
+                offset={30}
+              />
+              <TooltipStep
+                target={demo2}
+                positions={['left middle']}
+                header="Это третий шаг"
+                content={defaultContent}
+                highlight={customHighlight}
+                offset={30}
+                pinOptions={{ hasPin: false }}
+                onBefore={() =>
+                  new Promise(res => {
+                    this.setState({ demo2isShown: true });
+                    setTimeout(res, 500);
+                  })
+                }
+                onAfter={() =>
+                  new Promise(res =>
+                    this.setState({ demo2isShown: false }, res)
+                  )
+                }
+              />
+              <TooltipStep
+                isFallback
+                target={demo3}
+                positions={['right bottom']}
+                header="И последний шаг"
+                content={defaultContent}
+                highlight={customHighlight}
+                onBefore={() =>
+                  new Promise(res => {
+                    this.setState({ demo3isShown: true });
+                    setTimeout(res, 500);
+                  })
+                }
+                onAfter={() =>
+                  new Promise(res =>
+                    this.setState({ demo3isShown: false }, res)
+                  )
+                }
+                offset={30}
+              />
+            </Tour>
+
+            <Tour id="id2">
+              <ModalStep
+                header="Это приветственный шаг второго тура"
+                content="А это текст для приветственного шага"
+              />
+              <TooltipStep
+                target={demo2}
+                positions={['left middle']}
+                header="Это второй шаг"
+                content={defaultContent}
+                highlight={customHighlight}
+                offset={30}
+                onOpen={() => console.log('Это второй шаг, onOpen')}
+                group="group1"
+                onBefore={() =>
+                  new Promise(res => {
+                    console.log('Это второй шаг, onBefore');
+                    this.setState({ demo2isShown: true });
+                    setTimeout(res, 500);
+                  })
+                }
+                onAfter={() =>
+                  new Promise(res => {
+                    console.log('Это второй шаг, onAfter');
+                    this.setState({ demo2isShown: false }, res);
+                  })
+                }
+              />
+              <TooltipStep
+                target={demo2}
+                positions={['left middle']}
+                header="Третий шаг"
+                content={defaultContent}
+                highlight={customHighlight}
+                group="group1"
+                offset={30}
+                onBefore={() =>
+                  new Promise(res => {
+                    console.log('Это третий шаг, onBefore');
+                    this.setState({ demo2isShown: true });
+                    setTimeout(res, 500);
+                  })
+                }
+                onAfter={() =>
+                  new Promise(res => {
+                    console.log('Это третий шаг, onAfter');
+                    this.setState({ demo2isShown: false }, res);
+                  })
+                }
+              />
+              <TooltipStep
+                target={demo3}
+                positions={['right bottom']}
+                header="И последний шаг"
+                content={defaultContent}
+                highlight={customHighlight}
+                offset={30}
+                onBefore={() =>
+                  new Promise(res => {
+                    this.setState({ demo3isShown: true });
+                    setTimeout(res, 500);
+                  })
+                }
+                onAfter={() =>
+                  new Promise(res =>
+                    this.setState({ demo3isShown: false }, res)
+                  )
+                }
+              />
+            </Tour>
+          </div>
+        </TourProvider>
+      </div>
     );
   }
 }

@@ -35,14 +35,12 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         {...this.getTooltipRenderProps()}
       />
     );
-    const highlightTarget = this.props.highlightTarget
-      ? this.props.highlightTarget()
-      : this.props.target();
+    const highlightTarget = this.props.highlightTarget || this.props.target;
 
     return this.props.highlight ? (
       <TooltipHighlight
         highlight={this.props.highlight}
-        target={highlightTarget}
+        targetGetter={highlightTarget}
       >
         {tooltip}
       </TooltipHighlight>
