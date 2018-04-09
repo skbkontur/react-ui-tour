@@ -4,7 +4,12 @@ import { TooltipHighlight } from '../components/tooltip/TooltipHighlight';
 import { MultiStepFooter } from '../components/MultiStepFooter';
 import { StepProps, StepInternalProps } from '../tour/Tour';
 import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
-import { Footer } from '../components/tooltip/TooltipParts';
+import {
+  Footer,
+  TooltipContainer,
+  Header,
+  Content
+} from '../components/tooltip/tooltipParts/TooltipParts';
 
 export interface TooltipStepOuterProps {
   target: () => Element;
@@ -27,14 +32,7 @@ export interface TooltipStepProps
 
 export class TooltipStep extends React.Component<TooltipStepProps> {
   render() {
-    const tooltip = (
-      <Tooltip
-        targetGetter={this.props.target}
-        positions={this.props.positions}
-        offset={this.props.offset}
-        {...this.getTooltipRenderProps()}
-      />
-    );
+    const tooltip = this.renderTooltip();
     const highlightTarget = this.props.highlightTarget || this.props.target;
 
     return this.props.highlight ? (
@@ -49,48 +47,52 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
     );
   }
 
-  getTooltipRenderProps = () => {
-    const {
-      header,
-      content,
-      width,
-      onNext,
-      onPrev,
-      onClose,
-      render,
-      stepsCount
-    } = this.props;
-    const stepIndex = this.props.stepIndex + 1;
-    const footer = (this.props.footer && (
-      <Footer>
-        {this.props.footer({
-          onNext,
-          onPrev,
-          stepsCount,
-          stepIndex,
-          onClose
-        })}
-      </Footer>
-    )) || (
-      <MultiStepFooter
-        points={stepsCount}
-        activePoint={stepIndex}
-        onPrev={onPrev}
-        onNext={onNext}
-      />
+  renderTooltip = () => {
+    return this.props.render ? (
+      this.invokeRender(this.props.render)
+    ) : (
+      <Tooltip
+        targetGetter={this.props.target}
+        positions={this.props.positions}
+        offset={this.props.offset}
+        onClose={this.props.onClose}
+        width={this.props.width}
+      >
+        <TooltipContainer>
+          <Header>{this.props.header}</Header>
+          <Content>{this.props.content}</Content>
+          {this.renderTooltipFooter()}
+        </TooltipContainer>
+      </Tooltip>
     );
+  };
 
-    return !render
-      ? {
-          header,
-          content,
-          footer,
-          width,
-          onClose
-        }
-      : {
-          render: () =>
-            render({ onNext, onPrev, onClose, stepIndex, stepsCount })
-        };
+  renderTooltipFooter = () => {
+    const stepIndex = this.props.stepIndex + 1;
+
+    return (
+      (this.props.footer && (
+        <Footer>{this.invokeRender(this.props.footer)}</Footer>
+      )) || (
+        <MultiStepFooter
+          points={this.props.stepsCount}
+          activePoint={stepIndex}
+          onPrev={this.props.onPrev}
+          onNext={this.props.onNext}
+        />
+      )
+    );
+  };
+
+  invokeRender = renderMethod => {
+    const props = {
+      onNext: this.props.onNext,
+      onPrev: this.props.onPrev,
+      onClose: this.props.onClose,
+      stepsCount: this.props.stepsCount,
+      stepIndex: this.props.stepIndex + 1
+    };
+
+    return renderMethod(props);
   };
 }

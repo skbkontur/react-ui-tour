@@ -1,13 +1,10 @@
-@import '../variables.less';
+@import '../../variables.less';
 
 @container-padding-right: 35px;
 
 :local {
   .container {
-    box-sizing: border-box;
     padding: 30px @container-padding-right 45px 40px;
-    position: relative;
-    color: #333;
     p {
       margin-top: 10px;
       margin-bottom: 7px;
@@ -26,19 +23,6 @@
     a {
       text-decoration: none;
       color: @tooltip-color-link;
-    }
-  }
-
-  .closeBtn {
-    position: absolute;
-    top: 26px;
-    right: @container-padding-right;
-    cursor: pointer;
-    font-size: 31px !important;
-    &:before {
-      content: '×';
-      cursor: pointer;
-      color: #555;
     }
   }
 

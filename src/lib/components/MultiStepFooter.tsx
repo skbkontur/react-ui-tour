@@ -7,7 +7,7 @@ import {
   FooterCenterPart,
   FooterLeftPart,
   FooterRightPart
-} from './tooltip/TooltipParts';
+} from './tooltip//tooltipParts/TooltipParts';
 
 export interface MultiStepFooterProps {
   points: number;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
 import Popup from '@skbkontur/react-ui/components/Popup';
 
-import { TooltipContainer, Header, Content } from './TooltipParts';
+const styles = require('./Tooltip.less');
 
 export interface PinOptions {
   hasPin?: boolean;
@@ -16,13 +16,9 @@ export interface TooltipProps {
   targetGetter: () => Element;
   positions?: string[];
   offset?: number;
-  width?: number;
   onClose?: () => void;
   pinOptions?: PinOptions;
-  content?: TooltipPartElement;
-  header?: TooltipPartElement;
-  footer?: TooltipPartElement;
-  render?: () => TooltipPartElement;
+  width?: number;
 }
 
 export const Tooltip: React.SFC<TooltipProps> = props => {
@@ -40,15 +36,10 @@ export const Tooltip: React.SFC<TooltipProps> = props => {
         opened
         hasShadow
       >
-        {props.render ? (
-          props.render()
-        ) : (
-          <TooltipContainer width={props.width} onClose={props.onClose}>
-            <Header>{props.header}</Header>
-            <Content>{props.content}</Content>
-            {props.footer}
-          </TooltipContainer>
-        )}
+        <div className={styles.tooltip} style={{ width: props.width }}>
+          <span className={styles.closeBtn} onClick={props.onClose} />
+          {props.children}
+        </div>
       </Popup>
     </RenderLayer>
   );
@@ -56,6 +47,7 @@ export const Tooltip: React.SFC<TooltipProps> = props => {
 
 Tooltip.defaultProps = {
   positions: ['bottom middle'],
+  width: 500,
   pinOptions: {
     hasPin: true,
     pinSize: 16,

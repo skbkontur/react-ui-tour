@@ -6,23 +6,9 @@ export interface PartProps {
   children?: React.ReactNode;
 }
 
-export interface TooltipContainerProps extends PartProps {
-  width?: number;
-  onClose?: () => void;
+export function TooltipContainer({ children }: PartProps) {
+  return <div className={styles.container}>{children}</div>;
 }
-
-export const TooltipContainer: React.SFC<TooltipContainerProps> = props => {
-  return (
-    <div className={styles.container} style={{ width: props.width }}>
-      <span className={styles.closeBtn} onClick={props.onClose} />
-      {props.children}
-    </div>
-  );
-};
-
-TooltipContainer.defaultProps = {
-  width: 500
-};
 
 export function Content({ children }: PartProps) {
   return <div className={styles.content}>{children}</div>;
