@@ -75,7 +75,7 @@ export class Tour extends React.Component<TourProps, {}> {
         onNext: this.handleNext,
         onPrev: this.handlePrev,
         stepIndex: this.state.stepIndex,
-        stepsCount: this.fallbackStepIndex ? stepsCount - 1 : stepsCount
+        stepsCount: this.fallbackStepIndex !== -1 ? stepsCount - 1 : stepsCount
       });
       
     return <div>{currentStepWithProps}</div>;
