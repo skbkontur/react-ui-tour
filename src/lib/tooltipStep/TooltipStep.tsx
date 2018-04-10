@@ -4,7 +4,6 @@ import { TooltipHighlight } from '../components/tooltip/TooltipHighlight';
 import { MultiStepFooter } from '../components/MultiStepFooter';
 import { StepProps, StepInternalProps } from '../tour/Tour';
 import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
-import { Footer } from '../components/footer/Footer';
 
 export interface TooltipStepOuterProps {
   target: () => Element;
@@ -65,17 +64,15 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
   renderTooltipFooter = () => {
     const stepIndex = this.props.stepIndex + 1;
 
-    return (
-      (this.props.footer && (
-        <Footer>{this.invokeRender(this.props.footer)}</Footer>
-      )) || (
-        <MultiStepFooter
-          points={this.props.stepsCount}
-          activePoint={stepIndex}
-          onPrev={this.props.onPrev}
-          onNext={this.props.onNext}
-        />
-      )
+    return this.props.footer ? (
+      this.invokeRender(this.props.footer)
+    ) : (
+      <MultiStepFooter
+        points={this.props.stepsCount}
+        activePoint={stepIndex}
+        onPrev={this.props.onPrev}
+        onNext={this.props.onNext}
+      />
     );
   };
 
