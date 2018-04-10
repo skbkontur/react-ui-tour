@@ -3,7 +3,7 @@ export * from './tour/Tour';
 export * from './step/step';
 export * from './tooltipStep/TooltipStep';
 export * from './components/tooltip/Tooltip';
-export * from './components/tooltip//tooltipParts/TooltipParts';
+export * from './components/footer/Footer';
 export * from './modalStep/ModalStep';
 export * from './components/highlight/Highlight';
 export * from './components/points/Points';

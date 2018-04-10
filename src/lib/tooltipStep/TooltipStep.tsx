@@ -4,12 +4,7 @@ import { TooltipHighlight } from '../components/tooltip/TooltipHighlight';
 import { MultiStepFooter } from '../components/MultiStepFooter';
 import { StepProps, StepInternalProps } from '../tour/Tour';
 import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
-import {
-  Footer,
-  TooltipContainer,
-  Header,
-  Content
-} from '../components/tooltip/tooltipParts/TooltipParts';
+import { Footer } from '../components/footer/Footer';
 
 export interface TooltipStepOuterProps {
   target: () => Element;
@@ -58,11 +53,11 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         onClose={this.props.onClose}
         width={this.props.width}
       >
-        <TooltipContainer>
-          <Header>{this.props.header}</Header>
-          <Content>{this.props.content}</Content>
-          {this.renderTooltipFooter()}
-        </TooltipContainer>
+        <Tooltip.Container>
+          <Tooltip.Header>{this.props.header}</Tooltip.Header>
+          <Tooltip.Body>{this.props.content}</Tooltip.Body>
+          <Tooltip.Footer>{this.renderTooltipFooter()}</Tooltip.Footer>
+        </Tooltip.Container>
       </Tooltip>
     );
   };

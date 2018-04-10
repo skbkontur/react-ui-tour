@@ -2,10 +2,15 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import * as classnames from 'classnames';
 
-import { Tour, TourProvider, ModalStep, Step, Tooltip, Header, Content } from '../lib';
-import { TooltipStep } from '../lib/tooltipStep/TooltipStep';
+import {
+  Tour,
+  TourProvider,
+  ModalStep,
+  Step,
+  Tooltip,
+  TooltipStep,
+} from '../lib';
 import { TooltipHighlight } from '../lib/components/tooltip/TooltipHighlight';
-import { TooltipContainer } from '../lib/components/tooltip/tooltipParts/TooltipParts';
 
 const styles = require('./app.less');
 
@@ -74,12 +79,12 @@ class App extends React.Component<{}, {}> {
               pinOptions={{ hasPin: false }}
               onClose={() => this.setState({ tooltipOpened: false })}
             >
-              <TooltipContainer>
-                <Header>Тултип</Header>
-                <Content>
+              <Tooltip.Container>
+                <Tooltip.Header>Тултип</Tooltip.Header>
+                <Tooltip.Body>
                   <div>Это обычный тултип, не зависящий от провайдера</div>
-                </Content>
-              </TooltipContainer>
+                </Tooltip.Body>
+              </Tooltip.Container>
             </Tooltip>
           </TooltipHighlight>
         )}

@@ -2,12 +2,7 @@ import * as React from 'react';
 
 import { Points } from './points/Points';
 import { TourButton } from './tourButton/TourButton';
-import {
-  Footer,
-  FooterCenterPart,
-  FooterLeftPart,
-  FooterRightPart
-} from './tooltip//tooltipParts/TooltipParts';
+import { Footer } from './footer/Footer';
 
 export interface MultiStepFooterProps {
   points: number;
@@ -73,9 +68,9 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
 
   return (
     <Footer>
-      <FooterLeftPart>{leftPartContent}</FooterLeftPart>
-      <FooterCenterPart>{centerPartContent}</FooterCenterPart>
-      <FooterRightPart>{rightPartContent}</FooterRightPart>
+      <Footer.LeftPart>{leftPartContent}</Footer.LeftPart>
+      <Footer.CenterPart>{centerPartContent}</Footer.CenterPart>
+      <Footer.RightPart>{rightPartContent}</Footer.RightPart>
     </Footer>
   );
 }
