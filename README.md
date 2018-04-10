@@ -73,10 +73,10 @@ Also you can use `Tooltip` as separate component without provider
 >
   <Tooltip.Container>
     <Tooltip.Header>Tooltip</Tooltip.Header>
-      <Tooltip.Body>
-        <div>Simple tooltip</div>
-      </Tooltip.Body>
-    </Tooltip.Container>
+    <Tooltip.Body>
+      <div>Simple tooltip</div>
+    </Tooltip.Body>
+  </Tooltip.Container>
 </Tooltip>
 ```
 
