@@ -1,31 +1,83 @@
 import * as React from 'react';
-
-import {Content, Header} from "./TooltipParts";
+import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
+import Popup from '@skbkontur/react-ui/components/Popup';
 
 const styles = require('./Tooltip.less');
 
-export interface TooltipProps {
-  children?: React.ReactNode;
-  header: React.ReactNode;
-  content: React.ReactNode;
-  footer: React.ReactNode | ((props: any) => React.ReactNode);
-  width?: number;
-  onClose?: () => void;
+export interface PinOptions {
+  hasPin?: boolean;
+  pinSize?: number;
+  pinOffset?: number;
 }
 
-export const Tooltip: React.StatelessComponent<TooltipProps> = props => {
-  return (
-    <div className={styles.tooltipContainer} style={{width: props.width}}>
-      <span className={styles.tooltipClose} onClick={props.onClose}/>
-      <div>
-        <Header>{props.header}</Header>
-        <Content>{props.content}</Content>
-        {props.footer}
-      </div>
-    </div>
-  );
-};
+export type TooltipPartElement = React.ReactElement<any> | React.ReactText;
 
-Tooltip.defaultProps = {
-  width: 500
-};
+export interface TooltipProps {
+  targetGetter: () => Element;
+  positions?: string[];
+  offset?: number;
+  onClose?: () => void;
+  pinOptions?: PinOptions;
+  width?: number;
+}
+
+export class Tooltip extends React.Component<TooltipProps> {
+  static defaultProps = {
+    positions: ['bottom middle'],
+    width: 500,
+    pinOptions: {
+      hasPin: true,
+      pinSize: 16,
+      pinOffset: 32
+    },
+    onClose: () => {}
+  };
+  static Container = Container;
+  static Header = Header;
+  static Body = Content;
+  static Footer = Footer;
+
+  render() {
+    return (
+      <RenderLayer
+        onClickOutside={this.props.onClose}
+        onFocusOutside={() => {}}
+        active
+      >
+        <Popup
+          anchorElement={this.props.targetGetter()}
+          positions={this.props.positions}
+          margin={this.props.offset}
+          {...this.props.pinOptions}
+          opened
+          hasShadow
+        >
+          <div className={styles.tooltip} style={{ width: this.props.width }}>
+            <span className={styles.closeBtn} onClick={this.props.onClose} />
+            {this.props.children}
+          </div>
+        </Popup>
+      </RenderLayer>
+    );
+  }
+}
+
+export interface TooltipPartProps {
+  children?: React.ReactNode;
+}
+
+export function Container({ children }: TooltipPartProps) {
+  return <div className={styles.container}>{children}</div>;
+}
+
+export function Header({ children }: TooltipPartProps) {
+  return <div className={styles.header}>{children}</div>;
+}
+
+export function Content({ children }: TooltipPartProps) {
+  return <div className={styles.body}>{children}</div>;
+}
+
+function Footer({ children }: TooltipPartProps) {
+  return <div className={styles.footer}>{children}</div>;
+}

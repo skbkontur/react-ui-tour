@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {TourProvider} from './TourProvider';
-import {processMove} from './processMove'
+import { TourProvider } from './TourProvider';
+import { processMove } from './processMove';
 
 export interface StepProps {
   isFallback?: boolean;
@@ -29,21 +29,23 @@ const SAFETY_EMPTY_INDEX = 10000;
 //todo: avoid extra rerendering
 export class Tour extends React.Component<TourProps, {}> {
   static contextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired,
+    [TourProvider.contextName]: React.PropTypes.object.isRequired
   };
 
   steps = null;
   fallbackStepIndex = null;
   state = {
     stepIndex: 0,
-    active: false,
+    active: false
   };
 
   constructor(props: TourProps) {
     super(props);
     //todo: warning for two final steps
     this.steps = this.processSteps(props.children);
-    this.fallbackStepIndex = this.steps.findIndex(step => step.props.isFallback);
+    this.fallbackStepIndex = this.steps.findIndex(
+      step => step.props.isFallback
+    );
   }
 
   componentWillReceiveProps(nextProps: TourProps) {
@@ -51,38 +53,37 @@ export class Tour extends React.Component<TourProps, {}> {
   }
 
   processSteps = (children: React.ReactNode) => {
-    const steps = React.Children.toArray(children) as React.ReactElement<StepProps & StepInternalProps>[];    
-    return steps.sort((a, b) => a.props.isFallback ? 1 : 0);    
-  }
+    const steps = React.Children.toArray(children) as React.ReactElement<
+      StepProps & StepInternalProps
+    >[];
+    return steps.sort((a, b) => (a.props.isFallback ? 1 : 0));
+  };
 
   render() {
-    const {id} = this.props;
+    const { id } = this.props;
     if (!this.state.active) {
       return null;
     }
-    const {stepIndex} = this.state;
+    const { stepIndex } = this.state;
     const step = this.steps[stepIndex];
     const stepsCount = this.steps.length;
 
-    const currentStepWithProps = step && React.cloneElement(
-      step,
-      {
+    const currentStepWithProps =
+      step &&
+      React.cloneElement(step, {
         onClose: this.handleClose,
         onNext: this.handleNext,
         onPrev: this.handlePrev,
         stepIndex: this.state.stepIndex,
         stepsCount: this.fallbackStepIndex ? stepsCount - 1 : stepsCount
-      }
-    );
-    return (
-      <div>{currentStepWithProps}</div>
-    );
+      });
+      
+    return <div>{currentStepWithProps}</div>;
   }
 
   componentDidMount() {
-    this.context[TourProvider.contextName].subscribe(
-      this.props.id,
-      () => this.run()
+    this.context[TourProvider.contextName].subscribe(this.props.id, () =>
+      this.run()
     );
   }
 
@@ -91,31 +92,29 @@ export class Tour extends React.Component<TourProps, {}> {
   }
 
   showTour = (clb: () => void) => {
-    this.setState(
-      {active: true, stepIndex: 0},
-      () => clb && clb());
-  }
+    this.setState({ active: true, stepIndex: 0 }, () => clb && clb());
+  };
 
   updateIndex = (index: number) => {
-    this.setState({stepIndex: index}, () => {
+    this.setState({ stepIndex: index }, () => {
       if (this.state.stepIndex === this.steps.length) {
         this.closeTour();
       }
     });
-  }
+  };
 
   run = () => {
     const firstStep = this.steps[0];
-    const {onBefore, onOpen} = firstStep.props;
+    const { onBefore, onOpen } = firstStep.props;
 
     if (onBefore) {
       return onBefore().then(() => {
         this.showTour(onOpen);
-      })
+      });
     }
 
     this.showTour(onOpen);
-  }
+  };
 
   handleNext = () => this.move(this.state.stepIndex, (a, b) => a + b);
   handlePrev = () => this.move(this.state.stepIndex, (a, b) => a - b);
@@ -145,10 +144,12 @@ export class Tour extends React.Component<TourProps, {}> {
   };
 
   handleClose = () => {
-    const {stepIndex} = this.state;
-    const hasFallbackStepToGo = this.fallbackStepIndex >= 0
-      && this.fallbackStepIndex !== stepIndex && stepIndex + 1 < this.fallbackStepIndex;
-      
+    const { stepIndex } = this.state;
+    const hasFallbackStepToGo =
+      this.fallbackStepIndex >= 0 &&
+      this.fallbackStepIndex !== stepIndex &&
+      stepIndex + 1 < this.fallbackStepIndex;
+
     if (hasFallbackStepToGo) {
       this.moveTo(this.fallbackStepIndex, stepIndex);
     } else {

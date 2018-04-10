@@ -9,22 +9,19 @@ export interface HighlightProps {
 }
 
 export function Highlight(props: HighlightProps) {
-  const {pos, highlight, color} = props;
+  const { pos, highlight, color } = props;
 
-  const highlightRoot = React.cloneElement(
-    highlight,
-    {
-      ...highlight.props,
-      style: {
-        ...highlight.props.style,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-      },
+  const highlightRoot = React.cloneElement(highlight, {
+    ...highlight.props,
+    style: {
+      ...highlight.props.style,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0
     }
-  );
+  });
 
   const width = pos.right - pos.left;
   const height = pos.bottom - pos.top;
@@ -35,7 +32,7 @@ export function Highlight(props: HighlightProps) {
     borderRightWidth: document.documentElement.offsetWidth - pos.right,
     borderBottomWidth: document.documentElement.offsetHeight - pos.bottom,
     width: width,
-    height: height,
+    height: height
   };
 
   return (

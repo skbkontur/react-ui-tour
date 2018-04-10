@@ -1,74 +1,51 @@
 @import '../variables.less';
 
+@container-padding-right: 35px;
+
 :local {
-  .tooltipContainer {
+  .tooltip {
     box-sizing: border-box;
-    padding: 30px 35px 45px 38px;
     position: relative;
     color: #333;
+
+    .closeBtn {
+      position: absolute;
+      top: 26px;
+      right: @container-padding-right;
+      cursor: pointer;
+      font-size: 31px !important;
+      &:before {
+        content: '×';
+        cursor: pointer;
+        color: #555;
+      }
+    }
   }
 
-  .tooltipHeader {
+  .container {
+    padding: 30px @container-padding-right 45px 40px;
+    p {
+      margin-top: 10px;
+      margin-bottom: 7px;
+    }
+  }
+
+  .header {
     font-size: 26px;
     margin-bottom: 15px;
     margin-right: 20px;
   }
 
-  .tooltipContent {
+  .body {
     min-height: 18px;
     font-size: 18px;
+    a {
+      text-decoration: none;
+      color: @tooltip-color-link;
+    }
   }
 
-  .tooltipContainer p {
-    margin-top: 10px;
-    margin-bottom: 7px;
-  }
-
-  .tooltipContent a {
-    text-decoration: none;
-    color: @tooltip-color-link;
-  }
-
-  .tooltipClose:before {
-    content: "×";
-    cursor: pointer;
-    color: #555;
-  }
-
-  .tooltipClose {
-    position: absolute;
-    top: 26px;
-    right: 30px;
-    cursor: pointer;
-    font-size: 31px !important;
-  }
-
-  .tooltipFooter {
-    position: relative;
-    text-align: center;
-    height: 42px;
-    vertical-align: middle;
+  .footer {
     margin-top: 20px;
-  }
-
-  .tooltipFooterLeftPart {
-    display: inline-block;
-    position: absolute;
-    left: 0;
-  }
-
-  .tooltipFooterCenterPart {
-    display: inline-block;
-  }
-
-  .tooltipFooterRightPart {
-    display: inline-block;
-    position: absolute;
-    right: 0;
-  }
-
-  .tooltipImage {
-    margin-top: 20px;
-    vertical-align: bottom;
   }
 }

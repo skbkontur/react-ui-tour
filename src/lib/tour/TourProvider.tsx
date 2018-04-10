@@ -8,7 +8,7 @@ export interface TourProviderProps {
 export class TourProvider extends React.Component<TourProviderProps, {}> {
   static contextName = '__tour__';
   static childContextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired,
+    [TourProvider.contextName]: React.PropTypes.object.isRequired
   };
 
   currentId: string | undefined;
@@ -26,27 +26,27 @@ export class TourProvider extends React.Component<TourProviderProps, {}> {
       [TourProvider.contextName]: {
         subscribe: this.subscribe,
         unsubscribe: this.unsubscribe,
-        onShown: this.onShown,
-      },
+        onShown: this.onShown
+      }
     };
   }
 
   subscribe = (id, callback) => {
     this.listeners[id] = callback;
     this.pushToQueue(id);
-  }
+  };
 
-  unsubscribe = (id) => {
+  unsubscribe = id => {
     this.removeFromQueue(id);
     delete this.listeners[id];
-  }
+  };
 
-  onShown = (id) => this.props.onTourShown && this.props.onTourShown(id);
+  onShown = id => this.props.onTourShown && this.props.onTourShown(id);
 
-  idPredicate = (id) => {
+  idPredicate = id => {
     const predicate = this.props.predicate;
     return predicate ? predicate(id) : true;
-  }
+  };
 
   notify(id) {
     this.listeners[id]();

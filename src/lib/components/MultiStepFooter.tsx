@@ -1,13 +1,8 @@
 import * as React from 'react';
 
-import {Points} from './points/Points';
-import {TourButton} from './tourButton/TourButton';
-import {
-  Footer,
-  FooterCenterPart,
-  FooterLeftPart,
-  FooterRightPart
-} from './tooltip/TooltipParts';
+import { Points } from './points/Points';
+import { TourButton } from './tourButton/TourButton';
+import { Footer } from './footer/Footer';
 
 export interface MultiStepFooterProps {
   points: number;
@@ -25,7 +20,11 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
 
   const renderNextButton = (innerText?: string, needArrow: boolean = true) => {
     return (
-      <TourButton onClick={props.onNext} color='blue' arrow={needArrow && 'right'}>
+      <TourButton
+        onClick={props.onNext}
+        color="blue"
+        arrow={needArrow && 'right'}
+      >
         {props.nextButtonText || innerText || 'Далее'}
       </TourButton>
     );
@@ -33,16 +32,19 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
 
   const renderPrevButton = (innerText?: string, needArrow: boolean = true) => {
     return (
-      <TourButton color='grey' onClick={props.onPrev} arrow={needArrow && 'left'}>
+      <TourButton
+        color="grey"
+        onClick={props.onPrev}
+        arrow={needArrow && 'left'}
+      >
         {props.prevButtonText || innerText || 'Назад'}
       </TourButton>
     );
   };
 
-  const points = <Points
-    count={props.points}
-    activePointIndex={props.activePoint }
-  />;
+  const points = (
+    <Points count={props.points} activePointIndex={props.activePoint} />
+  );
 
   let leftPartContent;
   let centerPartContent = points;
@@ -66,10 +68,9 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
 
   return (
     <Footer>
-      <FooterLeftPart>{leftPartContent}</FooterLeftPart>
-      <FooterCenterPart>{centerPartContent}</FooterCenterPart>
-      <FooterRightPart>{rightPartContent}</FooterRightPart>
+      <Footer.LeftPart>{leftPartContent}</Footer.LeftPart>
+      <Footer.CenterPart>{centerPartContent}</Footer.CenterPart>
+      <Footer.RightPart>{rightPartContent}</Footer.RightPart>
     </Footer>
   );
 }
-

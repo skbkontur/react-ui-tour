@@ -24,6 +24,7 @@ Then, anywhere inside the `TourProvider` add a `Tour` with some [steps](#steps):
     content={(
      <div>Hi, there!</div>
     )}
+    onOpen={() => console.log('Step was opened!')}
   />
   <TooltipStep
     target={() => document.getElementById('id-2')}
@@ -34,6 +35,49 @@ Then, anywhere inside the `TourProvider` add a `Tour` with some [steps](#steps):
     )}
   />
 </Tour>
+```
+
+Use [group](#steps) feature to invoke common callbacks (onAfter, onBefore) for all group, just pass group property as unique identifier for group:
+```tsx
+<Tour id='My Tour' >
+  <TooltipStep
+    group="group1"
+    target={() => document.getElementById('id-1')}
+    positions={['bottom right', 'right bottom']}
+    header='Step 1'
+    content={(
+     <div>Hi, there!</div>
+    )}
+    onBefore={() => /*some code*/}
+  />
+  <TooltipStep
+    group="group1"
+    target={() => document.getElementById('id-2')}
+    positions={['top left', 'top-right']}
+    header='Step 2'
+    content={(
+     <div>Hi, there again!</div>
+    )}
+    onAfter={() => /*some code*/}
+  />
+</Tour>
+```
+
+Also you can use `Tooltip` as separate component without provider
+```tsx
+<Tooltip
+  targetGetter={() => document.getElementById('id-3')}
+  positions={['right middle']}
+  pinOptions={{ hasPin: false }}
+  onClose={() => this.setState({ tooltipOpened: false })}
+>
+  <Tooltip.Container>
+    <Tooltip.Header>Tooltip</Tooltip.Header>
+    <Tooltip.Body>
+      <div>Simple tooltip</div>
+    </Tooltip.Body>
+  </Tooltip.Container>
+</Tooltip>
 ```
 
 ## Api
@@ -63,6 +107,8 @@ All of these take the following props:
   isFallback?: boolean; // that step to be showing if only tour was closed
   onBefore?: () => Promise<void>;
   onAfter?: () => Promise<void>;
+  onOpen?: () => void;
+  group?: string;
   render?: (props: StepInternalProps) => React.ReactElement<any>
 ```
 Prop `render` provides ability to customize whole Step.
@@ -90,6 +136,7 @@ interface TooltipStepOuterProps {
   highlight?: React.ReactElement<any>; // highlight for pointed element
   offset?: number;
   width?: number;
+  pinOptions?: PinOptions;
   content?: React.ReactElement<any> | string;
   header?: React.ReactElement<any> | string;
   footer?: (props: StepInternalProps) => React.ReactElement<any>;
@@ -105,6 +152,19 @@ interface ModalStepOuterProps {
   header?: React.ReactElement<any> | string;
   footer?: (props: StepInternalProps) => React.ReactElement<any>;
   render?: (props: StepInternalProps) => React.ReactElement<any>; // that ovveride usage of content, header and footer props
+}
+```
+
+### Tooltip
+A component provides tooltip view with the following props:
+```ts
+interface TooltipProps {
+  targetGetter: () => Element;
+  positions?: string[];
+  offset?: number;
+  onClose?: () => void;
+  pinOptions?: PinOptions;
+  width?: number;
 }
 ```
 
