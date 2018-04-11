@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { TourProvider } from './TourProvider';
 import { processMove } from './processMove';
+import { TourContainer } from '../../../__tests__/tour.test';
 
 export interface StepProps {
   isFallback?: boolean;
@@ -22,16 +23,13 @@ export interface StepInternalProps {
 export interface TourProps {
   id: string;
   children: React.ReactNode;
+  onClose?: () => void;
 }
 
 const SAFETY_EMPTY_INDEX = 10000;
 
 //todo: avoid extra rerendering
-export class Tour extends React.Component<TourProps, {}> {
-  static contextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired
-  };
-
+export class TourComponent extends React.Component<TourProps, {}> {
   steps = null;
   fallbackStepIndex = null;
   state = {
@@ -81,24 +79,14 @@ export class Tour extends React.Component<TourProps, {}> {
     return <div>{currentStepWithProps}</div>;
   }
 
-  componentDidMount() {
-    this.context[TourProvider.contextName].subscribe(this.props.id, () =>
-      this.run()
-    );
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
   showTour = (clb: () => void) => {
     this.setState({ active: true, stepIndex: 0 }, () => clb && clb());
   };
 
   updateIndex = (index: number) => {
     this.setState({ stepIndex: index }, () => {
-      if (this.state.stepIndex === this.steps.length) {
-        this.closeTour();
+      if (this.state.stepIndex === this.steps.length && this.props.onClose) {
+        this.props.onClose();
       }
     });
   };
@@ -156,13 +144,43 @@ export class Tour extends React.Component<TourProps, {}> {
       this.moveTo(this.steps.length, stepIndex);
     }
   };
+}
 
-  unsubscribe() {
-    this.context[TourProvider.contextName].unsubscribe(this.props.id);
+export class Tour extends React.Component<TourProps> {
+  static contextTypes = {
+    [TourProvider.contextName]: React.PropTypes.object.isRequired
+  };
+
+  tour = null;
+
+  render() {
+    return (
+      <TourComponent 
+        {...this.props} 
+        ref={el => this.tour = el}
+        onClose={this.closeTour}
+      />
+    );
   }
 
-  closeTour() {
+  componentDidMount() {
+    this.context[TourProvider.contextName].subscribe(
+      this.props.id, 
+      () => this.run()
+    );
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  run = () => this.tour.run();
+
+  unsubscribe = () => this.context[TourProvider.contextName].unsubscribe(this.props.id);
+
+  closeTour = () => {
     this.unsubscribe();
     this.context[TourProvider.contextName].onShown(this.props.id);
+    this.props.onClose && this.props.onClose();
   }
-}
+} 
