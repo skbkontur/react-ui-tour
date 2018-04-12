@@ -1,5 +1,6 @@
 {
   "extends": [
-    "@extern/tslint"
+    "@extern/tslint",
+    "tslint-config-prettier"
   ]
 }
