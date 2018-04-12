@@ -6,9 +6,9 @@
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --config config/webpack.dev.js",
     "build": "node build.prod.js",
-    "build-doc": "webpack -p",
+    "build-doc": "webpack --config config/webpack.prod.js",
     "publish-doc": "rimraf dist && git clone -b gh-pages git@github.com:skbkontur/react-ui-tour.git dist && npm run build-doc && cd dist && git add --all && git commit --allow-empty -m \"published doc\" && git push && cd ..",
     "cmbuild": "npm i && npm run build",
     "storybook": "start-storybook -p 6006",
