@@ -9,9 +9,9 @@ module.exports = merge(
   parts.loadTS({
     configFileName: path.resolve(__dirname, '../tsconfig.json')
   }),
-  // parts.emitSourceMaps(),
+  parts.emitSourceMaps(),
   {
-    // devtool: 'source-map',
+    devtool: 'source-map',
     devServer: parts.devServer(),
     mode: 'development'
   }

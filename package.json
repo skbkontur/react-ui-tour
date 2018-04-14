@@ -55,6 +55,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-test-renderer": "^15.6.2",
+    "source-map-loader": "^0.2.3",
     "style-loader": "^0.20.3",
     "ts-jest": "^21.2.4",
     "tslib": "^1.9.0",
