@@ -13,7 +13,8 @@
       "scripthost"
     ],
     "declaration": true,
-    "outDir": "./build"
+    "outDir": "./build",
+    "sourceMap": true
   },
   "include": [
     "src",

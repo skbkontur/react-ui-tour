@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {mount} from 'enzyme';
 
-import {TourProvider, Tour, Step} from '../src/lib';
+import {TourProvider, Tour, Step} from '../src/lib/index';
 import {processMove} from '../src/lib/tour/processMove'
 
 jest.useFakeTimers();
