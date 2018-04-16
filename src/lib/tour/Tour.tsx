@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { TourProvider } from './TourProvider';
 import { processMove } from './processMove';
-import { TourContainer } from '../../../__tests__/tour.test';
 
 export interface StepProps {
   isFallback?: boolean;
