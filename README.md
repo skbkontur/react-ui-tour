@@ -65,7 +65,7 @@ Use [group](#steps) feature to invoke common callbacks (onAfter, onBefore) for a
 
 Also you can use `Tour` and `Tooltip` as separate components without provider
 ```tsx
-<TourComponent>
+<TourComponent onClose={() => console.log('Tour was closed!')}>
   <TooltipStep
     target={() => document.getElementById('id-1')}
     positions={['bottom right', 'right bottom']}
@@ -105,11 +105,21 @@ interface TourProviderProps {
 ```
 
 ### Tour
-A sequence of steps to be shown. Should be provided with an unique identifier. Has the following props:
+A sequence of steps to be shown wit connection to provider Should be provided with an unique identifier. Has the following props:
 ```ts
 interface TourProps {
   id: string; // a string to identify a tour
               // will be passed to `predicate` and `onTourShown` callbacks of `TourProvider`
+}
+```
+
+### TourComponent
+A sequence of steps to be shown without connection to provider.
+Has the following props:
+```ts
+interface TourComponentProps {
+  children: React.ReactNode;
+  onClose?: () => void;
 }
 ```
 
