@@ -63,7 +63,20 @@ Use [group](#steps) feature to invoke common callbacks (onAfter, onBefore) for a
 </Tour>
 ```
 
-Also you can use `Tooltip` as separate component without provider
+Also you can use `Tour` and `Tooltip` as separate components without provider
+```tsx
+<TourComponent>
+  <TooltipStep
+    target={() => document.getElementById('id-1')}
+    positions={['bottom right', 'right bottom']}
+    header='Step 1'
+    content={(
+     <div>Hi, there!</div>
+    )}
+  />     
+</TourComponent>
+```
+
 ```tsx
 <Tooltip
   targetGetter={() => document.getElementById('id-3')}
