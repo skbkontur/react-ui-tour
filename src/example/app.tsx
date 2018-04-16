@@ -4,11 +4,12 @@ import * as classnames from 'classnames';
 
 import {
   Tour,
+  TourComponent,
   TourProvider,
   ModalStep,
   Step,
   Tooltip,
-  TooltipStep,
+  TooltipStep
 } from '../lib';
 import { TooltipHighlight } from '../lib/components/tooltip/TooltipHighlight';
 
@@ -53,7 +54,8 @@ class App extends React.Component<{}, {}> {
   state = {
     demo2isShown: false,
     demo3isShown: false,
-    tooltipOpened: true
+    tooltipOpened: true,
+    unconnectedTourOpened: false
   };
 
   componentDidMount() {
@@ -103,13 +105,17 @@ class App extends React.Component<{}, {}> {
             <div className={demo3Class} data-tour-id="demo3">
               Hi, there!
             </div>
+
             <Tour id="id1">
               <ModalStep
                 header="Это приветственный шаг первого тура"
                 content="А это текст для приветственного шага"
-                onBefore={() => new Promise(res => setTimeout(res, 5000))}
+                onBefore={() => new Promise(res => setTimeout(res, 3000))}
                 onAfter={() => new Promise(res => res())}
-                onOpen={() => console.log('Это приветственный шаг, onOpen')}
+                onOpen={() => {
+                  console.log('Это приветственный шаг, onOpen');
+                  this.setState({ tooltipOpened: false });
+                }}
               />
               <TooltipStep
                 target={demo1}
@@ -161,12 +167,16 @@ class App extends React.Component<{}, {}> {
               />
             </Tour>
 
-            <Tour id="id2">
+            <Tour
+              id="id2"
+              onClose={() => this.setState({ unconnectedTourOpened: true })}
+            >
               <ModalStep
                 header="Это приветственный шаг второго тура"
                 content="А это текст для приветственного шага"
               />
               <TooltipStep
+                group="group1"
                 target={demo2}
                 positions={['left middle']}
                 header="Это второй шаг"
@@ -174,7 +184,6 @@ class App extends React.Component<{}, {}> {
                 highlight={customHighlight}
                 offset={30}
                 onOpen={() => console.log('Это второй шаг, onOpen')}
-                group="group1"
                 onBefore={() =>
                   new Promise(res => {
                     console.log('Это второй шаг, onBefore');
@@ -190,12 +199,12 @@ class App extends React.Component<{}, {}> {
                 }
               />
               <TooltipStep
+                group="group1"
                 target={demo2}
                 positions={['left middle']}
                 header="Третий шаг"
                 content={defaultContent}
                 highlight={customHighlight}
-                group="group1"
                 offset={30}
                 onBefore={() =>
                   new Promise(res => {
@@ -225,14 +234,45 @@ class App extends React.Component<{}, {}> {
                   })
                 }
                 onAfter={() =>
-                  new Promise(res =>
-                    this.setState({ demo3isShown: false }, res)
-                  )
+                  new Promise(res => {
+                    this.setState({ demo3isShown: false }, res);
+                  })
                 }
               />
             </Tour>
           </div>
         </TourProvider>
+
+        {this.state.unconnectedTourOpened && (
+          <TourComponent onClose={() => this.setState({ unconnectedTourOpened: false })}>
+            <TooltipStep
+              target={demo1}
+              positions={['right top']}
+              highlight={customHighlight}
+              header="Это первый шаг тура, который не зависит от провайдера"
+              content={defaultContent}
+              offset={30}
+            />
+            <TooltipStep
+              target={demo2}
+              positions={['left middle']}
+              header="Это второй шаг"
+              content={defaultContent}
+              highlight={customHighlight}
+              offset={30}
+              pinOptions={{ hasPin: false }}
+              onBefore={() =>
+                new Promise(res => {
+                  this.setState({ demo2isShown: true });
+                  setTimeout(res, 500);
+                })
+              }
+              onAfter={() =>
+                new Promise(res => this.setState({ demo2isShown: false }, res))
+              }
+            />
+          </TourComponent>
+        )}
       </div>
     );
   }

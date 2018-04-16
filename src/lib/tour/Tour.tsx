@@ -19,19 +19,15 @@ export interface StepInternalProps {
   onClose: () => void;
 }
 
-export interface TourProps {
-  id: string;
+export interface TourComponentProps {
   children: React.ReactNode;
+  onClose?: () => void;
 }
 
 const SAFETY_EMPTY_INDEX = 10000;
 
 //todo: avoid extra rerendering
-export class Tour extends React.Component<TourProps, {}> {
-  static contextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired
-  };
-
+export class TourComponent extends React.Component<TourComponentProps, {}> {
   steps = null;
   fallbackStepIndex = null;
   state = {
@@ -48,19 +44,15 @@ export class Tour extends React.Component<TourProps, {}> {
     );
   }
 
+  componentDidMount() {
+    this.run();
+  }
+
   componentWillReceiveProps(nextProps: TourProps) {
     this.steps = this.processSteps(nextProps.children);
   }
 
-  processSteps = (children: React.ReactNode) => {
-    const steps = React.Children.toArray(children) as React.ReactElement<
-      StepProps & StepInternalProps
-    >[];
-    return steps.sort((a, b) => (a.props.isFallback ? 1 : 0));
-  };
-
   render() {
-    const { id } = this.props;
     if (!this.state.active) {
       return null;
     }
@@ -77,30 +69,15 @@ export class Tour extends React.Component<TourProps, {}> {
         stepIndex: this.state.stepIndex,
         stepsCount: this.fallbackStepIndex !== -1 ? stepsCount - 1 : stepsCount
       });
-      
+
     return <div>{currentStepWithProps}</div>;
   }
 
-  componentDidMount() {
-    this.context[TourProvider.contextName].subscribe(this.props.id, () =>
-      this.run()
-    );
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  showTour = (clb: () => void) => {
-    this.setState({ active: true, stepIndex: 0 }, () => clb && clb());
-  };
-
-  updateIndex = (index: number) => {
-    this.setState({ stepIndex: index }, () => {
-      if (this.state.stepIndex === this.steps.length) {
-        this.closeTour();
-      }
-    });
+  processSteps = (children: React.ReactNode) => {
+    const steps = React.Children.toArray(children) as React.ReactElement<
+      StepProps & StepInternalProps
+    >[];
+    return steps.sort((a, b) => (a.props.isFallback ? 1 : 0));
   };
 
   run = () => {
@@ -114,6 +91,18 @@ export class Tour extends React.Component<TourProps, {}> {
     }
 
     this.showTour(onOpen);
+  };
+
+  showTour = (clb: () => void) => {
+    this.setState({ active: true, stepIndex: 0 }, () => clb && clb());
+  };
+
+  updateIndex = (index: number) => {
+    this.setState({ stepIndex: index }, () => {
+      if (this.state.stepIndex === this.steps.length && this.props.onClose) {
+        this.props.onClose();
+      }
+    });
   };
 
   handleNext = () => this.move(this.state.stepIndex, (a, b) => a + b);
@@ -156,13 +145,47 @@ export class Tour extends React.Component<TourProps, {}> {
       this.moveTo(this.steps.length, stepIndex);
     }
   };
+}
 
-  unsubscribe() {
-    this.context[TourProvider.contextName].unsubscribe(this.props.id);
+export interface TourProps {
+  id: string;
+  children: React.ReactNode;
+  onClose?: () => void;
+}
+
+export interface TourState {
+  showTour: boolean;
+}
+
+export class Tour extends React.Component<TourProps, TourState> {
+  static contextTypes = {
+    [TourProvider.contextName]: React.PropTypes.object.isRequired
+  };
+
+  state = { showTour: false };
+
+  render() {
+    return this.state.showTour ? (
+      <TourComponent {...this.props} onClose={this.closeTour} />
+    ) : null;
   }
 
-  closeTour() {
+  componentDidMount() {
+    this.context[TourProvider.contextName].subscribe(this.props.id, this.run);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  run = () => this.setState({ showTour: true });
+
+  unsubscribe = () =>
+    this.context[TourProvider.contextName].unsubscribe(this.props.id);
+
+  closeTour = () => {
     this.unsubscribe();
     this.context[TourProvider.contextName].onShown(this.props.id);
-  }
+    this.setState({ showTour: false }, this.props.onClose);
+  };
 }
