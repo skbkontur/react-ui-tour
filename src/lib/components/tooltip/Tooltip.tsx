@@ -10,8 +10,6 @@ export interface PinOptions {
   pinOffset?: number;
 }
 
-export type TooltipPartElement = React.ReactElement<any> | React.ReactText;
-
 export interface TooltipProps {
   targetGetter: () => Element;
   positions?: string[];
