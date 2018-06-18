@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 
 export interface TourProviderProps {
   predicate?: (id: string) => boolean;
@@ -8,7 +9,7 @@ export interface TourProviderProps {
 export class TourProvider extends React.Component<TourProviderProps, {}> {
   static contextName = '__tour__';
   static childContextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired
+    [TourProvider.contextName]: PropTypes.object.isRequired
   };
 
   currentId: string | undefined;
