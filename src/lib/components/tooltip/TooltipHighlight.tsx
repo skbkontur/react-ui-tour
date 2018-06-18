@@ -1,8 +1,8 @@
-import * as React from 'react';
-import LayoutEvents from '@skbkontur/react-ui/lib/LayoutEvents';
-import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
+import * as React from "react";
+import LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
+import RenderContainer from "@skbkontur/react-ui/components/RenderContainer";
 
-import { Highlight } from '../highlight/Highlight';
+import { Highlight } from "../highlight/Highlight";
 
 const initialRect = {
   top: 0,

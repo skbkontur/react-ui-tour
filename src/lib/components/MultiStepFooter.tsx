@@ -1,8 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Points } from './points/Points';
-import { TourButton } from './tourButton/TourButton';
-import { Footer } from './footer/Footer';
+import { Points } from "./points/Points";
+import { TourButton } from "./tourButton/TourButton";
+import { Footer } from "./footer/Footer";
 
 export interface MultiStepFooterProps {
   points: number;
@@ -23,9 +23,9 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
       <TourButton
         onClick={props.onNext}
         color="blue"
-        arrow={needArrow && 'right'}
+        arrow={needArrow && "right"}
       >
-        {props.nextButtonText || innerText || 'Далее'}
+        {props.nextButtonText || innerText || "Далее"}
       </TourButton>
     );
   };
@@ -35,9 +35,9 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
       <TourButton
         color="grey"
         onClick={props.onPrev}
-        arrow={needArrow && 'left'}
+        arrow={needArrow && "left"}
       >
-        {props.prevButtonText || innerText || 'Назад'}
+        {props.prevButtonText || innerText || "Назад"}
       </TourButton>
     );
   };
@@ -51,16 +51,16 @@ export function MultiStepFooter(props: MultiStepFooterProps) {
   let rightPartContent;
   if (props.points === 1) {
     centerPartContent = null;
-    leftPartContent = renderNextButton('Приступить', false);
+    leftPartContent = renderNextButton("Приступить", false);
   } else if (props.activePoint === 1) {
     rightPartContent = renderNextButton();
   } else if (props.activePoint === props.points) {
     leftPartContent = renderPrevButton();
-    rightPartContent = renderNextButton('Приступить', false);
+    rightPartContent = renderNextButton("Приступить", false);
   } else if (props.activePoint > props.points) {
     leftPartContent = renderPrevButton();
     centerPartContent = null;
-    rightPartContent = renderNextButton('Приступить', false);
+    rightPartContent = renderNextButton("Приступить", false);
   } else {
     leftPartContent = renderPrevButton();
     rightPartContent = renderNextButton();

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import * as React from "react";
+import * as PropTypes from "prop-types";
 
-import { TourProvider } from './TourProvider';
-import { processMove } from './processMove';
+import { TourProvider } from "./TourProvider";
+import { processMove } from "./processMove";
 
 export interface StepProps {
   isFallback?: boolean;

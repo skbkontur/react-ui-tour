@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { StepProps } from './Tour';
+import { StepProps } from "./Tour";
 
 export const processMove = (
   prevStep: React.ReactElement<StepProps>,

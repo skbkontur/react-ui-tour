@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { StepProps, StepInternalProps } from '../tour/Tour';
+import { StepProps, StepInternalProps } from "../tour/Tour";
 
 export interface StepOuterProps {
   render: (props: StepInternalProps) => React.ReactElement<any>;

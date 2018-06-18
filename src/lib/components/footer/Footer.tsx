@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-const styles = require('./Footer.less');
+const styles = require("./Footer.less");
 
 export interface FooterProps {
   children?: React.ReactNode;
@@ -12,8 +12,8 @@ export class Footer extends React.Component<FooterProps> {
   static CenterPart = FooterCenterPart;
   static RightPart = FooterRightPart;
   static Image = FooterImage;
-  
-  render () {
+
+  render() {
     return (
       <div className={styles.footer} style={this.props.style}>
         {this.props.children}

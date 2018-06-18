@@ -1,8 +1,8 @@
-import * as React from 'react';
-import Modal from '@skbkontur/react-ui/components/Modal';
-import Button from '@skbkontur/react-ui/components/Button';
+import * as React from "react";
+import Modal from "@skbkontur/react-ui/components/Modal";
+import Button from "@skbkontur/react-ui/components/Button";
 
-import { StepProps, StepInternalProps } from '../tour/Tour';
+import { StepProps, StepInternalProps } from "../tour/Tour";
 
 export interface ModalStepOuterProps {
   width?: number;
