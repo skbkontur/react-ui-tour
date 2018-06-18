@@ -1,16 +1,19 @@
 import * as React from 'react';
 
+export interface TourContextValue {
+  subscribe: (id: string, callback: () => void) => void;
+  unsubscribe: (id: string) => void;
+  onShown: (id: string) => void;
+}
+
+export const TourContext = React.createContext({} as TourContextValue);
+
 export interface TourProviderProps {
   predicate?: (id: string) => boolean;
   onTourShown?: (id: string) => void;
 }
 
 export class TourProvider extends React.Component<TourProviderProps, {}> {
-  static contextName = '__tour__';
-  static childContextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired
-  };
-
   currentId: string | undefined;
   queue = [] as string[];
   listeners: {
@@ -18,30 +21,31 @@ export class TourProvider extends React.Component<TourProviderProps, {}> {
   } = {};
 
   render() {
-    return React.Children.only(this.props.children);
+    return (
+      <TourContext.Provider
+        value={{
+          subscribe: this.subscribe,
+          unsubscribe: this.unsubscribe,
+          onShown: this.onShown
+        }}
+      >
+        {React.Children.only(this.props.children)}
+      </TourContext.Provider>
+    );
   }
 
-  getChildContext() {
-    return {
-      [TourProvider.contextName]: {
-        subscribe: this.subscribe,
-        unsubscribe: this.unsubscribe,
-        onShown: this.onShown
-      }
-    };
-  }
-
-  subscribe = (id, callback) => {
+  subscribe = (id: string, callback: () => void) => {
     this.listeners[id] = callback;
     this.pushToQueue(id);
   };
 
-  unsubscribe = id => {
+  unsubscribe = (id: string) => {
     this.removeFromQueue(id);
     delete this.listeners[id];
   };
 
-  onShown = id => this.props.onTourShown && this.props.onTourShown(id);
+  onShown = (id: string) =>
+    this.props.onTourShown && this.props.onTourShown(id);
 
   idPredicate = id => {
     const predicate = this.props.predicate;

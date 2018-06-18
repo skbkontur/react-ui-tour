@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { TourProvider } from './TourProvider';
+import { TourContext, TourContextValue } from './TourProvider';
 import { processMove } from './processMove';
 
 export interface StepProps {
@@ -153,15 +153,37 @@ export interface TourProps {
   onClose?: () => void;
 }
 
-export interface TourState {
+export class Tour extends React.Component<TourProps> {
+  render() {
+    return (
+      <TourContext.Consumer>
+        {({ subscribe, unsubscribe, onShown }) => (
+          <TourConsumer
+            {...this.props}
+            subscribe={subscribe}
+            unsubscribe={unsubscribe}
+            onShown={onShown}
+          />
+        )}
+      </TourContext.Consumer>
+    );
+  }
+}
+
+export interface TourConsumerProps extends TourContextValue {
+  id: string;
+  children: React.ReactNode;
+  onClose?: () => void;
+}
+
+export interface TourConsumerState {
   showTour: boolean;
 }
 
-export class Tour extends React.Component<TourProps, TourState> {
-  static contextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired
-  };
-
+export class TourConsumer extends React.Component<
+  TourConsumerProps,
+  TourConsumerState
+> {
   state = { showTour: false };
 
   render() {
@@ -171,21 +193,19 @@ export class Tour extends React.Component<TourProps, TourState> {
   }
 
   componentDidMount() {
-    this.context[TourProvider.contextName].subscribe(this.props.id, this.run);
+    this.props.subscribe(this.props.id, this.run);
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.props.unsubscribe(this.props.id);
   }
 
   run = () => this.setState({ showTour: true });
 
-  unsubscribe = () =>
-    this.context[TourProvider.contextName].unsubscribe(this.props.id);
-
   closeTour = () => {
-    this.unsubscribe();
-    this.context[TourProvider.contextName].onShown(this.props.id);
+    const { id } = this.props;
+    this.props.unsubscribe(id);
+    this.props.onShown(id);
     this.setState({ showTour: false }, this.props.onClose);
   };
 }

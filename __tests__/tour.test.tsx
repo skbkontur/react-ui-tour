@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {mount} from 'enzyme';
 
-import {TourProvider, Tour, Step} from '../src/lib/index';
+import { TourProvider, Tour, Step, TourConsumer, TourContext } from '../src/lib';
 import {processMove} from '../src/lib/tour/processMove'
 
 jest.useFakeTimers();
@@ -206,20 +206,24 @@ describe('Tour. Api', () => {
   const onShown = jest.fn();
   beforeEach(() => {
     wrapper = mount(
-      <Tour id="someid">
-        <Step render={Step1}/>
-        <Step render={Step2}/>
-        <Step render={Step3}/>
-      </Tour>
-    , {
-      context: {
-        [TourProvider.contextName]: {
-          subscribe,
-          unsubscribe,
-          onShown,
-        },
-      }
-    })
+      <div>
+        <TourContext.Consumer>
+          {props => (
+            <TourConsumer
+              {...props}
+              id="someid"
+              subscribe={subscribe}
+              unsubscribe={unsubscribe}
+              onShown={onShown}
+            >
+              <Step render={Step1}/>
+              <Step render={Step2}/>
+              <Step render={Step3}/>
+            </TourConsumer>
+          )}
+        </TourContext.Consumer>
+      </div>
+    );
   })
   it('subscribe will be called after render', () => {
     expect(subscribe.mock.calls.length).toBe(1);
@@ -244,9 +248,13 @@ export class TourContainer extends React.Component {
     return (
       <div>
         <TourProvider predicate={(id) => true} onTourShown={() => {}}>
-          <Tour id="someid" ref={(tour) => this.tour = tour}>
-            {this.props.children}
-          </Tour>
+          <TourContext.Consumer>
+            {props => (
+              <TourConsumer {...props} id="someid" ref={(tour) => this.tour = tour}>
+                {this.props.children}
+              </TourConsumer>
+            )}
+          </TourContext.Consumer>
         </TourProvider>
         <button className="run" onClick={this.run}>run</button>
       </div>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
 
-import {TourProvider} from '../src/lib/index';
+import {TourProvider} from '../src/lib';
 
 describe('test tour main logic', () => {
   const tourIds = {
