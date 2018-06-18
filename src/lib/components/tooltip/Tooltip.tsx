@@ -1,8 +1,8 @@
-import * as React from 'react';
-import RenderLayer from '@skbkontur/react-ui/components/RenderLayer';
-import Popup from '@skbkontur/react-ui/components/Popup';
+import * as React from "react";
+import RenderLayer from "@skbkontur/react-ui/components/RenderLayer";
+import Popup from "@skbkontur/react-ui/components/Popup";
 
-const styles = require('./Tooltip.less');
+const styles = require("./Tooltip.less");
 
 export interface PinOptions {
   hasPin?: boolean;
@@ -21,7 +21,7 @@ export interface TooltipProps {
 
 export class Tooltip extends React.Component<TooltipProps> {
   static defaultProps = {
-    positions: ['bottom middle'],
+    positions: ["bottom middle"],
     width: 500,
     pinOptions: {
       hasPin: true,

@@ -1,9 +1,9 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import * as ReactDOMServer from 'react-dom/server';
-import * as ShallowRenderer from 'react-test-renderer/shallow';
-import * as TestUtils from 'react-dom/test-utils';
-import { EnzymeAdapter } from 'enzyme';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import * as ReactDOMServer from "react-dom/server";
+import * as ShallowRenderer from "react-test-renderer/shallow";
+import * as TestUtils from "react-dom/test-utils";
+import { EnzymeAdapter } from "enzyme";
 import {
   elementToTree,
   nodeTypeFromType,
@@ -14,11 +14,11 @@ import {
   createRenderWrapper,
   createMountWrapper,
   propsWithKeysAndRef
-} from 'enzyme-adapter-utils';
-import { findCurrentFiberUsingSlowPath } from 'react-reconciler/reflection';
+} from "enzyme-adapter-utils";
+import { findCurrentFiberUsingSlowPath } from "react-reconciler/reflection";
 
 function ensureKeyOrUndefined(key) {
-  return key || (key === '' ? '' : undefined);
+  return key || (key === "" ? "" : undefined);
 }
 
 const HostRoot = 3;
@@ -76,7 +76,7 @@ function toTree(vnode) {
       return toTree(node.child);
     case ClassComponent:
       return {
-        nodeType: 'class',
+        nodeType: "class",
         type: node.type,
         props: { ...node.memoizedProps },
         key: ensureKeyOrUndefined(node.key),
@@ -86,7 +86,7 @@ function toTree(vnode) {
       };
     case FunctionalComponent: // 1
       return {
-        nodeType: 'function',
+        nodeType: "function",
         type: node.type,
         props: { ...node.memoizedProps },
         key: ensureKeyOrUndefined(node.key),
@@ -101,7 +101,7 @@ function toTree(vnode) {
         renderedNodes = [node.memoizedProps.children];
       }
       return {
-        nodeType: 'host',
+        nodeType: "host",
         type: node.type,
         props: { ...node.memoizedProps },
         key: ensureKeyOrUndefined(node.key),
@@ -149,7 +149,7 @@ function nodeToHostNode(_node) {
   }
   if (Array.isArray(node)) {
     // TODO(lmr): throw warning regarding not being able to get a host node here
-    throw new Error('Trying to get host node of an array');
+    throw new Error("Trying to get host node of an array");
   }
   // if the SFC returned null effectively, there is no host node.
   if (!node) {
@@ -168,8 +168,8 @@ export class ReactSixteenAdapter extends EnzymeAdapter {
   }
 
   createMountRenderer(options) {
-    assertDomAvailable('mount');
-    const domNode = options.attachTo || global.document.createElement('div');
+    assertDomAvailable("mount");
+    const domNode = options.attachTo || global.document.createElement("div");
     let instance = null;
     return {
       render(el, context, callback) {
@@ -181,7 +181,7 @@ export class ReactSixteenAdapter extends EnzymeAdapter {
             context
           });
           instance = ReactDOM.render(wrappedEl, domNode);
-          if (typeof callback === 'function') {
+          if (typeof callback === "function") {
             callback();
           }
         } else {
@@ -221,7 +221,7 @@ export class ReactSixteenAdapter extends EnzymeAdapter {
       render(el, context) {
         cachedNode = el;
         /* eslint consistent-return: 0 */
-        if (typeof el.type === 'string') {
+        if (typeof el.type === "string") {
           isDOM = true;
         } else {
           isDOM = false;
@@ -315,7 +315,7 @@ export class ReactSixteenAdapter extends EnzymeAdapter {
   // be pretty straightforward for people to implement.
   // eslint-disable-next-line class-methods-use-this, no-unused-vars
   nodeToElement(node) {
-    if (!node || typeof node !== 'object') return null;
+    if (!node || typeof node !== "object") return null;
     return React.createElement(node.type, propsWithKeysAndRef(node));
   }
 

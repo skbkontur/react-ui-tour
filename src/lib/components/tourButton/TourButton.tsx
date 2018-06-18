@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-const styles = require('./TourButton.less');
+const styles = require("./TourButton.less");
 
 export interface TourButtonProps {
   color: string;
@@ -11,17 +11,17 @@ export interface TourButtonProps {
 }
 
 export function TourButton(props: TourButtonProps) {
-  let className = `${styles.tourButton} ${styles[props.color + 'TourButton']}`;
-  if (props.arrow === 'right' || props.arrow === 'left') {
+  let className = `${styles.tourButton} ${styles[props.color + "TourButton"]}`;
+  if (props.arrow === "right" || props.arrow === "left") {
     className = `${className} ${styles.tourButtonArrow} ${
-      styles[props.arrow + 'TourButtonArrow']
+      styles[props.arrow + "TourButtonArrow"]
     }`;
   }
-  
+
   return (
-    <div style={{ display: 'inline-block' }}>
+    <div style={{ display: "inline-block" }}>
       <button style={props.style} className={className} onClick={props.onClick}>
-        <div style={{ position: 'relative' }}>{props.children}</div>
+        <div style={{ position: "relative" }}>{props.children}</div>
       </button>
     </div>
   );

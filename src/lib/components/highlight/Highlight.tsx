@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-const styles = require('./Highlight.less');
+const styles = require("./Highlight.less");
 
 export interface HighlightProps {
   pos: ClientRect;
@@ -15,7 +15,7 @@ export function Highlight(props: HighlightProps) {
     ...highlight.props,
     style: {
       ...highlight.props.style,
-      position: 'absolute',
+      position: "absolute",
       top: 0,
       left: 0,
       bottom: 0,

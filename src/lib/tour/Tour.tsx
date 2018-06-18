@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { TourContext, TourContextValue } from './TourProvider';
-import { processMove } from './processMove';
+import { TourContext, TourContextValue } from "./TourProvider";
+import { processMove } from "./processMove";
 
 export interface StepProps {
   isFallback?: boolean;
