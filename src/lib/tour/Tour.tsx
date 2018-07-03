@@ -184,8 +184,11 @@ export class Tour extends React.Component<TourProps, TourState> {
     this.context[TourProvider.contextName].unsubscribe(this.props.id);
 
   closeTour = () => {
-    this.unsubscribe();
-    this.context[TourProvider.contextName].onShown(this.props.id);
-    this.setState({ showTour: false }, this.props.onClose);
+    this.setState({ showTour: false }, () => {
+      this.props.onClose && this.props.onClose();
+      this.context[TourProvider.contextName]
+        .onShown(this.props.id)
+        .then(this.unsubscribe);
+    });
   };
 }

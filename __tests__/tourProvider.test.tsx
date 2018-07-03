@@ -25,9 +25,12 @@ describe('test tour main logic', () => {
 
   it('provider\'s onTourShown was called when tour was closed', () => {
     const providerInstance = providerWrapper.instance();
+    expect(onTourShownFunc).toHaveBeenCalledTimes(0);
     providerInstance.onShown(tourIds.first);
-    expect(onTourShownFunc).lastCalledWith(tourIds.first);
-    expect(onTourShownFunc).toHaveBeenCalledTimes(1);
+    return Promise.resolve().then(() => {
+      expect(onTourShownFunc).lastCalledWith(tourIds.first);
+      expect(onTourShownFunc).toHaveBeenCalledTimes(1);
+    })
   });
 
   it('provider\'s onTourShown wasn\'t called when tour was unsubsribed', () => {

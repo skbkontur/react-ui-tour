@@ -41,9 +41,9 @@ export class TourProvider extends React.Component<TourProviderProps, {}> {
     delete this.listeners[id];
   };
 
-  onShown = id => this.props.onTourShown && this.props.onTourShown(id);
+  onShown = id => Promise.resolve(id).then(this.props.onTourShown);
 
-  idPredicate = id => {
+  isPredicate = id => {
     const predicate = this.props.predicate;
     return predicate ? predicate(id) : true;
   };
@@ -54,7 +54,7 @@ export class TourProvider extends React.Component<TourProviderProps, {}> {
 
   removeFromQueue(id) {
     if (id !== this.currentId) return;
-    this.currentId = this.queue.find(this.idPredicate);
+    this.currentId = this.queue.find(this.isPredicate);
     this.queue = this.queue.filter(id => id !== this.currentId);
     if (this.currentId) {
       this.notify(this.currentId);
@@ -63,7 +63,7 @@ export class TourProvider extends React.Component<TourProviderProps, {}> {
 
   pushToQueue(id) {
     this.queue = this.currentId ? this.queue.concat(id) : this.queue;
-    if (!this.currentId && this.idPredicate(id)) {
+    if (!this.currentId && this.isPredicate(id)) {
       this.currentId = id;
       this.notify(id);
     }
