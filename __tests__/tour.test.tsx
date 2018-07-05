@@ -203,7 +203,7 @@ describe('Tour. Api', () => {
   let wrapper;
   const subscribe = jest.fn((id, cb) => cb());
   const unsubscribe = jest.fn();
-  const onShown = jest.fn();
+  const onShown = jest.fn(() => Promise.resolve());
   beforeEach(() => {
     wrapper = mount(
       <Tour id="someid">
@@ -226,9 +226,12 @@ describe('Tour. Api', () => {
     expect(onShown.mock.calls.length).toBe(0);
   })
   it('onShown and unsubscribe called after close', () => {
-    wrapper.find('.close').simulate('click')
-    expect(unsubscribe.mock.calls.length).toBe(1);
+    wrapper.find('.close').simulate('click');
     expect(onShown.mock.calls.length).toBe(1);
+    expect(unsubscribe.mock.calls.length).toBe(0);
+    return Promise.resolve().then(() => {
+      expect(unsubscribe.mock.calls.length).toBe(1);
+    });
   })
   it('onShown should not called without manual closing', () => {
     wrapper.unmount();
