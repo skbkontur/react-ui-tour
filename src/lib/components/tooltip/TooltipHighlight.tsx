@@ -1,6 +1,7 @@
 import * as React from 'react';
 import LayoutEvents from '@skbkontur/react-ui/lib/LayoutEvents';
 import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
+import ZIndex from "@skbkontur/react-ui/components/ZIndex/ZIndex";
 
 import { Highlight } from '../highlight/Highlight';
 
@@ -27,7 +28,9 @@ export class TooltipHighlight extends React.Component<HighlightProps> {
       <div>
         {this.props.children}
         <RenderContainer>
-          <Highlight pos={this.state.pos} highlight={this.props.highlight} />
+          <ZIndex delta={100} style={{position: 'relative'}}>
+            <Highlight pos={this.state.pos} highlight={this.props.highlight} />
+          </ZIndex>
         </RenderContainer>
       </div>
     );
