@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ZIndex from "@skbkontur/react-ui/components/ZIndex/ZIndex";
 
 const styles = require('./Highlight.less');
 
@@ -36,8 +37,8 @@ export function Highlight(props: HighlightProps) {
   };
 
   return (
-    <div className={styles.wrapper} style={computedStyles}>
+    <ZIndex delta={100} className={styles.wrapper} style={computedStyles}>
       {highlightRoot}
-    </div>
+    </ZIndex>
   );
 }
