@@ -20,7 +20,8 @@
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
     "react-dom": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
-    "@skbkontur/react-ui": "<1.0.0"
+    "@skbkontur/react-ui": "<1.0.0",
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
     "@extern/tslint": "^1.0.1",
@@ -31,6 +32,7 @@
     "@types/jest": "^21.1.8",
     "@types/react": "^15.6.7",
     "@types/react-dom": "^0.14.23",
+    "@types/prop-types": "^15.5.3",
     "awesome-typescript-loader": "^3.4.1",
     "classnames": "^2.2.5",
     "cpx": "^1.5.0",

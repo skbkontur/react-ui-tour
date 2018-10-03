@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import * as PropTypes from 'prop-types';
 import { TourProvider } from './TourProvider';
 import { processMove } from './processMove';
 
@@ -159,7 +159,7 @@ export interface TourState {
 
 export class Tour extends React.Component<TourProps, TourState> {
   static contextTypes = {
-    [TourProvider.contextName]: React.PropTypes.object.isRequired
+    [TourProvider.contextName]: PropTypes.object.isRequired
   };
 
   state = { showTour: false };
