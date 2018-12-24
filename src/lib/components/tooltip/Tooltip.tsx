@@ -62,12 +62,17 @@ export class Tooltip extends React.Component<TooltipProps> {
   }
 }
 
+export interface TooltipContainerProps {
+  children?: React.ReactNode;
+  padding?: string;
+}
+
 export interface TooltipPartProps {
   children?: React.ReactNode;
 }
 
-export function Container({ children }: TooltipPartProps) {
-  return <div className={styles.container}>{children}</div>;
+export function Container({ children, padding }: TooltipContainerProps) {
+  return <div className={styles.container} style={{ padding }}>{children}</div>;
 }
 
 export function Header({ children }: TooltipPartProps) {

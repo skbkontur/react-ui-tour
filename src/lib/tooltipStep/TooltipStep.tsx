@@ -3,7 +3,7 @@ import * as React from 'react';
 import { TooltipHighlight } from '../components/tooltip/TooltipHighlight';
 import { MultiStepFooter } from '../components/MultiStepFooter';
 import { StepProps, StepInternalProps } from '../tour/Tour';
-import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
+import {Tooltip, PinOptions, TooltipContainerProps} from '../components/tooltip/Tooltip';
 
 export interface TooltipStepOuterProps {
   target: () => Element;
@@ -22,6 +22,7 @@ export interface TooltipStepOuterProps {
 export interface TooltipStepProps
   extends TooltipStepOuterProps,
     StepProps,
+    TooltipContainerProps,
     Partial<StepInternalProps> {}
 
 export class TooltipStep extends React.Component<TooltipStepProps> {
@@ -52,7 +53,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         onClose={this.props.onClose}
         width={this.props.width}
       >
-        <Tooltip.Container>
+        <Tooltip.Container padding={this.props.padding}>
           <Tooltip.Header>{this.props.header}</Tooltip.Header>
           <Tooltip.Body>{this.props.content}</Tooltip.Body>
           <Tooltip.Footer>{this.renderTooltipFooter()}</Tooltip.Footer>
