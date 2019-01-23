@@ -30,8 +30,8 @@ export function Highlight(props: HighlightProps) {
     borderColor: color,
     borderTopWidth: pos.top + document.documentElement.scrollTop,
     borderLeftWidth: pos.left + document.documentElement.scrollLeft,
-    borderRightWidth: document.documentElement.offsetWidth - pos.right,
-    borderBottomWidth: document.documentElement.offsetHeight - pos.bottom,
+    borderRightWidth: document.documentElement.offsetWidth - (pos.left + document.documentElement.scrollLeft) - width,
+    borderBottomWidth: document.documentElement.offsetHeight - (pos.top + document.documentElement.scrollTop) - height,
     width: width,
     height: height
   };
