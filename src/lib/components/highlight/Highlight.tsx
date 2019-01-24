@@ -26,12 +26,14 @@ export function Highlight(props: HighlightProps) {
 
   const width = pos.right - pos.left;
   const height = pos.bottom - pos.top;
+  const borderTopWidth = pos.top + document.documentElement.scrollTop;
+  const borderLeftWidth = pos.left + document.documentElement.scrollLeft;
   const computedStyles: React.CSSProperties = {
     borderColor: color,
-    borderTopWidth: pos.top + document.documentElement.scrollTop,
-    borderLeftWidth: pos.left + document.documentElement.scrollLeft,
-    borderRightWidth: document.documentElement.offsetWidth - (pos.left + document.documentElement.scrollLeft) - width,
-    borderBottomWidth: document.documentElement.offsetHeight - (pos.top + document.documentElement.scrollTop) - height,
+    borderTopWidth,
+    borderLeftWidth,
+    borderRightWidth: document.documentElement.offsetWidth - (borderLeftWidth + width),
+    borderBottomWidth: document.documentElement.offsetHeight - (borderTopWidth + height),
     width: width,
     height: height
   };
