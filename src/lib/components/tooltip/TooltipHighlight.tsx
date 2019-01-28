@@ -11,13 +11,13 @@ const initialRect = {
   bottom: 0
 } as ClientRect;
 
-export interface HighlightProps {
+export interface TooltipHighlightProps {
   targetGetter: () => Element;
   highlight: React.ReactElement<any>;
   children: React.ReactElement<any>;
 }
 
-export class TooltipHighlight extends React.Component<HighlightProps> {
+export class TooltipHighlight extends React.Component<TooltipHighlightProps> {
   state = { pos: initialRect };
   _layoutEventsToken;
   target;
