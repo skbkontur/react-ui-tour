@@ -1,8 +1,8 @@
-import * as React from 'react';
-import LayoutEvents from '@skbkontur/react-ui/lib/LayoutEvents';
-import RenderContainer from '@skbkontur/react-ui/components/RenderContainer';
+import * as React from "react";
+import LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
+import RenderContainer from "@skbkontur/react-ui/components/RenderContainer";
 
-import { Highlight } from '../highlight/Highlight';
+import { Highlight } from "../highlight/Highlight";
 
 const initialRect = {
   top: 0,
@@ -33,9 +33,9 @@ export class TooltipHighlight extends React.Component<TooltipHighlightProps> {
       <div>
         {this.props.children}
         {this.state.hasElem && (
-        <RenderContainer>
-          <Highlight pos={this.state.pos} highlight={this.props.highlight} />
-        </RenderContainer>
+          <RenderContainer>
+            <Highlight pos={this.state.pos} highlight={this.props.highlight} />
+          </RenderContainer>
         )}
       </div>
     );

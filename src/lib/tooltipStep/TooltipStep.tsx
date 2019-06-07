@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { TooltipHighlight } from '../components/tooltip/TooltipHighlight';
-import { MultiStepFooter } from '../components/MultiStepFooter';
-import { StepProps, StepInternalProps } from '../tour/Tour';
-import { Tooltip, PinOptions } from '../components/tooltip/Tooltip';
+import { TooltipHighlight } from "../components/tooltip/TooltipHighlight";
+import { MultiStepFooter } from "../components/MultiStepFooter";
+import { StepProps, StepInternalProps } from "../tour/Tour";
+import { Tooltip, PinOptions } from "../components/tooltip/Tooltip";
 
 export interface TooltipStepOuterProps {
   target: () => Element;
