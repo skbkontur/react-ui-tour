@@ -17,6 +17,7 @@ export interface TooltipProps {
   positions?: string[];
   offset?: number;
   onClose?: () => void;
+  onSkip?: () => void;
   pinOptions?: PinOptions;
   width?: number;
 }
@@ -36,8 +37,16 @@ export class Tooltip extends React.Component<TooltipProps> {
   static Header = Header;
   static Body = Content;
   static Footer = Footer;
+  state = {hasElem: true}
+
+  componentWillMount() {
+    if (!this.props.targetGetter()) {
+      this.setState({hasElem: false})
+    }
+  }
 
   render() {
+    if (!this.state.hasElem) return <span />;
     return (
       <RenderLayer
         onClickOutside={this.props.onClose}
@@ -60,6 +69,11 @@ export class Tooltip extends React.Component<TooltipProps> {
       </RenderLayer>
     );
   }
+  componentDidMount() {
+    if (!this.state.hasElem) {
+      this.props.onSkip();
+    }
+    }
 }
 
 export interface TooltipPartProps {

@@ -18,22 +18,31 @@ export interface TooltipHighlightProps {
 }
 
 export class TooltipHighlight extends React.Component<TooltipHighlightProps> {
-  state = { pos: initialRect };
+  state = { pos: initialRect, hasElem: true };
   _layoutEventsToken;
   target;
+
+  componentWillMount() {
+    if (!this.props.targetGetter()) {
+      this.setState({ hasElem: false });
+    }
+  }
 
   render() {
     return (
       <div>
         {this.props.children}
+        {this.state.hasElem && (
         <RenderContainer>
           <Highlight pos={this.state.pos} highlight={this.props.highlight} />
         </RenderContainer>
+        )}
       </div>
     );
   }
 
   componentDidMount() {
+    if (!this.state.hasElem) return;
     this.target = this.props.targetGetter();
     this.reflow();
 
@@ -42,7 +51,7 @@ export class TooltipHighlight extends React.Component<TooltipHighlightProps> {
   }
 
   componentWillUnmount() {
-    this._layoutEventsToken.remove();
+    this._layoutEventsToken && this._layoutEventsToken.remove();
   }
 
   reflow = () => {

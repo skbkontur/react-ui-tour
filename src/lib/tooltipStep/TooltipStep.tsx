@@ -50,6 +50,7 @@ export class TooltipStep extends React.Component<TooltipStepProps> {
         positions={this.props.positions}
         offset={this.props.offset}
         onClose={this.props.onClose}
+        onSkip={this.props.onNext}
         width={this.props.width}
       >
         <Tooltip.Container>
