@@ -60,6 +60,7 @@ export class Tooltip extends React.Component<TooltipProps> {
           {...this.props.pinOptions}
           opened
           hasShadow
+          maxWidth={this.props.width}
         >
           <div className={styles.tooltip} style={{ width: this.props.width }}>
             <span className={styles.closeBtn} onClick={this.props.onClose} />
