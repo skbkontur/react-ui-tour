@@ -54,7 +54,7 @@ export class Tooltip extends React.Component<TooltipProps> {
         active
       >
         <Popup
-          anchorElement={this.props.targetGetter()}
+          anchorElement={this.props.targetGetter() as HTMLElement}
           positions={this.props.positions}
           margin={this.props.offset}
           {...this.props.pinOptions}
