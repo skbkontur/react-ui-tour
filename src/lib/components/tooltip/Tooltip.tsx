@@ -71,7 +71,7 @@ export class Tooltip extends React.Component<TooltipProps> {
   }
   componentDidMount() {
     if (!this.state.hasElem) {
-      this.props.onSkip();
+      this.props.onSkip && this.props.onSkip();
     }
   }
 }
