@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-const styles = require('./TourButton.less');
+import styles from './TourButton.less';
 
 export interface TourButtonProps {
   color: string;
@@ -17,7 +16,7 @@ export function TourButton(props: TourButtonProps) {
       styles[props.arrow + 'TourButtonArrow']
     }`;
   }
-  
+
   return (
     <div style={{ display: 'inline-block' }}>
       <button style={props.style} className={className} onClick={props.onClick}>

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import ZIndex from "@skbkontur/react-ui/components/ZIndex/ZIndex";
-
-const styles = require('./Highlight.less');
+import {ZIndex} from "@skbkontur/react-ui/internal/ZIndex";
+import styles from './Highlight.less';
 
 export interface HighlightProps {
   pos: ClientRect;
