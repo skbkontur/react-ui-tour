@@ -49,7 +49,9 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/ ]),
-      new MiniCssExtractPlugin(),
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+      }),
       new HtmlWebpackPlugin(),
       new WebpackCleanupPlugin({
         exclude: ['.git/**/*', '.*']
