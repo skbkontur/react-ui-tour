@@ -1,6 +1,6 @@
 import * as React from "react";
-import LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
-import RenderContainer from "@skbkontur/react-ui/components/RenderContainer";
+import { addListener } from "@skbkontur/react-ui/lib/LayoutEvents";
+import { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
 const raf = require("raf");
 
 import { Highlight } from "../highlight/Highlight";
@@ -48,7 +48,7 @@ export class TooltipHighlight extends React.Component<TooltipHighlightProps> {
     this.reflow();
 
     //add throttle
-    this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
+    this._layoutEventsToken = addListener(this.reflow);
   }
 
   componentWillReceiveProps() {

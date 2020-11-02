@@ -4,6 +4,7 @@
     "rootDir": "./src/lib"
   },
   "include": [
-    "./src/lib/**/*"
+    "./src/lib/**/*",
+    "./src/@types"
   ]
 }

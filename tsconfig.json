@@ -13,6 +13,8 @@
       "scripthost"
     ],
     "declaration": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "./build"
   },
   "include": [
