@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Points } from './points/Points';
 import { TourButton } from './tourButton/TourButton';
 import { Footer } from './footer/Footer';

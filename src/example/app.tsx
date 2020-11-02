@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import classnames from 'classnames';
+import * as classnames from 'classnames';
+
 import {
   Tour,
   TourComponent,
   TourProvider,
   ModalStep,
+  Step,
   Tooltip,
   TooltipStep
 } from '../lib';
-import { TooltipHighlight } from '../lib';
-import styles from './app.less';
+import { TooltipHighlight } from '../lib/components/tooltip/TooltipHighlight';
 
+const styles = require('./app.less');
 
 const reactContainer = document.createElement('div');
 document.body.appendChild(reactContainer);
@@ -36,7 +38,13 @@ const defaultContent = (
   </div>
 );
 
-const customHighlight = <div id='highlight' style={{ border: '3px solid #ff8000' }} />;
+const customHighlight = <div style={{ border: '3px solid #ff8000' }} />;
+
+const highlightTarget = () => document.getElementById('some id');
+const tooltipTarget1 = () => document.getElementById('some id-1-4');
+const tooltipTarget2 = () => document.getElementById('some id-1-5');
+const element2 = () => document.getElementById('some id2');
+const element3 = () => document.getElementById('some id3');
 
 const demo1 = () => document.querySelector('[data-tour-id=demo1]');
 const demo2 = () => document.querySelector('[data-tour-id=demo2]');
@@ -241,7 +249,7 @@ class App extends React.Component<{}, {}> {
               target={demo1}
               positions={['right top']}
               highlight={customHighlight}
-              header="Это первый шаг тура, который не&nbsp;зависит от провайдера"
+              header="Это первый шаг тура, который не зависит от провайдера"
               content={defaultContent}
               offset={30}
             />
