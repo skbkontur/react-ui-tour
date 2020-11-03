@@ -2,6 +2,8 @@
 
 [Demo](http://tech.skbkontur.ru/react-ui-tour)
 
+`react-ui-tour@1` works only with `react-ui >= 2`. If you use lower version of `react-ui` in your project, use `react-ui-tour@0`
+
 ## Documentation
 
 Basic usage:
