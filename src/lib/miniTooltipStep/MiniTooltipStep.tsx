@@ -1,6 +1,6 @@
 ﻿import {MiniTooltip} from "../components/miniTooltip/MiniTooltip";
-import {Step} from "../../../build";
 import * as React from "react";
+import {Step} from "../step/step";
 
 interface MiniTooltipStepProps {
     targetGetter: () => Element;
