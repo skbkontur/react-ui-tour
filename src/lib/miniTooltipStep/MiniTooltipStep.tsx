@@ -8,8 +8,7 @@ interface MiniTooltipStepProps {
     children?: any;
 }
 
-export const MiniTooltipStep: React.FC<MiniTooltipStepProps> = React.memo(
-    (props: MiniTooltipStepProps) =>
+export const MiniTooltipStep: React.FC<MiniTooltipStepProps> = (props: MiniTooltipStepProps) =>
     <Step render={tourProps =>
         <MiniTooltip
             targetGetter={props.targetGetter}
@@ -18,4 +17,4 @@ export const MiniTooltipStep: React.FC<MiniTooltipStepProps> = React.memo(
             onTargetClicked={tourProps.onNext}>
             {props.children}
         </MiniTooltip>}
-    />);
+    />;
