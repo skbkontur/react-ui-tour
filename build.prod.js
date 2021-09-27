@@ -30,7 +30,7 @@ cpx.copySync(source, destination, options, function (err) {
 
 var tscProcess = exec('tsc -p tsconfig.prod.json', function (error, stdout, stderr) {
   if (error !== null) {
-    console.error('tsc error:');
+    console.error(error);
     throw error;
   }
 });

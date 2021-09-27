@@ -1,6 +1,6 @@
 import * as React from "react";
-import {RenderLayer} from "@skbkontur/react-ui/internal/RenderLayer";
-import {Popup, PopupPosition} from "@skbkontur/react-ui/internal/Popup";
+import { Popup, RenderLayer } from "../../react-ui/Adapter";
+import { PopupPosition } from "@skbkontur/react-ui/internal/Popup/Popup";
 import styles from "./Tooltip.less";
 
 export interface PinOptions {
@@ -28,19 +28,19 @@ export class Tooltip extends React.Component<TooltipProps> {
     pinOptions: {
       hasPin: true,
       pinSize: 16,
-      pinOffset: 32
+      pinOffset: 32,
     },
-    onClose: () => {}
+    onClose: () => {},
   };
   static Container = Container;
   static Header = Header;
   static Body = Content;
   static Footer = Footer;
-  state = {hasElem: true}
+  state = { hasElem: true };
 
   componentWillMount() {
     if (!this.props.targetGetter()) {
-      this.setState({hasElem: false})
+      this.setState({ hasElem: false });
     }
   }
 
@@ -48,11 +48,7 @@ export class Tooltip extends React.Component<TooltipProps> {
     if (!this.state.hasElem) return <span />;
     const positions: PopupPosition[] = this.props.positions as PopupPosition[];
     return (
-      <RenderLayer
-        onClickOutside={this.props.onClose}
-        onFocusOutside={() => {}}
-        active
-      >
+      <RenderLayer onClickOutside={this.props.onClose} onFocusOutside={() => {}} active>
         <Popup
           anchorElement={this.props.targetGetter()}
           positions={positions}

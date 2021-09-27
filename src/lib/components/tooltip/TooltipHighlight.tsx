@@ -1,9 +1,8 @@
 import * as React from "react";
-import { addListener } from "@skbkontur/react-ui/lib/LayoutEvents";
-import { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
 const raf = require("raf");
 
 import { Highlight } from "../highlight/Highlight";
+import { addListener, RenderContainer } from "../../react-ui/Adapter";
 
 const initialRect = {
   top: 0,

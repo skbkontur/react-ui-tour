@@ -4,10 +4,16 @@ import {mount} from 'enzyme';
 import {TourProvider, Tour, Step} from '../src/lib';
 import {processMove} from '../src/lib/tour/processMove'
 
+import * as Adapter from "../src/lib/react-ui/Adapter";
+import * as ReactUI2 from "@skbkontur/react-ui";
+
+jest.mock("../src/react-ui/Adapter", () => {
+  return ReactUI2;
+});
 jest.useFakeTimers();
 
 const createDelay = (ms) => (fn?) => {
-  return new Promise(res => {
+  return new Promise<void>(res => {
     setTimeout(() => {fn && fn(), res()}, ms)
   })
 }

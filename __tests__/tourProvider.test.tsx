@@ -1,45 +1,50 @@
-import * as React from 'react';
-import {shallow} from 'enzyme';
+import * as React from "react";
+import { shallow } from "enzyme";
+import { TourProvider } from "../src/lib";
 
-import {TourProvider} from '../src/lib';
+import * as Adapter from "../src/lib/react-ui/Adapter";
+import * as ReactUI2 from "@skbkontur/react-ui";
 
-describe('test tour main logic', () => {
+jest.mock("../src/react-ui/Adapter", () => {
+  return ReactUI2;
+});
+
+describe("test tour main logic", () => {
   const tourIds = {
-    first: 'id1',
-    second: 'id2',
-    third: 'id3',
+    first: "id1",
+    second: "id2",
+    third: "id3",
   };
   let providerWrapper, predicateFunc, onTourShownFunc;
 
   beforeEach(() => {
-    predicateFunc = jest.fn(id => id !== tourIds.second);
-    onTourShownFunc = jest.fn(id => id);
+    predicateFunc = jest.fn((id) => id !== tourIds.second);
+    onTourShownFunc = jest.fn((id) => id);
 
-    providerWrapper = shallow(<TourProvider
-      predicate={predicateFunc}
-      onTourShown={onTourShownFunc}
-    >
-      <div/>
-    </TourProvider>);
+    providerWrapper = shallow(
+      <TourProvider predicate={predicateFunc} onTourShown={onTourShownFunc}>
+        <div />
+      </TourProvider>
+    );
   });
 
-  it('provider\'s onTourShown was called when tour was closed', () => {
+  it("provider's onTourShown was called when tour was closed", () => {
     const providerInstance = providerWrapper.instance();
     expect(onTourShownFunc).toHaveBeenCalledTimes(0);
     providerInstance.onShown(tourIds.first);
     return Promise.resolve().then(() => {
       expect(onTourShownFunc).lastCalledWith(tourIds.first);
       expect(onTourShownFunc).toHaveBeenCalledTimes(1);
-    })
+    });
   });
 
-  it('provider\'s onTourShown wasn\'t called when tour was unsubsribed', () => {
+  it("provider's onTourShown wasn't called when tour was unsubsribed", () => {
     const providerInstance = providerWrapper.instance();
     providerInstance.unsubscribe(tourIds.first);
     expect(onTourShownFunc).toHaveBeenCalledTimes(0);
   });
 
-  it('subscription callback was called', () => {
+  it("subscription callback was called", () => {
     const providerInstance = providerWrapper.instance();
     const subscribeClb = jest.fn();
     providerInstance.subscribe(tourIds.first, subscribeClb);
@@ -47,7 +52,7 @@ describe('test tour main logic', () => {
     expect(subscribeClb).toHaveBeenCalledTimes(1);
   });
 
-  it('subscription callback wasn\'t called', () => {
+  it("subscription callback wasn't called", () => {
     const providerInstance = providerWrapper.instance();
     const subscribeClb = jest.fn();
     providerInstance.subscribe(tourIds.second, subscribeClb);
@@ -55,7 +60,7 @@ describe('test tour main logic', () => {
     expect(subscribeClb).toHaveBeenCalledTimes(0);
   });
 
-  it('callbacks in providers\'s queue were called in right order', () => {
+  it("callbacks in providers's queue were called in right order", () => {
     const providerInstance = providerWrapper.instance();
     const subscribeClbFirst = jest.fn();
     const subscribeClbThird = jest.fn();
