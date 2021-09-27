@@ -20,7 +20,7 @@
   },
   "peerDependencies": {
     "prop-types": "^15.6.2",
-    "@skbkontur/react-ui": "^2.0.0",
+    "@skbkontur/react-ui": ">=1.11 <3",
     "react": ">=16.9 <17",
     "react-dom": ">=16.9 <17"
   },
