@@ -24,6 +24,12 @@ const PopupModule = resolveInternalModule("Popup", PopupContext);
 const RenderContainerContext = require.context("@skbkontur/react-ui", true, /RenderContainer/);
 const RenderContainerModule = resolveInternalModule("RenderContainer", RenderContainerContext);
 
+const ThemeProviderContext = require.context("@skbkontur/react-ui", true, /ThemeProvider/);
+const ThemeProviderModule = resolveInternalModule("components/ThemeProvider/ThemeProvider/ThemeProvider", ThemeProviderContext);
+
+const ThemeFactoryContext = require.context("@skbkontur/react-ui", true, /ThemeFactory/);
+const ThemeFactoryModule = resolveInternalModule("lib/theming/ThemeFactory/ThemeFactory", ThemeFactoryContext);
+
 const RenderLayerContext = require.context("@skbkontur/react-ui", true, /RenderLayer/);
 const RenderLayerModule = resolveInternalModule("RenderLayer", RenderLayerContext);
 
@@ -41,6 +47,8 @@ export const Gapped = defaultOrNamed(GappedModule, "Gapped");
 export const Modal = defaultOrNamed(ModalModule, "Modal");
 export const Button = defaultOrNamed(ButtonModule, "Button");
 export const RenderContainer = defaultOrNamed(RenderContainerModule, "RenderContainer");
+export const ThemeProvider = defaultOrNamed(ThemeProviderModule, "ThemeProvider");
+export const ThemeFactory = defaultOrNamed(ThemeFactoryModule, "ThemeFactory");
 export const RenderLayer = defaultOrNamed(RenderLayerModule, "RenderLayer");
 export const addListener = defaultOrNamed(LayoutEventsModule, "addListener");
 export const ZIndex = defaultOrNamed(ZIndexModule, "ZIndex");
