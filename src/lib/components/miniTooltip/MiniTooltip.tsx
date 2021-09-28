@@ -39,7 +39,7 @@ const MiniTooltipTheme = ThemeFactory.create({
 });
 
 export class MiniTooltip extends React.Component<MiniTooltipProps> {
-    state = {hasElem: false}
+    state = {hasElem: true}
     static defaultProps = {
         positions: ["bottom middle"],
         onClose: () => {
@@ -57,7 +57,11 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
             this.props.onTargetClicked && this.props.onTargetClicked();
         }
     }
-
+    
+    onCloseButtonClick(e: React.MouseEvent<HTMLElement>) {
+        e.stopPropagation();
+        this.props.onClose();
+    }
 
     render() {
         const positions: PopupPosition[] = this.props.positions as PopupPosition[];
@@ -70,11 +74,6 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                 event.target instanceof Element &&
                 containsTargetOrRenderContainer(event.target)(anchor)
             );
-        }
-
-        function onCloseButtonClick(e: React.MouseEvent<HTMLElement>) {
-            e.stopPropagation();
-            this.props.onClose();
         }
 
         return (
@@ -100,7 +99,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                     >
                         <div className={styles.body}>
                             {this.props.children}
-                            <div className={styles.cross} onClick={onCloseButtonClick}>
+                            <div className={styles.cross} onClick={e => this.onCloseButtonClick(e)}>
                                 <CrossIcon/>
                             </div>
                         </div>
