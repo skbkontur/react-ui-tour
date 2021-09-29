@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {storiesOf} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import {TooltipStep, ModalStep} from '../src/lib';
-import {MiniTooltipStep} from "../src/lib";
+import {TooltipStep, ModalStep, MiniTooltipStep} from '../src/lib';
 
 storiesOf('Tour', module)
   .add('tooltip step', () => (
