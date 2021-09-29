@@ -5,7 +5,7 @@ import {PopupPosition} from "@skbkontur/react-ui/internal/Popup/Popup";
 
 export interface MiniTooltipStepProps extends Partial<StepInternalProps> {
     target: () => Element;
-    positions?: PopupPosition[];
+    positions: PopupPosition[];
     children?: any;
 }
 

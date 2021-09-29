@@ -21,7 +21,7 @@ const CrossIcon = () => (
 
 export interface MiniTooltipProps {
     target: () => Element;
-    positions?: PopupPosition[];
+    positions: PopupPosition[];
     onClose?: () => void;
     onTargetClicked?: () => void;
     children: JSX.Element | string;
