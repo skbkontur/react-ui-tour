@@ -2,6 +2,8 @@ import * as GappedModule from "@skbkontur/react-ui/components/Gapped";
 import * as HintModule from "@skbkontur/react-ui/components/Hint";
 import * as ModalModule from "@skbkontur/react-ui/components/Modal";
 import * as ButtonModule from "@skbkontur/react-ui/components/Button";
+import * as ThemeProviderModule from "@skbkontur/react-ui/components/ThemeProvider";
+import * as ThemeFactoryModule from "@skbkontur/react-ui/lib/theming/ThemeFactory/ThemeFactory";
 import * as LayoutEventsModule from "@skbkontur/react-ui/lib/LayoutEvents";
 
 const resolveInternalModule = (moduleName: string, context) => {
@@ -24,12 +26,6 @@ const PopupModule = resolveInternalModule("Popup", PopupContext);
 const RenderContainerContext = require.context("@skbkontur/react-ui", true, /RenderContainer/);
 const RenderContainerModule = resolveInternalModule("RenderContainer", RenderContainerContext);
 
-const ThemeProviderContext = require.context("@skbkontur/react-ui", true, /ThemeProvider/);
-const ThemeProviderModule = resolveInternalModule("components/ThemeProvider/ThemeProvider/ThemeProvider", ThemeProviderContext);
-
-const ThemeFactoryContext = require.context("@skbkontur/react-ui", true, /ThemeFactory/);
-const ThemeFactoryModule = resolveInternalModule("lib/theming/ThemeFactory/ThemeFactory", ThemeFactoryContext);
-
 const RenderLayerContext = require.context("@skbkontur/react-ui", true, /RenderLayer/);
 const RenderLayerModule = resolveInternalModule("RenderLayer", RenderLayerContext);
 
@@ -45,7 +41,7 @@ export const Popup = defaultOrNamed(PopupModule, "Popup");
 export const Hint = defaultOrNamed(HintModule, "Hint");
 export const Gapped = defaultOrNamed(GappedModule, "Gapped");
 export const Modal = defaultOrNamed(ModalModule, "Modal");
-export const Button = defaultOrNamed(ButtonModule, "Button");
+export const Button = defaultOrNamed(ButtonModule, "Button"); 
 export const RenderContainer = defaultOrNamed(RenderContainerModule, "RenderContainer");
 export const ThemeProvider = defaultOrNamed(ThemeProviderModule, "ThemeProvider");
 export const ThemeFactory = defaultOrNamed(ThemeFactoryModule, "ThemeFactory");

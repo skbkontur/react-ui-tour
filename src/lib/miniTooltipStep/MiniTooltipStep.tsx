@@ -1,11 +1,11 @@
 ﻿import {MiniTooltip} from "../components/miniTooltip/MiniTooltip";
 import * as React from "react";
-import {Step} from "../step/step";
 import {StepInternalProps} from "../tour/Tour";
+import {PopupPosition} from "@skbkontur/react-ui/internal/Popup/Popup";
 
 export interface MiniTooltipStepProps extends Partial<StepInternalProps> {
-    targetGetter: () => Element;
-    positions?: string[];
+    target: () => Element;
+    positions?: PopupPosition[];
     children?: any;
 }
 
@@ -15,12 +15,12 @@ export class MiniTooltipStep extends React.Component<MiniTooltipStepProps> {
             onNext,
             onClose,
             positions,
-            targetGetter,
+            target,
             children
         } = this.props;
 
         return <MiniTooltip
-            targetGetter={targetGetter}
+            target={target}
             positions={positions}
             onClose={onClose}
             onTargetClicked={onNext}>

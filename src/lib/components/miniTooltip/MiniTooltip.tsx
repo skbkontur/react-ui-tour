@@ -2,8 +2,7 @@
 import {Popup, RenderLayer, ThemeProvider, ThemeFactory} from "../../react-ui/Adapter";
 import {PopupPosition} from "@skbkontur/react-ui/internal/Popup";
 import {containsTargetOrRenderContainer} from "@skbkontur/react-ui/lib/listenFocusOutside";
-
-const styles = require("./MiniTooltip.less");
+import styles from "./MiniTooltip.less"
 
 const CrossIcon = () => (
     <svg
@@ -21,8 +20,8 @@ const CrossIcon = () => (
 );
 
 export interface MiniTooltipProps {
-    targetGetter: () => Element;
-    positions?: string[];
+    target: () => Element;
+    positions?: PopupPosition[];
     onClose?: () => void;
     onTargetClicked?: () => void;
     children: JSX.Element | string;
@@ -47,7 +46,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     }
 
     componentWillMount() {
-        if (!this.props.targetGetter()) {
+        if (!this.props.target()) {
             this.setState({hasElem: false})
         }
     }
@@ -64,9 +63,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     }
 
     render() {
-        const positions: PopupPosition[] = this.props.positions as PopupPosition[];
-
-        const anchor = this.props.targetGetter();
+        const anchor = this.props.target();
         if (!anchor) return <span/>;
 
         function isClickOnTarget(event: Event) {
@@ -84,7 +81,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                 >
                     <Popup
                         anchorElement={anchor}
-                        positions={positions}
+                        positions={this.props.positions}
                         disableAnimations={false}
                         opened
                         hasShadow

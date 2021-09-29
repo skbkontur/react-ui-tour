@@ -2,7 +2,7 @@ import * as React from 'react';
 import {storiesOf} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
 import {TooltipStep, ModalStep} from '../src/lib';
-import {MiniTooltipStep} from "../build";
+import {MiniTooltipStep} from "../src/lib";
 
 storiesOf('Tour', module)
   .add('tooltip step', () => (
@@ -19,7 +19,7 @@ storiesOf('Tour', module)
   ))
   .add('minitooltip step', () => (
     <MiniTooltipStep
-      targetGetter={() => document.documentElement}
+      target={() => document.documentElement}
       positions={['bottom left']}
       onNext={action('next')}
       onPrev={action('prev')}
