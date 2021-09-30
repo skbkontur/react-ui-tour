@@ -1,13 +1,13 @@
 import * as React from "react";
-import { shallow } from "enzyme";
-import { TourProvider } from "../src/lib";
-
 import * as Adapter from "../src/lib/react-ui/Adapter";
 import * as ReactUI2 from "@skbkontur/react-ui";
 
-jest.mock("../src/react-ui/Adapter", () => {
+jest.mock("../src/lib/react-ui/Adapter", () => {
   return ReactUI2;
 });
+import { shallow } from "enzyme";
+import { TourProvider } from "../src/lib";
+
 
 describe("test tour main logic", () => {
   const tourIds = {
