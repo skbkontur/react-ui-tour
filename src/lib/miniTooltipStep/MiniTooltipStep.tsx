@@ -1,7 +1,6 @@
-﻿import {MiniTooltip} from "../components/miniTooltip/MiniTooltip";
+﻿import {MiniTooltip, PopupPosition} from "../components/miniTooltip/MiniTooltip";
 import * as React from "react";
 import {StepInternalProps} from "../tour/Tour";
-import {PopupPosition} from "@skbkontur/react-ui/internal/Popup/Popup";
 
 export interface MiniTooltipStepProps extends Partial<StepInternalProps> {
     target: () => Element;

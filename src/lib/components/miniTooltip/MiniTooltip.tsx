@@ -1,8 +1,21 @@
 ﻿import * as React from "react"
 import {Popup, RenderLayer, ThemeProvider, ThemeFactory} from "../../react-ui/Adapter";
-import {PopupPosition} from "@skbkontur/react-ui/internal/Popup";
 import {containsTargetOrRenderContainer} from "@skbkontur/react-ui/lib/listenFocusOutside";
 import styles from "./MiniTooltip.less"
+
+export type PopupPosition =
+    | 'top left'
+    | 'top center'
+    | 'top right'
+    | 'right top'
+    | 'right middle'
+    | 'right bottom'
+    | 'bottom left'
+    | 'bottom center'
+    | 'bottom right'
+    | 'left top'
+    | 'left middle'
+    | 'left bottom';
 
 const CrossIcon = () => (
     <svg
@@ -56,7 +69,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
             this.props.onTargetClicked && this.props.onTargetClicked();
         }
     }
-    
+
     onCloseButtonClick(e: React.MouseEvent<HTMLElement>) {
         e.stopPropagation();
         this.props.onClose();
