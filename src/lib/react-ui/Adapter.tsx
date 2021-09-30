@@ -2,6 +2,8 @@ import * as GappedModule from "@skbkontur/react-ui/components/Gapped";
 import * as HintModule from "@skbkontur/react-ui/components/Hint";
 import * as ModalModule from "@skbkontur/react-ui/components/Modal";
 import * as ButtonModule from "@skbkontur/react-ui/components/Button";
+import * as ThemeProviderModule from "@skbkontur/react-ui/components/ThemeProvider";
+import * as ThemeFactoryModule from "@skbkontur/react-ui/lib/theming/ThemeFactory/ThemeFactory";
 import * as LayoutEventsModule from "@skbkontur/react-ui/lib/LayoutEvents";
 
 const resolveInternalModule = (moduleName: string, context) => {
@@ -39,8 +41,10 @@ export const Popup = defaultOrNamed(PopupModule, "Popup");
 export const Hint = defaultOrNamed(HintModule, "Hint");
 export const Gapped = defaultOrNamed(GappedModule, "Gapped");
 export const Modal = defaultOrNamed(ModalModule, "Modal");
-export const Button = defaultOrNamed(ButtonModule, "Button");
+export const Button = defaultOrNamed(ButtonModule, "Button"); 
 export const RenderContainer = defaultOrNamed(RenderContainerModule, "RenderContainer");
+export const ThemeProvider = defaultOrNamed(ThemeProviderModule, "ThemeProvider");
+export const ThemeFactory = defaultOrNamed(ThemeFactoryModule, "ThemeFactory");
 export const RenderLayer = defaultOrNamed(RenderLayerModule, "RenderLayer");
 export const addListener = defaultOrNamed(LayoutEventsModule, "addListener");
 export const ZIndex = defaultOrNamed(ZIndexModule, "ZIndex");
