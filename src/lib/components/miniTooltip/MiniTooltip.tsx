@@ -99,14 +99,13 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                         opened
                         hasShadow
                         maxWidth={"400px"}
+                        useWrapper={false}
+                        ignoreHover={false}
                         hasPin
                         pinSize={8}
-                        pinOffset={0}
+                        pinOffset={16}
                         popupOffset={0}
-                        useWrapper={false}
-                        margin={0}
-                        ignoreHover={false}
-                    >
+                        margin={12}>
                         <div className={styles.body}>
                             {this.props.children}
                             <div className={styles.cross} onClick={e => this.onCloseButtonClick(e)}>

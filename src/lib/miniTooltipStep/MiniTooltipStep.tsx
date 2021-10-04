@@ -15,7 +15,7 @@ export class MiniTooltipStep extends React.Component<MiniTooltipStepProps> {
             onClose,
             positions,
             target,
-            children
+            children,
         } = this.props;
 
         return <MiniTooltip
