@@ -109,11 +109,11 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                         opened
                         hasShadow
                         maxWidth={"400px"}
-                        hasPin
-                        pinSize={8}
-                        pinOffset={12}
-                        popupOffset={12}
-                        margin={12}
+                        hasPin={this.props.hasPin}
+                        pinOffset={this.props.pinOffset}
+                        pinSize={this.props.pinSize}
+                        popupOffset={this.props.popupOffset}
+                        margin={this.props.margin}
                         useWrapper={false}
                         ignoreHover={false}
                     >
