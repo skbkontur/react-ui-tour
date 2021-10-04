@@ -38,6 +38,11 @@ export interface MiniTooltipProps {
     onClose?: () => void;
     onTargetClicked?: () => void;
     children: JSX.Element | string;
+    hasPin?: boolean;
+    pinSize?: number;
+    pinOffset?: number;
+    popupOffset?: number;
+    margin?: number;
 }
 
 const MiniTooltipTheme = ThemeFactory.create({
@@ -56,6 +61,11 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
         positions: ["bottom middle"],
         onClose: () => {
         },
+        hasPin: true,
+        pinSize: 8,
+        pinOffset: 12,
+        popupOffset: 12,
+        margin: 12,
     }
 
     componentWillMount() {
@@ -101,10 +111,10 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                         maxWidth={"400px"}
                         hasPin
                         pinSize={8}
-                        pinOffset={0}
-                        popupOffset={0}
+                        pinOffset={12}
+                        popupOffset={12}
+                        margin={12}
                         useWrapper={false}
-                        margin={0}
                         ignoreHover={false}
                     >
                         <div className={styles.body}>
