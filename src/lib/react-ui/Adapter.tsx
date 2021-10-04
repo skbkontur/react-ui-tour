@@ -3,7 +3,7 @@ import * as HintModule from "@skbkontur/react-ui/components/Hint";
 import * as ModalModule from "@skbkontur/react-ui/components/Modal";
 import * as ButtonModule from "@skbkontur/react-ui/components/Button";
 import * as ThemeProviderModule from "@skbkontur/react-ui/components/ThemeProvider";
-import * as ThemeFactoryModule from "@skbkontur/react-ui/lib/theming/ThemeFactory/ThemeFactory";
+import * as ThemeFactoryModule from "@skbkontur/react-ui/lib/theming/ThemeFactory";
 import * as LayoutEventsModule from "@skbkontur/react-ui/lib/LayoutEvents";
 
 const resolveInternalModule = (moduleName: string, context) => {
