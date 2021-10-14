@@ -36,6 +36,7 @@ export interface MiniTooltipProps {
     target: () => Element;
     positions: PopupPosition[];
     onClose?: () => void;
+    width?: string,
     onTargetClicked?: () => void;
     children: JSX.Element | string;
 }
@@ -99,6 +100,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                         opened
                         hasShadow
                         maxWidth={"400px"}
+                        minWidth={"256px"}
                         useWrapper={false}
                         ignoreHover={false}
                         hasPin
@@ -106,7 +108,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                         pinOffset={16}
                         popupOffset={0}
                         margin={12}>
-                        <div className={styles.body}>
+                        <div className={styles.body} style={{width: this.props.width}}>
                             {this.props.children}
                             <div className={styles.cross} onClick={e => this.onCloseButtonClick(e)}>
                                 <CrossIcon/>

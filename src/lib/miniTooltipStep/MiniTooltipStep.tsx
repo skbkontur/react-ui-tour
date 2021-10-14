@@ -6,6 +6,7 @@ export interface MiniTooltipStepProps extends Partial<StepInternalProps> {
     target: () => Element;
     positions: PopupPosition[];
     children?: any;
+    width?: string,
 }
 
 export class MiniTooltipStep extends React.Component<MiniTooltipStepProps> {
@@ -16,13 +17,15 @@ export class MiniTooltipStep extends React.Component<MiniTooltipStepProps> {
             positions,
             target,
             children,
+            width
         } = this.props;
 
         return <MiniTooltip
             target={target}
             positions={positions}
             onClose={onClose}
-            onTargetClicked={onNext}>
+            onTargetClicked={onNext}
+            width={width}>
             {children}
         </MiniTooltip>
     }
