@@ -37,14 +37,17 @@ interface JSModule<M> extends Object {
 const defaultOrNamed = <T extends JSModule<T[K]>, K extends keyof T>(module: T, component: K): T[K] =>
   module && module.__esModule && module.default ? module.default : module[component];
 
+const defaultOrNamedForEvents = <T extends JSModule<T[K]>, K extends keyof T>(module: T): T | T[K] =>
+  module && module.__esModule && module.default ? module.default : module;
+
 export const Popup = defaultOrNamed(PopupModule, "Popup");
 export const Hint = defaultOrNamed(HintModule, "Hint");
 export const Gapped = defaultOrNamed(GappedModule, "Gapped");
 export const Modal = defaultOrNamed(ModalModule, "Modal");
-export const Button = defaultOrNamed(ButtonModule, "Button"); 
+export const Button = defaultOrNamed(ButtonModule, "Button");
 export const RenderContainer = defaultOrNamed(RenderContainerModule, "RenderContainer");
 export const ThemeProvider = defaultOrNamed(ThemeProviderModule, "ThemeProvider");
 export const ThemeFactory = defaultOrNamed(ThemeFactoryModule, "ThemeFactory");
 export const RenderLayer = defaultOrNamed(RenderLayerModule, "RenderLayer");
-export const addListener = defaultOrNamed(LayoutEventsModule, "addListener");
+export const LayoutEvents = defaultOrNamedForEvents(LayoutEventsModule) as typeof LayoutEventsModule;
 export const ZIndex = defaultOrNamed(ZIndexModule, "ZIndex");

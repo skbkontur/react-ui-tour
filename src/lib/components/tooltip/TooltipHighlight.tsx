@@ -2,13 +2,13 @@ import * as React from "react";
 const raf = require("raf");
 
 import { Highlight } from "../highlight/Highlight";
-import { addListener, RenderContainer } from "../../react-ui/Adapter";
+import { RenderContainer, LayoutEvents } from "../../react-ui/Adapter";
 
 const initialRect = {
   top: 0,
   left: 0,
   right: 0,
-  bottom: 0
+  bottom: 0,
 } as ClientRect;
 
 export interface TooltipHighlightProps {
@@ -47,7 +47,7 @@ export class TooltipHighlight extends React.Component<TooltipHighlightProps> {
     this.reflow();
 
     //add throttle
-    this._layoutEventsToken = addListener(this.reflow);
+    this._layoutEventsToken = LayoutEvents.addListener(this.reflow);
   }
 
   componentWillReceiveProps() {
