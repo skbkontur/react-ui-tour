@@ -33,7 +33,7 @@ const CrossIcon = () => (
 );
 
 export interface MiniTooltipProps {
-    target: () => Element;
+    target: (() => Element) | (() => Element)[];
     positions: PopupPosition[];
     onClose?: () => void;
     width?: string,
@@ -51,6 +51,18 @@ const MiniTooltipTheme = ThemeFactory.create({
     tooltipCloseBtnHoverColor: "white",
 });
 
+function arrayOrItemToArray<T>(arrayOrItem: T | T[]): T[] {
+    const asArray = arrayOrItem as T[];
+    if (asArray)
+        return asArray
+
+    const asItem = arrayOrItem as T;
+    if (asItem)
+        return [asItem]
+
+    return []
+}
+
 export class MiniTooltip extends React.Component<MiniTooltipProps> {
     state = {hasElem: true}
     static defaultProps = {
@@ -60,7 +72,8 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     }
 
     componentWillMount() {
-        if (!this.props.target()) {
+        const getFirstElement = arrayOrItemToArray(this.props.target)[0];
+        if (getFirstElement && !getFirstElement()) {
             this.setState({hasElem: false})
         }
     }
@@ -77,14 +90,19 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     }
 
     render() {
-        const anchor = this.props.target();
+        const elementGetters = arrayOrItemToArray(this.props.target);
+        const getFirstElement = elementGetters[0];
+        if (!getFirstElement) return <span/>;
+        
+        const anchor = getFirstElement();
         if (!anchor) return <span/>;
-
+        
+        const elements = elementGetters.map(g => g());
         function isClickOnTarget(event: Event) {
-            return (
-                event.target instanceof Element &&
-                containsTargetOrRenderContainer(event.target)(anchor)
-            );
+            if(!(event.target instanceof Element))
+                return false;
+            const elementClicked = containsTargetOrRenderContainer(event.target);
+            return elements.some(e => elementClicked(e));
         }
 
         return (

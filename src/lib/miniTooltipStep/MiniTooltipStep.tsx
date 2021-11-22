@@ -3,7 +3,7 @@ import * as React from "react";
 import {StepInternalProps} from "../tour/Tour";
 
 export interface MiniTooltipStepProps extends Partial<StepInternalProps> {
-    target: () => Element;
+    target: (() => Element) | (() => Element)[];
     positions: PopupPosition[];
     children?: any;
     width?: string,
