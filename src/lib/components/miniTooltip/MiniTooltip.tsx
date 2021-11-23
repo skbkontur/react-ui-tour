@@ -100,7 +100,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
         return (
             <ThemeProvider value={MiniTooltipTheme}>
                 <RenderLayer
-                    onClickOutside={e => isClickOnTarget(e) && this.props.onClose()}
+                    onClickOutside={e => isClickOnTarget(e) && this.props.onTargetClicked()}
                     active
                 >
                     <Popup
