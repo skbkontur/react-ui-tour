@@ -52,15 +52,7 @@ const MiniTooltipTheme = ThemeFactory.create({
 });
 
 function arrayOrItemToArray<T>(arrayOrItem: T | T[]): T[] {
-    const asArray = arrayOrItem as T[];
-    if (asArray)
-        return asArray
-
-    const asItem = arrayOrItem as T;
-    if (asItem)
-        return [asItem]
-
-    return []
+    return [].concat(arrayOrItem)
 }
 
 export class MiniTooltip extends React.Component<MiniTooltipProps> {
