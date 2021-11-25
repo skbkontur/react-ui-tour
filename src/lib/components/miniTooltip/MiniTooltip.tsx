@@ -33,7 +33,8 @@ const CrossIcon = () => (
 );
 
 export interface MiniTooltipProps {
-    target: (() => Element) | (() => Element)[];
+    target: () => Element;
+    triggers?: (() => Element)[]; 
     positions: PopupPosition[];
     onClose?: () => void;
     width?: string,
@@ -51,10 +52,6 @@ const MiniTooltipTheme = ThemeFactory.create({
     tooltipCloseBtnHoverColor: "white",
 });
 
-function arrayOrItemToArray<T>(arrayOrItem: T | T[]): T[] {
-    return [].concat(arrayOrItem)
-}
-
 export class MiniTooltip extends React.Component<MiniTooltipProps> {
     state = {hasElem: true}
     static defaultProps = {
@@ -64,8 +61,7 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     }
 
     componentWillMount() {
-        const getFirstElement = arrayOrItemToArray(this.props.target)[0];
-        if (getFirstElement && !getFirstElement()) {
+        if (!this.props.target()) {
             this.setState({hasElem: false})
         }
     }
@@ -82,19 +78,16 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     }
 
     render() {
-        const elementGetters = arrayOrItemToArray(this.props.target);
-        const getFirstElement = elementGetters[0];
-        if (!getFirstElement) return <span/>;
-        
-        const anchor = getFirstElement();
+        const anchor = this.props.target();
         if (!anchor) return <span/>;
         
-        const elements = elementGetters.map(g => g());
+        // Using this.props.target for back compatibility
+        const elementsToClick = this.props.triggers instanceof Promise ? [anchor] : [anchor, ...this.props.triggers.map(g => g())];
         function isClickOnTarget(event: Event) {
             if(!(event.target instanceof Element))
                 return false;
             const elementClicked = containsTargetOrRenderContainer(event.target);
-            return elements.some(e => elementClicked(e));
+            return elementsToClick.some(e => elementClicked(e));
         }
 
         return (
