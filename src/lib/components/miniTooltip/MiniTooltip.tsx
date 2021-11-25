@@ -34,6 +34,7 @@ const CrossIcon = () => (
 
 export interface MiniTooltipProps {
     target: () => Element;
+    triggers?: (() => Element)[]; 
     positions: PopupPosition[];
     onClose?: () => void;
     width?: string,
@@ -79,18 +80,20 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
     render() {
         const anchor = this.props.target();
         if (!anchor) return <span/>;
-
+        
+        // Using this.props.target for back compatibility
+        const elementsToClick = this.props.triggers instanceof Promise ? [anchor] : [anchor, ...this.props.triggers.map(g => g())];
         function isClickOnTarget(event: Event) {
-            return (
-                event.target instanceof Element &&
-                containsTargetOrRenderContainer(event.target)(anchor)
-            );
+            if(!(event.target instanceof Element))
+                return false;
+            const elementClicked = containsTargetOrRenderContainer(event.target);
+            return elementsToClick.some(e => elementClicked(e));
         }
 
         return (
             <ThemeProvider value={MiniTooltipTheme}>
                 <RenderLayer
-                    onClickOutside={e => isClickOnTarget(e) && this.props.onClose()}
+                    onClickOutside={e => isClickOnTarget(e) && this.props.onTargetClicked()}
                     active
                 >
                     <Popup
