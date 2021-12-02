@@ -81,10 +81,17 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
         const anchor = this.props.target();
         if (!anchor) return <span/>;
         
-        // Using this.props.target for back compatibility
-        const elementsToClick = this.props.triggers instanceof Promise || !this.props.triggers ? [anchor] : [anchor, ...this.props.triggers.map(g => g())];
+        let elementsToClick = [];
+        if(!(this.props.triggers instanceof Promise)) {
+            // Using this.props.target for back compatibility
+            elementsToClick.push(anchor);
+            if (this.props.triggers) {
+                elementsToClick.concat(this.props.triggers.map(g => g()));
+            }
+        }
+        
         function isClickOnTarget(event: Event) {
-            if(!(event.target instanceof Element))
+            if (!(event.target instanceof Element))
                 return false;
             const elementClicked = containsTargetOrRenderContainer(event.target);
             return elementsToClick.some(e => elementClicked(e));
