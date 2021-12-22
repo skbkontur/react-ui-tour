@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal } from '../react-ui/Adapter';
+import { Button, Modal } from '@skbkontur/react-ui';
 import {StepInternalProps, StepProps} from '../tour/Tour';
 
 export interface ModalStepOuterProps {

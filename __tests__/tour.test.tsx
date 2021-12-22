@@ -1,12 +1,5 @@
 import * as React from 'react';
 import {mount} from 'enzyme';
-import * as Adapter from "../src/lib/react-ui/Adapter";
-import * as ReactUI2 from "@skbkontur/react-ui";
-
-jest.mock("../src/lib/react-ui/Adapter", () => {
-  return ReactUI2;
-});
-
 import {TourProvider, Tour, Step} from '../src/lib';
 import {processMove} from '../src/lib/tour/processMove'
 

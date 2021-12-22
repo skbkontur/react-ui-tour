@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Popup, RenderLayer } from "../../react-ui/Adapter";
-import { PopupPosition } from "@skbkontur/react-ui/internal/Popup/Popup";
+import { Popup, PopupPosition } from "@skbkontur/react-ui/internal/Popup";
+import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import styles from "./Tooltip.less";
 
 export interface PinOptions {

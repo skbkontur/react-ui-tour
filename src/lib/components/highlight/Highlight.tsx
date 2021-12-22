@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ZIndex } from '../../react-ui/Adapter';
+import { ZIndex } from "@skbkontur/react-ui/internal/ZIndex";
 import styles from './Highlight.less';
 
 export interface HighlightProps {

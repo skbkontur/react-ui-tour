@@ -1,5 +1,7 @@
 ﻿import * as React from "react"
-import {Popup, RenderLayer, ThemeProvider, ThemeFactory} from "../../react-ui/Adapter";
+import { Popup } from "@skbkontur/react-ui/internal/Popup";
+import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
+import { ThemeProvider, ThemeFactory } from "@skbkontur/react-ui";
 import {containsTargetOrRenderContainer} from "@skbkontur/react-ui/lib/listenFocusOutside";
 import styles from "./MiniTooltip.less"
 
@@ -110,7 +112,6 @@ export class MiniTooltip extends React.Component<MiniTooltipProps> {
                         opened
                         hasShadow
                         maxWidth={"400px"}
-                        minWidth={"256px"}
                         useWrapper={false}
                         ignoreHover={false}
                         hasPin
